@@ -4,7 +4,7 @@ struct SelectCoHost: View {
     @State private var coHostName: String = ""
     @State private var searchText: String = ""
     @State private var selectedCoHosts: [String] = []
-    @State private var isConfirmEventVisible = false
+    @Environment(\.presentationMode) var presentationMode
     var onCoHostsSelected: ([String]) -> Void
 
     var body: some View {
@@ -119,20 +119,41 @@ struct SelectCoHost: View {
                                         }
                 }
 
-                                Button("Done") {
+//                                Button("Done") {
+//                                    onCoHostsSelected(selectedCoHosts)
+//                                }
+//                                .padding()
+//                                .background(Color.blue)
+//                                .foregroundColor(.white)
+//                                .cornerRadius(10)
+//                                .padding()
+//                                .padding(.bottom, 16)
+//                            }
+//                            .listStyle(GroupedListStyle())
+//                            .navigationBarTitleDisplayMode(.inline)
+//                            .navigationBarItems(trailing: Button(action: {
+//                                // Handle the back action
+//                            }) {
+//                                Image(systemName: "multiply")
+//                                    .font(.title)
+//                                    .padding()
+//                            })
+//                        }
+//                    }
+//                }
+                Button("Done") {
                                     onCoHostsSelected(selectedCoHosts)
+                                    presentationMode.wrappedValue.dismiss() // Dismiss the current view
                                 }
                                 .padding()
                                 .background(Color.blue)
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
                                 .padding()
-                                .padding(.bottom, 16)
                             }
-                            .listStyle(GroupedListStyle())
-                            .navigationBarTitleDisplayMode(.inline)
+                            .navigationBarTitle("Select Co-Host", displayMode: .inline)
                             .navigationBarItems(trailing: Button(action: {
-                                // Handle the back action
+                                presentationMode.wrappedValue.dismiss() // Handle the back action
                             }) {
                                 Image(systemName: "multiply")
                                     .font(.title)
@@ -141,6 +162,7 @@ struct SelectCoHost: View {
                         }
                     }
                 }
+
 
                 struct SelectCoHost_Previews: PreviewProvider {
                     static var previews: some View {
