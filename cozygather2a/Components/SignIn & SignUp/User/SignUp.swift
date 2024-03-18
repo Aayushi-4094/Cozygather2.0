@@ -114,8 +114,14 @@ struct SignUpPage: View {
             }
             .padding(.horizontal, 20)
             .fullScreenCover(isPresented: $isSignInPageActive) {
-                SignInPage()
-            }
+                        SignInPage()
+                    }
+                    .onAppear {
+                        if UserDefaults.standard.bool(forKey: "isSignedUp") {
+                            // User has already signed up, navigate to sign-in page directly
+                            isSignInPageActive = true
+                        }
+                    }
 
             HStack {
                 Text("Already have an account?")
@@ -140,33 +146,47 @@ struct SignUpPage: View {
 //            if pass == repass {
 //                Auth.auth().createUser(withEmail: email, password: pass) { (result, error) in
 //                    if let error = error {
+//                        self.error = error.localizedDescription
+//                        self.alert.toggle()
+//                   }
+//                        else {
+//                                            let newUser = User(id: result?.user.uid ?? "", fullName: self.fullName, userName: self.userName)
+//                                            FirestoreManager.shared.createUser(newUser)
+//                                            print("Sign-up successful")
+//                        // Store the user information in Firestore or another database
+//                        // Replace the placeholder comment with the actual code
+//                        FirestoreManager.shared.createUser(newUser)
+//                        print("Sign-up successful")
+//                        isSignInPageActive.toggle()
+//                    }
+//                }
+//            } else {
+//                self.error = "Passwords do not match"
+//                self.alert.toggle()
+//            }
+//        UserDefaults.standard.set(true, forKey: "isSignedUp")
+//        }
     func signUp() {
-            if pass == repass {
-                Auth.auth().createUser(withEmail: email, password: pass) { (result, error) in
-                    if let error = error {
-                        self.error = error.localizedDescription
-                        self.alert.toggle()
-                   }
- //                       else {
-//
-//                        let newUser = User(id: result?.user.uid ?? "", fullName: self.fullName, userName: self.userName)
-                        
-                        else {
-                                            let newUser = User(id: result?.user.uid ?? "", fullName: self.fullName, userName: self.userName)
-                                            FirestoreManager.shared.createUser(newUser)
-                                            print("Sign-up successful")
-                        // Store the user information in Firestore or another database
-                        // Replace the placeholder comment with the actual code
-                        FirestoreManager.shared.createUser(newUser)
-                        print("Sign-up successful")
-                        isSignInPageActive.toggle()
-                    }
+        if pass == repass {
+            Auth.auth().createUser(withEmail: email, password: pass) { (result, error) in
+                if let error = error {
+                    self.error = error.localizedDescription
+                    print("Sign-up error:", self.error) // Add this line to print the sign-up error
+                    self.alert.toggle()
+                } else {
+                    let newUser = User(id: result?.user.uid ?? "", fullName: self.fullName, userName: self.userName)
+                    FirestoreManager.shared.createUser(newUser)
+                    print("Sign-up successful")
+                    isSignInPageActive.toggle()
                 }
-            } else {
-                self.error = "Passwords do not match"
-                self.alert.toggle()
             }
+        } else {
+            self.error = "Passwords do not match"
+            self.alert.toggle()
         }
+        UserDefaults.standard.set(true, forKey: "isSignedUp")
+    }
+
     }
 
 struct SignUpPage_Previews: PreviewProvider {
