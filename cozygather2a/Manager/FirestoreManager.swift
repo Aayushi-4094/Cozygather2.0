@@ -1,5 +1,11 @@
 import FirebaseFirestore
 
+struct Supplier: Identifiable {
+    var id: String
+    var fullName: String
+    var userName: String
+    // Add other supplier properties as needed
+}
 struct Event: Identifiable, Codable {
     var id: String?
     var eventName: String
@@ -84,5 +90,22 @@ class FirestoreManager {
         }
     }
 
+        // Function to create a new vendor
+    func createSupplier(_ newSupplier: Supplier) {
+            // Replace "suppliers" with your actual Firestore collection name
+            db.collection("suppliers").document(newSupplier.id).setData([
+                "fullName": newSupplier.fullName,
+                "userName": newSupplier.userName,
+                // Add other supplier properties as needed
+            ]) { error in
+                if let error = error {
+                    print("Error adding supplier document: \(error)")
+                } else {
+                    print("Supplier document added with ID: \(newSupplier.id)")
+                }
+            }
+        }
+
+    
     // Add additional functions as needed for fetching user or event information
 }

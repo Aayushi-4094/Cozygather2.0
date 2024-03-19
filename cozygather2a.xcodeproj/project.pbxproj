@@ -31,7 +31,7 @@
 		07F2702F2BA8055C0016B79F /* SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F2702E2BA8055C0016B79F /* SignUp.swift */; };
 		07F270312BA805920016B79F /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 07F270302BA805920016B79F /* FirebaseFirestore */; };
 		07F270332BA8059C0016B79F /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 07F270322BA8059C0016B79F /* FirebaseFirestoreSwift */; };
-		07F270362BA806560016B79F /* FirestoreManager_createuser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F270352BA806560016B79F /* FirestoreManager_createuser.swift */; };
+		07F270362BA806560016B79F /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F270352BA806560016B79F /* FirestoreManager.swift */; };
 		07F270382BA8066D0016B79F /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F270372BA8066D0016B79F /* AuthenticationManager.swift */; };
 		07F2703D2BA806D90016B79F /* SupplierProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F2703C2BA806D90016B79F /* SupplierProfile.swift */; };
 		07F2703F2BA806F60016B79F /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F2703E2BA806F60016B79F /* UserProfile.swift */; };
@@ -61,6 +61,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0796EFD92BA9BB890009D51C /* cozygather2a.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = cozygather2a.entitlements; sourceTree = "<group>"; };
+		0796EFDA2BA9BB940009D51C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		07F26FEE2BA800B10016B79F /* cozygather2a.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cozygather2a.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		07F26FF12BA800B10016B79F /* cozygather2aApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cozygather2aApp.swift; sourceTree = "<group>"; };
 		07F26FF32BA800B10016B79F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -78,7 +80,7 @@
 		07F2702A2BA8052F0016B79F /* vendr_signup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = vendr_signup.swift; sourceTree = "<group>"; };
 		07F2702C2BA805510016B79F /* SignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignIn.swift; sourceTree = "<group>"; };
 		07F2702E2BA8055C0016B79F /* SignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUp.swift; sourceTree = "<group>"; };
-		07F270352BA806560016B79F /* FirestoreManager_createuser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager_createuser.swift; sourceTree = "<group>"; };
+		07F270352BA806560016B79F /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		07F270372BA8066D0016B79F /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
 		07F2703C2BA806D90016B79F /* SupplierProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupplierProfile.swift; sourceTree = "<group>"; };
 		07F2703E2BA806F60016B79F /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
@@ -146,6 +148,8 @@
 		07F26FF02BA800B10016B79F /* cozygather2a */ = {
 			isa = PBXGroup;
 			children = (
+				0796EFDA2BA9BB940009D51C /* Info.plist */,
+				0796EFD92BA9BB890009D51C /* cozygather2a.entitlements */,
 				07F270342BA806290016B79F /* Manager */,
 				07F2700F2BA8024A0016B79F /* Components */,
 				07F26FFF2BA801300016B79F /* GoogleService-Info.plist */,
@@ -266,7 +270,7 @@
 		07F270342BA806290016B79F /* Manager */ = {
 			isa = PBXGroup;
 			children = (
-				07F270352BA806560016B79F /* FirestoreManager_createuser.swift */,
+				07F270352BA806560016B79F /* FirestoreManager.swift */,
 				07F270372BA8066D0016B79F /* AuthenticationManager.swift */,
 			);
 			path = Manager;
@@ -471,7 +475,7 @@
 				07F270202BA8047D0016B79F /* BudgetApp.swift in Sources */,
 				07F270422BA807320016B79F /* AddGuest.swift in Sources */,
 				07F2702D2BA805520016B79F /* SignIn.swift in Sources */,
-				07F270362BA806560016B79F /* FirestoreManager_createuser.swift in Sources */,
+				07F270362BA806560016B79F /* FirestoreManager.swift in Sources */,
 				07F270682BA80C490016B79F /* detail.swift in Sources */,
 				07F270182BA802C40016B79F /* NotificationView.swift in Sources */,
 				07F270572BA8098C0016B79F /* FilterScreen1.swift in Sources */,
@@ -622,11 +626,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = cozygather2a/cozygather2a.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"cozygather2a/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = cozygather2a/Info.plist;
+				INFOPLIST_KEY_NSContactsUsageDescription = "Reason for accessing contacts";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -650,11 +658,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = cozygather2a/cozygather2a.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"cozygather2a/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = cozygather2a/Info.plist;
+				INFOPLIST_KEY_NSContactsUsageDescription = "Reason for accessing contacts";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

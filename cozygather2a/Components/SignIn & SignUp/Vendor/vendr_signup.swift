@@ -1,4 +1,13 @@
 import SwiftUI
+import Firebase
+import FirebaseAuth
+
+//struct Supplier: Identifiable { // Renamed from Vendor to Supplier
+//    var id: String
+//    var fullName: String
+//    var userName: String
+//    // Add other supplier properties as needed
+//}
 
 struct VendrSignUp: View {
     @State private var color = Color.black.opacity(0.7)
@@ -11,7 +20,9 @@ struct VendrSignUp: View {
     @State private var visible = false
     @State private var revisible = false
     @State private var isVendrSignInActive = false
-
+    @State private var alert = false
+    @State private var error = ""
+    
     var body: some View {
         VStack(spacing: 20) {
             Text("Sign Up")
@@ -51,13 +62,11 @@ struct VendrSignUp: View {
                 .autocapitalization(.none)
                 .keyboardType(.emailAddress)
 
-            HStack (spacing: 15){
-                VStack{
-                    if self.visible{
+            HStack(spacing: 15) {
+                VStack {
+                    if self.visible {
                         TextField("Password", text: self.$pass)
-                    }
-                    else
-                    {
+                    } else {
                         SecureField("Password", text: self.$pass)
                     }
                 }
@@ -72,15 +81,12 @@ struct VendrSignUp: View {
             .background(RoundedRectangle(cornerRadius: 8).stroke(self.pass != "" ? Color.blue : self.color, lineWidth: 2))
             .padding(.horizontal, 20)
             .frame(height: 50)
-            
-            
-            HStack (spacing: 15){
-                VStack{
-                    if self.revisible{
+
+            HStack(spacing: 15) {
+                VStack {
+                    if self.revisible {
                         TextField("Password", text: self.$repass)
-                    }
-                    else
-                    {
+                    } else {
                         SecureField("Password", text: self.$repass)
                     }
                 }
@@ -97,9 +103,7 @@ struct VendrSignUp: View {
             .frame(height: 50)
 
             Button(action: {
-                withAnimation {
-                    isVendrSignInActive.toggle()
-                }
+                self.signUp()
             }) {
                 Text("Sign Up")
                     .foregroundColor(.white)
@@ -108,10 +112,10 @@ struct VendrSignUp: View {
                     .background(Color.blue)
                     .cornerRadius(8)
             }
+            .padding(.horizontal, 20)
             .fullScreenCover(isPresented: $isVendrSignInActive) {
                 VendrSignIn()
             }
-            .padding(.horizontal, 20)
 
             HStack {
                 Text("Already have an account?")
@@ -130,6 +134,27 @@ struct VendrSignUp: View {
             }
             .padding(.top)
         }
+    }
+    
+    func signUp() {
+        if pass == repass {
+            Auth.auth().createUser(withEmail: email, password: pass) { (result, error) in
+                if let error = error {
+                    self.error = error.localizedDescription
+                    print("Sign-up error:", self.error) // Add this line to print the sign-up error
+                    self.alert.toggle()
+                } else {
+                    let newSupplier = Supplier(id: result?.user.uid ?? "", fullName: self.fullName, userName: self.userName)
+                    FirestoreManager.shared.createSupplier(newSupplier) // Changed from createVendor to createSupplier
+                    print("Sign-up successful")
+                    isVendrSignInActive.toggle()
+                }
+            }
+        } else {
+            self.error = "Passwords do not match"
+            self.alert.toggle()
+        }
+        UserDefaults.standard.set(true, forKey: "isSignedUp")
     }
 }
 
