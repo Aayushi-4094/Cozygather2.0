@@ -1,4 +1,3 @@
-
 import SwiftUI
 import Contacts
 import MessageUI
@@ -36,7 +35,13 @@ struct CreateEvent: View {
     var isFormValid: Bool {
         return !eventName.isEmpty && !venueAddress.isEmpty && !price.isEmpty //&& !selectedCoHosts.isEmpty
     }
-
+    let staticContacts: [ContactInfo] = [
+         ContactInfo(name: "John Doe", phoneNumber: "1234567890"),
+         ContactInfo(name: "John Doe", phoneNumber: "1234567890"),
+         ContactInfo(name: "John Doe", phoneNumber: "1234567890"),
+         ContactInfo(name: "Jane Doe", phoneNumber: "9876543210"),
+         // Add more static contacts as needed
+     ]
     var body: some View {
         NavigationView {
             ScrollView {
@@ -253,183 +258,6 @@ struct CreateEvent: View {
         .navigationBarHidden(true)
         
     }
-
-//    struct SectionBox<Content: View>: View {
-//        let content: Content
-//
-//        init(@ViewBuilder content: @escaping () -> Content) {
-//            self.content = content()
-//        }
-//
-//        var body: some View {
-//            VStack {
-//                content
-//                    .padding()
-//            }
-//            .background(Color.white)
-//            .cornerRadius(10)
-//            .shadow(radius: 1)
-//        }
-//    }
-//
-//    func sendInvite() {
-//            guard MFMessageComposeViewController.canSendText() else {
-//                // Handle if messaging is not available
-//                return
-//            }
-//
-//            let controller = MFMessageComposeViewController()
-//            controller.body = generateMessageBody()
-//            controller.recipients = selectedCoHosts.map { $0.phoneNumber }
-//
-//            // Set the delegate of the message compose view controller
-//            controller.messageComposeDelegate = messageDelegate
-//
-//            UIApplication.shared.windows.first?.rootViewController?.present(controller, animated: true)
-//            isShowingMessageComposer = true
-//        }
-//
-//            func generateMessageBody() -> String {
-//                // Generate a message body with the event details and link
-//                return "Hey there! I'm inviting you to co-host my event: \(eventName) at \(venueAddress) on \(selectedDateTime)"
-//            }
-//
-//            func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
-//                // Handle message sending result here
-//                controller.dismiss(animated: true, completion: nil)
-//            }
-//        }
-//struct ContactListView: View {
-//    @Binding var selectedContacts: [ContactInfo]
-//    @State private var contacts: [CNContact] = []
-//    @State private var filteredContacts: [CNContact] = []
-//    @State private var searchText: String = ""
-//
-//    var body: some View {
-//        VStack {
-//            SearchBar(text: $searchText)
-//                .padding(.horizontal)
-//
-//            List(filteredContacts, id: \.self) { contact in
-//                ContactRow(contact: contact)
-//            }
-//        }
-//        .onAppear {
-//            fetchContacts()
-//        }
-//        .onChange(of: searchText) { newValue in
-//            filterContacts()
-//        }
-//    }
-//
-//    func fetchContacts() {
-//        let store = CNContactStore()
-//        store.requestAccess(for: .contacts) { granted, error in
-//            if granted && error == nil {
-//                let keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey] as [CNKeyDescriptor]
-//                let request = CNContactFetchRequest(keysToFetch: keys)
-//                do {
-//                    try store.enumerateContacts(with: request) { contact, _ in
-//                        contacts.append(contact)
-//                    }
-//                    filterContacts()
-//                } catch {
-//                    print("Error fetching contacts: \(error.localizedDescription)")
-//                }
-//            } else {
-//                print("Contacts access denied")
-//            }
-//        }
-//    }
-//
-//    func filterContacts() {
-//        if searchText.isEmpty {
-//            filteredContacts = contacts
-//        } else {
-//            filteredContacts = contacts.filter { contact in
-//                contact.givenName.localizedCaseInsensitiveContains(searchText) ||
-//                contact.familyName.localizedCaseInsensitiveContains(searchText) ||
-//                contact.phoneNumbers.contains(where: { $0.value.stringValue.localizedCaseInsensitiveContains(searchText) })
-//            }
-//        }
-//    }
-//}
-//struct ContactRow: View {
-//    var contact: CNContact
-//
-//    var body: some View {
-//        VStack(alignment: .leading) {
-//            Text("\(contact.givenName) \(contact.familyName)")
-//                .font(.headline)
-//            if let phoneNumber = contact.phoneNumbers.first?.value.stringValue {
-//                Text(phoneNumber)
-//                    .font(.subheadline)
-//            }
-//        }
-//        .padding(.vertical, 8)
-//    }
-//}
-//
-//struct SearchBar: View {
-//    @Binding var text: String
-//
-//    var body: some View {
-//        HStack {
-//            TextField("Search", text: $text)
-//                .padding(.horizontal)
-//                .padding(.vertical, 8)
-//                .background(Color(.systemGray6))
-//                .cornerRadius(8)
-//        }
-//    }
-//}
-//
-//
-//struct CreateEvent_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CreateEvent(selectedCoHosts: .constant([]))
-//    }
-//}
-//
-//struct ContactInfo {
-//    var name: String
-//    var phoneNumber: String
-//    // Add more properties as needed
-//}
-//
-//extension UIViewController: MFMessageComposeViewControllerDelegate {
-//    public func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
-//        // Handle message sending result here
-//        controller.dismiss(animated: true, completion: nil)
-//    }
-//}
-//
-//struct MessageComposer: UIViewControllerRepresentable {
-//    let recipients: [String]
-//    let messageBody: String
-//
-//    func makeCoordinator() -> MessageCoordinator {
-//        return MessageCoordinator()
-//    }
-//
-//    func makeUIViewController(context: Context) -> MFMessageComposeViewController {
-//        let controller = MFMessageComposeViewController()
-//        controller.body = messageBody
-//        controller.recipients = recipients
-//        controller.messageComposeDelegate = context.coordinator
-//        return controller
-//    }
-//
-//    func updateUIViewController(_ uiViewController: MFMessageComposeViewController, context: Context) {
-//        // Update the view controller if needed
-//    }
-//}
-//class MessageCoordinator: NSObject, MFMessageComposeViewControllerDelegate {
-//    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
-//        // Handle message sending result here
-//        controller.dismiss(animated: true)
-//    }
-//}
     struct SectionBox<Content: View>: View {
             let content: Content
 

@@ -18,10 +18,10 @@ struct Toolbar: View {
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 24, height: 24)
-                                .foregroundColor(Color(red: 82/225, green: 72/255, blue: 159/255))
+                                .foregroundColor(Color(red:67/255, green:13/255, blue:75/255))
                             Text("Home")
                                 .frame(maxWidth: .infinity, alignment: .center)
-                                .foregroundColor(Color(red: 82/225, green: 72/255, blue: 159/255))
+                                .foregroundColor(Color(red:67/255, green:13/255, blue:75/255))
                         }
                         .frame(width: 393 / 4, height: 83)
                         .onTapGesture {
@@ -31,37 +31,18 @@ struct Toolbar: View {
                         .fullScreenCover(isPresented: $isHomeUserViewActive) {
                             UserHomeView(username: "YourUsernameHere")
                         }
-            
-//            VStack {
-//                Image(systemName: selectedTab == .events ? "calendar.badge.plus ": "calendar.badge.plus")
-//                    .resizable()
-//                    .aspectRatio(contentMode: .fit)
-//                    .frame(width: 24, height: 24)
-//                    .foregroundColor(selectedTab == .events ? Color.blue : Color.gray)
-//                Text("Create Event")
-//                    .font(.system(size: 10, weight: .regular, design: .default))
-//                    .frame(maxWidth: .infinity, alignment: .center)
-//                    .foregroundColor(selectedTab == .events ? Color.blue : Color.gray)
-//            }
-//            .frame(width: 393 / 5, height: 83)
-//            .onTapGesture {
-//                selectedTab = .events
-//                isCreateEventViewActive.toggle()
-//            }
-//            .fullScreenCover(isPresented: $isCreateEventViewActive) {
-//                CreateEvent()
-//            }
-            
-            VStack {
+    VStack {
                 Image(systemName: selectedTab == .vendorListing ? "list.bullet.fill" : "list.bullet")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 24, height: 24)
-                    .foregroundColor(Color(red: 82/225, green: 72/255, blue: 159/255))
+                    .foregroundColor(Color(red:67/255, green:13/255, blue:75/255))
                 Text("Vendor Listing")
                     .font(.system(size: 10, weight: .regular, design: .default))
                     .frame(maxWidth: .infinity, alignment: .center)
-                    .foregroundColor(Color(red: 82/225, green: 72/255, blue: 159/255))            }
+                    //.foregroundColor(Color(red: 82/225, green: 72/255, blue: 159/255))
+                    .foregroundColor(Color(red:67/255, green:13/255, blue:75/255))
+    }
             .frame(width: 393 / 4, height: 83)
             .onTapGesture {
                 selectedTab = .events
@@ -76,11 +57,11 @@ struct Toolbar: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 24, height: 24)
-                    .foregroundColor(Color(red: 82/225, green: 72/255, blue: 159/255))
+                    .foregroundColor(Color(red:67/255, green:13/255, blue:75/255))
                 Text("Guests")
                     .font(.system(size: 10, weight: .regular, design: .default))
                     .frame(maxWidth: .infinity, alignment: .center)
-                .foregroundColor(Color(red: 82/225, green: 72/255, blue: 159/255))            }
+                .foregroundColor(Color(red:67/255, green:13/255, blue:75/255))            }
             .frame(width: 393 / 4, height: 83)
             
                 .onTapGesture {
@@ -97,11 +78,11 @@ struct Toolbar: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 24, height: 24)
-                    .foregroundColor(Color(red: 82/225, green: 72/255, blue: 159/255))
+                    .foregroundColor(Color(red:67/255, green:13/255, blue:75/255))
                 Text("Budget")
                     .font(.system(size: 10, weight: .regular, design: .default))
                     .frame(maxWidth: .infinity, alignment: .center)
-                .foregroundColor(Color(red: 82/225, green: 72/255, blue: 159/255))
+                    .foregroundColor(Color(red:67/255, green:13/255, blue:75/255))
             }
             .frame(width: 393 / 4, height: 83)
             .onTapGesture {

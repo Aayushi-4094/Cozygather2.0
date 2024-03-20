@@ -28,11 +28,10 @@ struct SignInPage: View {
             
             TextField("Email", text: self.$email)
                 .padding()
-                .background(RoundedRectangle(cornerRadius: 8).stroke(self.email != "" ? Color.blue : self.color, lineWidth: 2))
+                .background(RoundedRectangle(cornerRadius: 8).stroke(self.email != "" ? Color.purple : self.color, lineWidth: 2))
                 .padding(.top, 15)
                 .keyboardType(.emailAddress)
                 .autocapitalization(.none)
-            
             HStack(spacing: 15) {
                 VStack {
                     if self.visible {
@@ -50,8 +49,9 @@ struct SignInPage: View {
                 }
             }
             .padding()
-            .background(RoundedRectangle(cornerRadius: 8).stroke(self.pass != "" ? Color.blue : self.color, lineWidth: 2))
+            .background(RoundedRectangle(cornerRadius: 8).stroke(self.pass != "" ? Color.purple : self.color, lineWidth: 2))
             .padding(.top, 15)
+            
             
             Button(action: {
                 self.signIn()
@@ -61,7 +61,7 @@ struct SignInPage: View {
                     .padding(.vertical, 15)
                     .frame(maxWidth: .infinity)
             }
-            .background(Color.blue)
+            .background(Color(red:67/255, green:13/255, blue:75/255))
             .cornerRadius(8)
             .padding(.top, 20)
             .fullScreenCover(isPresented: $isHomeUserActive, content: {
@@ -77,7 +77,7 @@ struct SignInPage: View {
                     }
                 }) {
                     Text("Sign Up")
-                        .foregroundColor(.blue)
+                        .foregroundColor(Color(red:67/255, green:13/255, blue:75/255))
                 }
                 .fullScreenCover(isPresented: $isUserSignUpActive, content: {
                     SignUpPage()

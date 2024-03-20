@@ -18,11 +18,11 @@ struct VendorToolbar: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 24, height: 24)
-                    .foregroundColor(selectedTab == .homevendr ? Color.blue : Color.gray)
+                    .foregroundColor(selectedTab == .homevendr ? Color(red:67/255, green:13/255, blue:75/255): Color.gray)
                 Text("Home")
                     .font(.system(size: 10, weight: .regular, design: .default))
                     .frame(maxWidth: .infinity, alignment: .center)
-                    .foregroundColor(selectedTab == .homevendr ? Color.blue : Color.gray)
+                    .foregroundColor(selectedTab == .homevendr ? Color(red:67/255, green:13/255, blue:75/255): Color.gray)
             }
             .frame(width: 393 / 5, height: 83)
             .onTapGesture {
@@ -43,11 +43,11 @@ struct VendorToolbar: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 24, height: 24)
-                    .foregroundColor(selectedTab == .order ? Color.blue : Color.gray)
+                    .foregroundColor(selectedTab == .order ? Color(red:67/255, green:13/255, blue:75/255): Color.gray)
                 Text("Order")
                     .font(.system(size: 10, weight: .regular, design: .default))
                     .frame(maxWidth: .infinity, alignment: .center)
-                    .foregroundColor(selectedTab == .order ? Color.blue : Color.gray)
+                    .foregroundColor(selectedTab == .order ? Color(red:67/255, green:13/255, blue:75/255): Color.gray)
             }
             .frame(width: 393 / 5, height: 83)
             .onTapGesture {
@@ -67,11 +67,11 @@ struct VendorToolbar: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 24, height: 24)
-                    .foregroundColor(selectedTab == .message ? Color.blue : Color.gray)
+                    .foregroundColor(selectedTab == .message ? Color(red:67/255, green:13/255, blue:75/255): Color.gray)
                 Text("Message")
                     .font(.system(size: 10, weight: .regular, design: .default))
                     .frame(maxWidth: .infinity, alignment: .center)
-                    .foregroundColor(selectedTab == .message ? Color.blue : Color.gray)
+                    .foregroundColor(selectedTab == .message ? Color(red:67/255, green:13/255, blue:75/255): Color.gray)
             }
             .frame(width: 393 / 5, height: 83)
             .onTapGesture {
@@ -89,11 +89,11 @@ struct VendorToolbar: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 24, height: 24)
-                    .foregroundColor(selectedTab == .profile ? Color.blue : Color.gray)
+                    .foregroundColor(selectedTab == .profile ? Color(red:67/255, green:13/255, blue:75/255): Color.gray)
                 Text("Profile")
                     .font(.system(size: 10, weight: .regular, design: .default))
                     .frame(maxWidth: .infinity, alignment: .center)
-                    .foregroundColor(selectedTab == .profile ? Color.blue : Color.gray)
+                    .foregroundColor(selectedTab == .profile ? Color(red:67/255, green:13/255, blue:75/255): Color.gray)
             }
             .frame(width: 393 / 5, height: 83)
             .onTapGesture {

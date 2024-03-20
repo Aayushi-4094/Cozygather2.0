@@ -13,11 +13,8 @@ struct BudgetApp: View {
                     .padding() // Added padding for better visibility
                 }
                 .navigationTitle("My budget")
-                .background(Color(red: 250/225, green: 244/255, blue: 250/255))
+                .background(Color(red: 247/225, green: 239/255, blue: 247/255))
             }
-            
-            
-            // Add the Toolbar at the bottom of the screen
             .overlay(
                 VStack {
                     Spacer()
@@ -26,7 +23,7 @@ struct BudgetApp: View {
                         .frame(height: 0) // Set the height of the toolbar
                 }
             )
-        }// Background color
+        }.background(Color(red: 247/225, green: 239/255, blue: 247/255))
     }
 }
 struct BudgetHeaderView: View {
@@ -38,7 +35,7 @@ struct BudgetHeaderView: View {
       Text(budget)
         .font(.largeTitle)
         .fontWeight(.bold)
-        .foregroundColor(Color(red: 82/225, green: 72/255, blue: 159/255)) // Text color
+        .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225)) // Text color
 
       Text("Birthady Bash \(forecast)")
         .font(.subheadline)

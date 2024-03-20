@@ -2,13 +2,6 @@ import SwiftUI
 import Firebase
 import FirebaseAuth
 
-//struct Supplier: Identifiable { // Renamed from Vendor to Supplier
-//    var id: String
-//    var fullName: String
-//    var userName: String
-//    // Add other supplier properties as needed
-//}
-
 struct VendrSignUp: View {
     @State private var color = Color.black.opacity(0.7)
     @State private var fullName = ""
@@ -22,9 +15,11 @@ struct VendrSignUp: View {
     @State private var isVendrSignInActive = false
     @State private var alert = false
     @State private var error = ""
+    @State private var isDetailActive = false // New state to track navigation to detail view
     
     var body: some View {
         VStack(spacing: 20) {
+
             Text("Sign Up")
                 .font(.largeTitle)
                 .fontWeight(.bold)
@@ -103,63 +98,65 @@ struct VendrSignUp: View {
             .frame(height: 50)
 
             Button(action: {
-                self.signUp()
-            }) {
-                Text("Sign Up")
-                    .foregroundColor(.white)
-                    .padding(.vertical, 15)
-                    .frame(maxWidth: .infinity)
-                    .background(Color.blue)
-                    .cornerRadius(8)
-            }
-            .padding(.horizontal, 20)
-            .fullScreenCover(isPresented: $isVendrSignInActive) {
-                VendrSignIn()
-            }
+                            self.signUp()
+                        }) {
+                            Text("Sign Up")
+                                .foregroundColor(.white)
+                                .padding(.vertical, 15)
+                                .frame(maxWidth: .infinity)
+                                .background(Color(red:67/255, green:13/255, blue:75/255))
+                                .cornerRadius(8)
+                        }
+                        .padding(.horizontal, 20)
+                        .fullScreenCover(isPresented: $isDetailActive) {
+                            DetailView()
 
-            HStack {
-                Text("Already have an account?")
-                Button(action: {
-                    withAnimation {
-                        isVendrSignInActive.toggle()
+                        HStack {
+                            Text("Already have an account?")
+                            Button(action: {
+                                withAnimation {
+                                    isVendrSignInActive.toggle()
+                                }
+                            }) {
+                                Text("Sign In")
+                                    .foregroundColor(Color(red:67/255, green:13/255, blue:75/255))
+                                    .font(.subheadline)
+                                
+                            }
+                            .fullScreenCover(isPresented: $isVendrSignInActive) {
+                                VendrSignIn()
+                            }
+                        }
+                        .padding(.top)
                     }
-                }) {
-                    Text("Sign In")
-                        .foregroundColor(.blue)
-                        .font(.subheadline)
+                    
+                    }
                 }
-                .fullScreenCover(isPresented: $isVendrSignInActive) {
-                    VendrSignIn()
-                }
-            }
-            .padding(.top)
-        }
-    }
-    
-    func signUp() {
-        if pass == repass {
-            Auth.auth().createUser(withEmail: email, password: pass) { (result, error) in
-                if let error = error {
-                    self.error = error.localizedDescription
-                    print("Sign-up error:", self.error) // Add this line to print the sign-up error
-                    self.alert.toggle()
-                } else {
-                    let newSupplier = Supplier(id: result?.user.uid ?? "", fullName: self.fullName, userName: self.userName)
-                    FirestoreManager.shared.createSupplier(newSupplier) // Changed from createVendor to createSupplier
-                    print("Sign-up successful")
-                    isVendrSignInActive.toggle()
+                
+                func signUp() {
+                    if pass == repass {
+                        Auth.auth().createUser(withEmail: email, password: pass) { (result, error) in
+                            if let error = error {
+                                self.error = error.localizedDescription
+                                print("Sign-up error:", self.error) // Add this line to print the sign-up error
+                                self.alert.toggle()
+                            } else {
+                                // Perform additional actions upon successful sign-up
+                                print("Sign-up successful")
+                                //isVendrSignInActive.toggle()
+                                isDetailActive.toggle() // Navigate to the detail view
+                            }
+                        }
+                    } else {
+                        self.error = "Passwords do not match"
+                        self.alert.toggle()
+                    }
+                    UserDefaults.standard.set(true, forKey: "isSignedUp")
                 }
             }
-        } else {
-            self.error = "Passwords do not match"
-            self.alert.toggle()
-        }
-        UserDefaults.standard.set(true, forKey: "isSignedUp")
-    }
-}
 
-struct VendrSignUp_Previews: PreviewProvider {
-    static var previews: some View {
-        VendrSignUp()
-    }
-}
+            struct VendrSignUp_Previews: PreviewProvider {
+                static var previews: some View {
+                    VendrSignUp()
+                }
+            }

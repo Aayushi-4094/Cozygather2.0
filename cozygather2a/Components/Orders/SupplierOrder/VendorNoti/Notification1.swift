@@ -12,13 +12,6 @@ struct Notification1: View {
                         .font(Font.custom("AirbnbCereal_W_Md", size: 24))
                         .foregroundColor(Color(red: 0.07, green: 0.05, blue: 0.15))
                     Spacer()
-//                    Button(action: {
-//                        // Add action for the bell button
-//                    }) {
-//                        Image(systemName: "bell")
-//                            .font(.title)
-//                            .foregroundColor(.blue)
-//                    }
                 }
                 .padding()
                 .background(Color.white)

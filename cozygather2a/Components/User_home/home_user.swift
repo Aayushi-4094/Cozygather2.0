@@ -145,7 +145,7 @@ struct SeeAllView: View {
                 .navigationBarTitle("See All", displayMode: .inline)
         }
         .padding(.all, -20)
-        .background(Color(red: 240/225, green: 240/255, blue: 234/255))
+        .background(Color(red: 247/225, green: 239/255, blue: 247/255))
     }
 }
 
@@ -164,7 +164,7 @@ struct GridView: View {
             }
             .padding(20)
         }
-        .background(Color(red: 240/225, green: 240/255, blue: 234/255))
+        .background(Color(red: 247/225, green: 239/255, blue: 247/255))
     }
 }
 
@@ -177,37 +177,37 @@ struct MenuView: View {
                 Section(header: Text("Menu").font(.title)) {
                     NavigationLink(destination: UserProfile()) {
                         Label("Profile", systemImage: "person.circle")
-                            .foregroundColor(Color(red: 150/225, green: 100/225, blue: 200/225))
+                            .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
                     }
                     NavigationLink(destination: NotificationView()) {
                         Label("Notification", systemImage: "bell")
-                            .foregroundColor(Color(red: 150/225, green: 100/225, blue: 200/225))
+                            .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
                     }
                     NavigationLink(destination: Text("Payments")) {
                         Label("Payments", systemImage: "creditcard")
-                            .foregroundColor(Color(red: 150/225, green: 100/225, blue: 200/225))
+                            .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
                     }
                     NavigationLink(destination: Text("Linked Accounts")) {
                         Label("Linked Accounts", systemImage: "link")
-                            .foregroundColor(Color(red: 150/225, green: 100/225, blue: 200/225))
+                            .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
                     }
                 }
                 Section(header: Text("Settings").font(.title)) {
                     NavigationLink(destination: Text("Privacy Policy")) {
                         Label("Privacy Policy", systemImage: "shield")
-                            .foregroundColor(Color(red: 150/225, green: 100/225, blue: 200/225))
+                            .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
                     }
                     NavigationLink(destination: Text("Report")) {
                         Label("Report", systemImage: "flag")
-                            .foregroundColor(Color(red: 150/225, green: 100/225, blue: 200/225))
+                            .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
                     }
                     NavigationLink(destination: Text("Settings")) {
                         Label("Settings", systemImage: "gearshape")
-                            .foregroundColor(Color(red: 150/225, green: 100/225, blue: 200/225))
+                            .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
                     }
                 }
             }
-            .background(Color(red: 240/225, green: 240/255, blue: 234/255))
+            .background(Color(red: 247/225, green: 239/255, blue: 247/255))
             .listStyle(GroupedListStyle())
             .navigationBarTitle("Menu", displayMode: .inline)
             .foregroundColor(.black)
@@ -224,7 +224,8 @@ struct MenuView: View {
             )
         }
         .navigationViewStyle(StackNavigationViewStyle())
-        .background(Color(red: 240/225, green: 240/255, blue: 234/255))
+        //.background(Color(red: 240/225, green: 240/255, blue: 234/255))
+        .background(Color(red: 247/225, green: 239/255, blue: 247/255))
     }
 }
 
@@ -259,7 +260,7 @@ struct UserHomeView: View {
                             Image(systemName: "line.3.horizontal")
                                 .imageScale(.large)
                                 .padding(.leading, 40)
-                                .foregroundColor(Color(red: 150/225, green: 100/225, blue: 200/225))
+                                .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
                         }
                         .foregroundColor(.primary)
                     }
@@ -270,7 +271,7 @@ struct UserHomeView: View {
                         .fontWeight(.bold)
                         .padding(.leading, -40)
                         .padding(.top, 40)
-                        .foregroundColor(Color(red: 150/225, green: 100/225, blue: 200/225))
+                        .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
 
                     Spacer()
 
@@ -282,11 +283,11 @@ struct UserHomeView: View {
                                 .imageScale(.large)
                                 .padding(.trailing, 16)
                                 .padding(.bottom, 40)
-                                .foregroundColor(Color(red: 150/225, green: 100/225, blue: 200/225))
+                                .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
                         }
                         .navigationTitle("home")
                         .navigationBarTitle("", displayMode: .inline)
-                        .foregroundColor(Color(red: 203/225, green: 120/225, blue: 91/225))
+                        .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
                     }
                 }
                 .navigationBarTitle("", displayMode: .inline)
@@ -298,8 +299,7 @@ struct UserHomeView: View {
                         .font(.title2)
                         .fontWeight(.bold)
                         .padding(.leading, 30)
-                        .foregroundColor(Color(red: 150/225, green: 100/225, blue: 200/225))
-
+                        .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
                     Spacer()
 
                     Button(action: {
@@ -308,7 +308,7 @@ struct UserHomeView: View {
                         Text("See All")
                             .padding(.trailing, 16)
                             .font(.title2)
-                            .foregroundColor(Color(red: 150/225, green: 100/225, blue: 200/225))
+                            .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
                     }
                     .sheet(isPresented: $isSeeAllPresented) {
                         SeeAllView(eventData: myEventsData)
@@ -333,7 +333,7 @@ struct UserHomeView: View {
                         .fontWeight(.bold)
                         .padding(.leading, 16)
                         .padding(.horizontal, 20)
-                        .foregroundColor(Color(red: 150/225, green: 100/225, blue: 200/225))
+                        .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
 
                     Spacer()
 
@@ -343,11 +343,12 @@ struct UserHomeView: View {
                         Text("See All")
                             .font(.title2)
                             .padding(.trailing, 16)
-                            .foregroundColor(Color(red: 150/225, green: 100/225, blue: 200/225))
+                            .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
                     }
                     .sheet(isPresented: $isSeeAllPresented) {
                         SeeAllView(eventData: upcomingEventsData)
-                            .background(Color(red: 250/225, green: 244/255, blue: 250/255))
+                            //.background(Color(red: 250/225, green: 244/255, blue: 250/255))
+                            .background(Color(red: 247/225, green: 239/255, blue: 247/255))
                     }
                 }
 
@@ -365,11 +366,12 @@ struct UserHomeView: View {
                 Spacer()
 
                 Toolbar()
-                    .background(Color(red: 250/225, green: 244/255, blue: 250/255))
+//                    .background(Color(red: 250/225, green: 244/255, blue: 250/255))
+                    .background(Color(red: 247/225, green: 239/255, blue: 247/255))
                     .position(x: 200, y: 30)
             }
             .frame(width: 400)
-            .background(Color(red: 250/225, green: 244/255, blue: 250/255))
+            .background(Color(red: 247/225, green: 239/255, blue: 247/255))
             .position(CGPoint(x: 180.0, y: 350.0))
             .navigationBarHidden(true)
             .padding(.horizontal, 16)

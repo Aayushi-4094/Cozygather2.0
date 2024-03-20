@@ -29,13 +29,6 @@ struct VendorMenuView: View {
         NavigationView {
             Form {
                 Section(header: Text("Menu").font(.title)) {
-//                    NavigationLink(destination: SupplierProfile()) {
-//                        Label("Profile", systemImage: "person.circle")
-//                    }
-//                    NavigationLink(destination: Notification1().navigationBarHidden(true)) {
-//                        Label("Notification", systemImage: "bell")
-//                    }
-                    
                     NavigationLink(destination: Text("Payments")) {
                         Label("Payments", systemImage: "creditcard")
                     }
@@ -76,12 +69,9 @@ struct VendorMenuView: View {
 struct VendorHomePage: View {
     @State private var isMenuExpanded = false
     @State private var isNotificationViewPresented = false
-    
     @State private var tasks: [String] = ["Task 1", "Task 2", "Task 3", "Task 4", "Task 5"]
     @State private var newTask: String = ""
     @State private var isEditing = false
-
-    
     var body: some View {
         NavigationView {
             ZStack {
@@ -98,22 +88,12 @@ struct VendorHomePage: View {
                                     .padding(.leading, 16)
                                     .foregroundColor(.blue)
                             }
-                            
                             Spacer()
-                            
                             Text("Vendor Home Page")
                                 .font(.largeTitle)
                                 .fontWeight(.bold)
                                 .padding()
-                            
                             Spacer()
-                            
-//                            Button(action: {
-//                                withAnimation {
-//                                    isNotificationViewPresented.toggle()
-//                                }
-//                            }) {
-                            
                             NavigationLink(destination: Notification1()
                                                                     .navigationBarTitle("")
                                                                     .navigationBarHidden(true)
@@ -123,15 +103,11 @@ struct VendorHomePage: View {
                                                             .padding(.trailing, 16)
                                                             .foregroundColor(.blue)
                                                     }
-
-                            
-//                            }
                         }
                         .navigationBarHidden(true)
-
                         .padding(.top, 10)
+                        .background(Color(red: 247/255, green: 239/255, blue: 247/255))
                         Divider()
-                        
                         VStack {
                             HStack {
                                 Text("No. of Orders Left")
@@ -200,6 +176,7 @@ struct VendorHomePage: View {
                     }
                     .navigationBarHidden(true)
                     .padding(.horizontal, 16)
+                    .background(Color(red: 247/255, green: 239/255, blue: 247/255))
                 }
                 
                 if isMenuExpanded {
@@ -215,6 +192,7 @@ struct VendorHomePage: View {
                         .frame(maxWidth: .infinity)
                         .transition(.move(edge: .leading))
                         .animation(.easeInOut)
+                        .background(Color(red: 247/255, green: 239/255, blue: 247/255))
                 }
                 
                 VendorToolbar()
@@ -226,6 +204,7 @@ struct VendorHomePage: View {
             .navigationBarBackButtonHidden(true)
         }
         .navigationViewStyle(StackNavigationViewStyle()) // Use stack style for iPhone
+        
     }
     
     private func deleteTask(at offsets: IndexSet) {

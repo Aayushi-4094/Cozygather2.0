@@ -8,7 +8,7 @@ struct SecondScreen: View {
     var body: some View {
         NavigationView {
             VStack {
-                Image("logo1")
+                Image("logo")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: UIScreen.main.bounds.width * 0.6, height: UIScreen.main.bounds.height * 0.15)
@@ -21,7 +21,6 @@ struct SecondScreen: View {
                     .padding(.bottom, 20)
 
                 Spacer()
-
                 Text("Choose your Profile")
                     .font(.subheadline)
                     .fontWeight(.semibold)
@@ -47,8 +46,10 @@ struct SecondScreen: View {
             }
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
+            //.background(Color(red: 240/225, green: 240/255, blue: 234/255))
+            .background(Color(red: 247/225, green: 239/255, blue: 247/255))
         }
-        .background(Color(red: 0.96, green: 0.94, blue: 0.93))
+        
     }
 }
 

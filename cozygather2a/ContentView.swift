@@ -10,7 +10,7 @@ struct ContentView: View {
                         .foregroundColor(.clear)
                         .frame(width: 393, height: 251)
                         .background(
-                            Image("logo1")
+                            Image("logo")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                         )
@@ -20,11 +20,12 @@ struct ContentView: View {
             .padding(.top, 245)
             .padding(.bottom, 356)
             .frame(width: 393, height: 852, alignment: .top)
-            .background(Color(red: 0.96, green: 0.94, blue: 0.93))
+            .background(Color(red: 247/225, green: 239/255, blue: 247/255))
             .cornerRadius(48)
             .navigationBarHidden(true)
         }
     }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {

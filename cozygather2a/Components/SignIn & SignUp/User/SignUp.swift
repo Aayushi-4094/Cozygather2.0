@@ -109,10 +109,11 @@ struct SignUpPage: View {
                     .foregroundColor(.white)
                     .padding(.vertical, 15)
                     .frame(maxWidth: .infinity)
-                    .background(Color.blue)
+                    .background(Color(red:67/255, green:13/255, blue:75/255))
                     .cornerRadius(8)
             }
             .padding(.horizontal, 20)
+            
             .fullScreenCover(isPresented: $isSignInPageActive) {
                         SignInPage()
                     }
@@ -131,7 +132,7 @@ struct SignUpPage: View {
                     }
                 }) {
                     Text("Sign In")
-                        .foregroundColor(.blue)
+                        .foregroundColor(Color(red:67/255, green:13/255, blue:75/255))
                         .font(.subheadline)
                 }
                 .fullScreenCover(isPresented: $isSignInPageActive) {

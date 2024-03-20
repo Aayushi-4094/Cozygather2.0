@@ -6,9 +6,6 @@ struct ViewOrderDetails: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     NavigationBarView()
-                    
-//                 ActionButtonsView()
-                    
                     UserCardView()
                     
                     SectionHeaderView(title: "Description")
@@ -23,6 +20,7 @@ struct ViewOrderDetails: View {
                 }
             }
             .navigationBarHidden(true)
+            .background(Color(red: 247/225, green: 239/255, blue: 247/255))
         }
     }
 }
@@ -30,10 +28,6 @@ struct ViewOrderDetails: View {
 struct NavigationBarView: View {
     var body: some View {
         HStack {
-//            Button(action: {}) {
-//                Image(systemName: "chevron.left")
-//                    .foregroundColor(.black)
-//            }
             Spacer()
             Text("Order Detail")
                 .font(.title)
@@ -48,29 +42,6 @@ struct NavigationBarView: View {
         Divider()
     }
 }
-//struct ActionButtonsView: View {
-//    var body: some View {
-//        HStack {
-//            Button(action: {}) {
-//                Text("Reject")
-//                    .foregroundColor(.white)
-//                    .padding()
-//                    .background(Color.red)
-//                    .cornerRadius(20)
-//            }
-//            Button(action: {}) {
-//                Text("Accept")
-//                    .foregroundColor(.white)
-//                    .padding()
-//                    .background(Color.green)
-//                    .cornerRadius(20)
-//            }
-//        }
-//        .frame(maxWidth: .infinity)
-//        .padding(.horizontal)
-//        Divider()
-//    }
-//}
 
 struct SectionHeaderView: View {
     var title: String

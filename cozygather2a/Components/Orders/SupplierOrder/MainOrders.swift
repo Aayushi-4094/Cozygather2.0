@@ -78,7 +78,7 @@ struct MainOrders: View {
                         }
                         .padding(.horizontal, 16)
                     }
-                    .background(Color.gray.opacity(0.1)) // Set a background color to demonstrate separation
+                    .background(Color(red: 247/225, green: 239/255, blue: 247/255)) // Set a background color to demonstrate separation
                 }
 
                 VendorToolbar()
