@@ -30,7 +30,7 @@ struct VendrSignIn: View {
             
             TextField("Email", text: self.$email)
                 .padding()
-                .background(RoundedRectangle(cornerRadius: 8).stroke(self.email != "" ? Color.blue : self.color, lineWidth: 2))
+                .background(RoundedRectangle(cornerRadius: 8).stroke(self.email != "" ? Color(red: 198/255, green: 174/255, blue: 128/255) : Color(red:67/255, green:13/255, blue:75/255) , lineWidth: 2))
                 .padding(.top, 15)
                 .keyboardType(.emailAddress)
                 .autocapitalization(.none)
@@ -52,7 +52,7 @@ struct VendrSignIn: View {
                 }
             }
             .padding()
-            .background(RoundedRectangle(cornerRadius: 8).stroke(self.pass != "" ? Color.blue : self.color, lineWidth: 2))
+            .background(RoundedRectangle(cornerRadius: 8).stroke(self.pass != "" ? Color(red: 198/255, green: 174/255, blue: 128/255) : Color(red:67/255, green:13/255, blue:75/255) , lineWidth: 2))
             .padding(.top, 15)
             
             Button(action: {
@@ -105,12 +105,11 @@ struct VendrSignIn: View {
                 self.alert.toggle()
             } else {
                 print("Sign-in successful")
-                self.DetailViewActive = true 
+                self.DetailViewActive = true
             }
         }
     }
 }
-
 
 struct VendrSignIn_Previews: PreviewProvider {
     static var previews: some View {
