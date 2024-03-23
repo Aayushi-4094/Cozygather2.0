@@ -8,7 +8,8 @@ struct DetailView: View {
     @State private var selectedCategory: String?
     @State private var shopName = ""
     @State private var address = ""
-    @State private var hours = ""
+    @State private var fromTime = Date()
+    @State private var toTime = Date()
     @State private var flexibleRate = false
     @State private var logoImage: Image? = nil
     @State private var menuImage: Image? = nil
@@ -16,31 +17,26 @@ struct DetailView: View {
     @State private var selectedImage: Image? = nil // State variable to store the selected image
     @State private var isVendorSignInActive = false
     @State private var isDetailsSaved = false
+    @State private var VendorHomePageActive = false
     let firestoreManager = FirestoreManager.shared
 
     var body: some View {
         NavigationView {
             ScrollView {
-                
                 VStack(spacing: 20) {
+                    // Choose Category Section
                     VStack(alignment: .leading, spacing: 10) {
                         Text("Choose a Category")
                             .font(.headline)
-                            .padding(.leading, 20)
-                        
                         ForEach(categories, id: \.self) { category in
                             HStack {
                                 Text(category)
                                 Spacer()
                                 Button(action: {
-                                    if selectedCategory == category {
-                                        selectedCategory = nil
-                                    } else {
-                                        selectedCategory = category
-                                    }
+                                    selectedCategory = (selectedCategory == category) ? nil : category
                                 }) {
                                     Image(systemName: selectedCategory == category ? "checkmark.circle.fill" : "circle")
-                                        .foregroundColor(.blue)
+                                        .foregroundColor(.purple)
                                 }
                                 .padding()
                             }
@@ -48,30 +44,58 @@ struct DetailView: View {
                     }
                     .padding(.horizontal, 20)
                     
+                    // Vendor Shop Name
                     TextField("Vendor Shop Name", text: $shopName)
                         .padding()
                         .background(RoundedRectangle(cornerRadius: 8).stroke(Color.purple, lineWidth: 2))
                         .padding(.horizontal, 20)
                     
+                    // Address
                     TextField("Address", text: $address)
                         .padding()
                         .background(RoundedRectangle(cornerRadius: 8).stroke(Color.purple, lineWidth: 2))
                         .padding(.horizontal, 20)
                     
-                    TextField("Working Hours", text: $hours)
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 8).stroke(Color.purple, lineWidth: 2))
+                    // Working Hours Section
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Working Hours")
+                            .font(.headline)
+                        HStack {
+                            VStack(alignment: .leading, spacing: 0) {
+                                Text("From")
+                                    .font(.headline)
+                                DatePicker("", selection: $fromTime, displayedComponents: .hourAndMinute)
+                                    .datePickerStyle(CompactDatePickerStyle())
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding(.horizontal, 5)
+                            
+                            VStack(alignment: .leading, spacing: 0) {
+                                Text("To")
+                                    .font(.headline)
+                                DatePicker("", selection: $toTime, displayedComponents: .hourAndMinute)
+                                    .datePickerStyle(CompactDatePickerStyle())
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding(.horizontal, 5)
+                        }
+                        .padding(.vertical, 10)
                         .padding(.horizontal, 20)
-
-                    Toggle("Flexible Rate", isOn: $flexibleRate)
+                        .background(RoundedRectangle(cornerRadius: 8).stroke(Color.purple, lineWidth: 2))
+                    }
+                    .padding(.horizontal, 20)
                     
+                    // Flexible Rate Toggle
+                    Toggle("Flexible Rate", isOn: $flexibleRate)
+                        .padding(.horizontal, 20)
+                    
+                    // Choose Logo Image Button
                     Button(action: {
-                        // Show image picker for choosing logo image
                         isShowingImagePicker = true
                     }) {
                         Text("Choose Logo Image")
                             .foregroundColor(.white)
-                            .padding(.vertical, 15)
+                            .padding()
                             .frame(maxWidth: .infinity)
                             .background(Color(red: 67/255, green: 13/255, blue: 75/255))
                             .cornerRadius(8)
@@ -80,7 +104,7 @@ struct DetailView: View {
                     .sheet(isPresented: $isShowingImagePicker, onDismiss: loadImage) {
                         ImagePicker(selectedImage: $selectedImage, isShowingImagePicker: $isShowingImagePicker)
                     }
-
+                    
                     // Display selected logo image
                     if let logoImage = logoImage {
                         logoImage
@@ -88,15 +112,14 @@ struct DetailView: View {
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 100, height: 100)
                     }
-
-                    // Button for choosing menu image
+                    
+                    // Choose Menu Image Button
                     Button(action: {
-                        // Show image picker for choosing menu image
                         isShowingImagePicker = true
                     }) {
                         Text("Choose Menu Image")
                             .foregroundColor(.white)
-                            .padding(.vertical, 15)
+                            .padding()
                             .frame(maxWidth: .infinity)
                             .background(Color(red: 67/255, green: 13/255, blue: 75/255))
                             .cornerRadius(8)
@@ -105,7 +128,7 @@ struct DetailView: View {
                     .sheet(isPresented: $isShowingImagePicker, onDismiss: loadImage) {
                         ImagePicker(selectedImage: $selectedImage, isShowingImagePicker: $isShowingImagePicker)
                     }
-
+                    
                     // Display selected menu image
                     if let menuImage = menuImage {
                         menuImage
@@ -113,32 +136,52 @@ struct DetailView: View {
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 100, height: 100)
                     }
-
+                    
+                    // Save Button
                     Button(action: {
                         saveDetailsToFirestore()
                     }) {
                         Text("Save")
+                            .foregroundColor(.white)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.green)
+                            .cornerRadius(8)
                     }
                     .padding(.horizontal, 20)
                     .alert(isPresented: $isDetailsSaved) {
-                        Alert(title: Text("Details Saved"), message: Text("You can now sign in"), dismissButton: .default(Text("OK"), action: {
-                            // Navigate to vendor sign-in view
-                            isVendorSignInActive = true
-                        }))
+                        Alert(
+                            title: Text("Details Saved"),
+                            message: Text("You can now go to homepage by pressing OK"),
+                            dismissButton: .default(Text("OK"), action: {
+                                // Set the flag to true to present the vendor home view
+                                VendorHomePageActive = true
+                            })
+                        )
                     }
-
+                    .fullScreenCover(isPresented: $VendorHomePageActive, content: {
+                        VendorHomePage()
+                    })
+                    
                     Spacer()
                 }
                 .padding()
             }
             .navigationBarTitle("Vendor Details", displayMode: .large)
-            
+            //.background(Color(red: 1.0, green: 1.0, blue: 0.8))
         }
     }
 
     private func saveDetailsToFirestore() {
         // Generate a UUID for the vendor
         let vendorID = UUID().uuidString
+        
+        // Format working hours string
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeStyle = .short
+        let fromTimeString = dateFormatter.string(from: fromTime)
+        let toTimeString = dateFormatter.string(from: toTime)
+        let hours = "\(fromTimeString) - \(toTimeString)"
         
         // Save all the details to Firestore here
         firestoreManager.saveVendorDetails(VendorDetails(id: vendorID, shopName: shopName, address: address, hours: hours, flexibleRate: flexibleRate), selectedCategory: selectedCategory, logoImage: logoImage?.toData(), menuImage: menuImage?.toData()) { imageUrl, error in

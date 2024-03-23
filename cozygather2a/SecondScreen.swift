@@ -16,7 +16,7 @@ struct SecondScreen: View {
 
                 Text("Where Simplified Planning Meets Stress-Free Celebrations")
                     .font(.subheadline)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(Color(red:67/255, green:13/255, blue:75/255))
                     .multilineTextAlignment(.center)
                     .padding(.bottom, 20)
 
@@ -25,6 +25,7 @@ struct SecondScreen: View {
                     .font(.subheadline)
                     .fontWeight(.semibold)
                     .padding(.top, 20)
+                    .foregroundColor(Color(red:67/255, green:13/255, blue:75/255))
 
                 HStack {
                     ProfileButton(imageName: "supplier_logo", buttonText: "Supplier", isActive: $isVendorSignUpActive)
@@ -35,7 +36,7 @@ struct SecondScreen: View {
                 }
                 .padding(.horizontal, 20)
                 .padding(.vertical, 20)
-
+                .foregroundColor(Color(red:67/255, green:13/255, blue:75/255))
                 Spacer()
             }
             .fullScreenCover(isPresented: $isVendorSignUpActive) {
@@ -47,7 +48,7 @@ struct SecondScreen: View {
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
             //.background(Color(red: 240/225, green: 240/255, blue: 234/255))
-            .background(Color(red: 247/225, green: 239/255, blue: 247/255))
+            //.background(Color(red: 247/225, green: 239/255, blue: 247/255))
         }
         
     }
