@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		070646122BAC6C9D0030D4FD /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 070646112BAC6C9D0030D4FD /* FirebaseStorage */; };
 		0713A17E2BAAFC1A003BFB92 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0713A17D2BAAFC1A003BFB92 /* DetailView.swift */; };
 		07F26FF22BA800B10016B79F /* cozygather2aApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F26FF12BA800B10016B79F /* cozygather2aApp.swift */; };
 		07F26FF42BA800B10016B79F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F26FF32BA800B10016B79F /* ContentView.swift */; };
@@ -110,6 +111,7 @@
 			files = (
 				07F270072BA8017C0016B79F /* FirebaseAnalyticsSwift in Frameworks */,
 				07F2701E2BA8043E0016B79F /* FirebaseAuth in Frameworks */,
+				070646122BAC6C9D0030D4FD /* FirebaseStorage in Frameworks */,
 				07F270032BA8017C0016B79F /* FirebaseAnalytics in Frameworks */,
 				07F270052BA8017C0016B79F /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
 				07F2700B2BA8017C0016B79F /* FirebaseAppCheck in Frameworks */,
@@ -388,6 +390,7 @@
 				07F2701D2BA8043E0016B79F /* FirebaseAuth */,
 				07F270302BA805920016B79F /* FirebaseFirestore */,
 				07F270322BA8059C0016B79F /* FirebaseFirestoreSwift */,
+				070646112BAC6C9D0030D4FD /* FirebaseStorage */,
 			);
 			productName = cozygather2a;
 			productReference = 07F26FEE2BA800B10016B79F /* cozygather2a.app */;
@@ -714,6 +717,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		070646112BAC6C9D0030D4FD /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 07F270012BA8017C0016B79F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
 		07F270022BA8017C0016B79F /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 07F270012BA8017C0016B79F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
