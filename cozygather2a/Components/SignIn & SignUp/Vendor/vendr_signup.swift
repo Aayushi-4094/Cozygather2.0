@@ -134,18 +134,27 @@ struct VendrSignUp: View {
     // Modify signUp() function in VendrSignUp view
     func signUp() {
         if pass == repass {
-            // Store user data in Firestore
-            let newUser = Supplier(id: UUID().uuidString, fullName: self.fullName, userName: self.userName, phoneNumber: self.phoneNumber)
-            FirestoreManager.shared.createSupplier(newUser)
-            
-            // Navigate to "digging" page (VendrSignIn)
-            isVendrSignInActive.toggle()
+            // Create user account in Firebase Authentication
+            Auth.auth().createUser(withEmail: email, password: pass) { (result, error) in
+                if let error = error {
+                    self.error = error.localizedDescription
+                    self.alert.toggle()
+                    return
+                }
+                
+                // User account created successfully, now store additional data in Firestore
+                let newUser = Supplier(id: UUID().uuidString, fullName: self.fullName, userName: self.userName, phoneNumber: self.phoneNumber)
+                FirestoreManager.shared.createSupplier(newUser)
+                
+                // Navigate to sign-in page
+                isVendrSignInActive.toggle()
+            }
         } else {
             self.error = "Passwords do not match"
             self.alert.toggle()
         }
-        UserDefaults.standard.set(true, forKey: "isSignedUp")
     }
+
 }
            struct VendrSignUp_Previews: PreviewProvider {
                static var previews: some View {

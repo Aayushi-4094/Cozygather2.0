@@ -1,5 +1,7 @@
 import SwiftUI
 import UIKit // Import UIKit for UIImagePickerController
+import FirebaseStorage
+import FirebaseFirestore
 
 struct DetailView: View {
     @State private var categories = ["Catering", "Music", "Decor", "Bakery"]
@@ -19,6 +21,7 @@ struct DetailView: View {
     var body: some View {
         NavigationView {
             ScrollView {
+                
                 VStack(spacing: 20) {
                     VStack(alignment: .leading, spacing: 10) {
                         Text("Choose a Category")
@@ -59,11 +62,7 @@ struct DetailView: View {
                         .padding()
                         .background(RoundedRectangle(cornerRadius: 8).stroke(Color.purple, lineWidth: 2))
                         .padding(.horizontal, 20)
-                    
-//                    Toggle("Flexible Rate", isOn: Binding(
-//                                    get: { !categories.contains(selectedCategory ?? "") },
-//                                    set: { if !$0 { selectedCategory = "" } })
-//                                )
+
                     Toggle("Flexible Rate", isOn: $flexibleRate)
                     
                     Button(action: {
@@ -133,6 +132,7 @@ struct DetailView: View {
                 .padding()
             }
             .navigationBarTitle("Vendor Details", displayMode: .large)
+            
         }
     }
 
@@ -141,10 +141,16 @@ struct DetailView: View {
         let vendorID = UUID().uuidString
         
         // Save all the details to Firestore here
-        firestoreManager.saveVendorDetails(VendorDetails(id: vendorID, shopName: shopName, address: address, hours: hours, flexibleRate: flexibleRate), selectedCategory: selectedCategory, logoImage: logoImage?.toData(), menuImage: menuImage?.toData())
-        
-        // Set the flag to true to display the alert
-        isDetailsSaved = true
+        firestoreManager.saveVendorDetails(VendorDetails(id: vendorID, shopName: shopName, address: address, hours: hours, flexibleRate: flexibleRate), selectedCategory: selectedCategory, logoImage: logoImage?.toData(), menuImage: menuImage?.toData()) { imageUrl, error in
+            if let error = error {
+                print("Error uploading image: \(error.localizedDescription)")
+                // Handle error
+            } else if let imageUrl = imageUrl {
+                print("Image uploaded successfully: \(imageUrl)")
+                // Set the flag to true to display the alert
+                isDetailsSaved = true
+            }
+        }
     }
 
 
@@ -155,10 +161,74 @@ struct DetailView: View {
         // For simplicity, let's assume the first image is for the logo and the second image is for the menu
         if logoImage == nil {
             logoImage = selectedImage
+            // Upload logo image to Firebase Storage
+            uploadImageToFirebaseStorage(imageData: logoImage?.toData() ?? Data()) { result in
+                switch result {
+                case .success(let imageUrl):
+                    // Store image URL in Firestore
+                    saveImageURLToFirestore(imageURL: imageUrl) { error in
+                        if let error = error {
+                            print("Error storing logo image URL: \(error.localizedDescription)")
+                            // Handle error
+                        }
+                    }
+                case .failure(let error):
+                    print("Error uploading logo image: \(error.localizedDescription)")
+                    // Handle error
+                }
+            }
         } else {
             menuImage = selectedImage
+            // Upload menu image to Firebase Storage
+            uploadImageToFirebaseStorage(imageData: menuImage?.toData() ?? Data()) { result in
+                switch result {
+                case .success(let imageUrl):
+                    // Store image URL in Firestore
+                    saveImageURLToFirestore(imageURL: imageUrl) { error in
+                        if let error = error {
+                            print("Error storing menu image URL: \(error.localizedDescription)")
+                            // Handle error
+                        }
+                    }
+                case .failure(let error):
+                    print("Error uploading menu image: \(error.localizedDescription)")
+                    // Handle error
+                }
+            }
         }
     }
+
+    // Function to upload image data to Firebase Storage
+    private func uploadImageToFirebaseStorage(imageData: Data, completion: @escaping (Result<String, Error>) -> Void) {
+        let storageRef = Storage.storage().reference().child(UUID().uuidString)
+        storageRef.putData(imageData, metadata: nil) { metadata, error in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                storageRef.downloadURL { url, error in
+                    if let error = error {
+                        completion(.failure(error))
+                    } else if let downloadURL = url {
+                        completion(.success(downloadURL.absoluteString))
+                    }
+                }
+            }
+        }
+    }
+
+    // Function to save image URL to Firestore
+    private func saveImageURLToFirestore(imageURL: String, completion: @escaping (Error?) -> Void) {
+        let db = Firestore.firestore()
+        let data: [String: Any] = ["imageURL": imageURL]
+        db.collection("images").addDocument(data: data) { error in
+            if let error = error {
+                completion(error)
+            } else {
+                completion(nil)
+            }
+        }
+    }
+
 }
 
 

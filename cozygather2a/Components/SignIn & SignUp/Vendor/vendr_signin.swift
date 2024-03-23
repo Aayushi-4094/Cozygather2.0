@@ -25,7 +25,7 @@ struct VendrSignIn: View {
             Text("Sign In")
                 .font(.title)
                 .fontWeight(.bold)
-                .foregroundColor(Color(red: 33/225, green: 5/255, blue: 247/255))
+                .foregroundColor(Color(red:67/255, green:13/255, blue:75/255))
                 .padding(.top, 20)
             
             TextField("Email", text: self.$email)

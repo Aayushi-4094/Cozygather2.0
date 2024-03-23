@@ -1,4 +1,5 @@
 import FirebaseFirestore
+import SwiftUI
 
 struct VendorDetails {
     var id: String
@@ -6,10 +7,12 @@ struct VendorDetails {
     var address: String
     var hours: String
     var flexibleRate: Bool
+    var selectedCategory: String? // Add selectedCategory property
     var logoImageData: Data? // Variable to store the logo image data
     var menuImageData: Data? // Variable to store the menu image data
     // Add other vendor properties as needed
 }
+
 
 struct Supplier: Identifiable {
     var id: String
@@ -119,61 +122,63 @@ class FirestoreManager {
             }
         }
     }
-    
-    // Function to check if a user with the provided email exists in Firestore
-//    func userExistsWithEmail(_ email: String, completion: @escaping (Bool) -> Void) {
-//        db.collection("suppliers").whereField("email", isEqualTo: email).getDocuments { (snapshot, error) in
-//            if let error = error {
-//                print("Error checking user existence: \(error.localizedDescription)")
-//                completion(false)
-//            } else {
-//                completion(!(snapshot?.documents.isEmpty)! ?? false)
-//            }
-//        }
-//    }
 
-//    func currentUserDoc() -> DocumentReference? {
-//        if AuthService.shared.Auth.auth().currentUser != nil {
-//            return firestore.collection("suppliers").document(auth.currentUser?.uid ?? "")
-//        }
-//        return nil
-//    }
-//
-//    func doesUserExist(completion: @escaping (Bool) -> Void) {
-//        guard AuthService.shared.Auth.auth().currentUser != nil else { return }
-//        currentUserDoc()?.getDocument { snapshot, error in
-//            if snapshot != nil && error == nil {
-//                completion(snapshot!.exists)
-//            } else { completion(false) }
-//        }
-//    }
-    func saveVendorDetails(_ v: VendorDetails, selectedCategory: String?, logoImage: Data?, menuImage: Data?) {
-         var vendorData: [String: Any] = [
-             "shopName": v.shopName,
-             "address": v.address,
-             "hours": v.hours,
-             "flexibleRate": v.flexibleRate,
-             // Add other vendor details as needed
-         ]
-         
-         if let selectedCategory = selectedCategory {
-             vendorData["selectedCategory"] = selectedCategory
-         }
-         
-         // Convert images to data before saving
-         if let logoImageData = logoImage {
-             vendorData["logoImage"] = logoImageData
-         }
-         if let menuImageData = menuImage {
-             vendorData["menuImage"] = menuImageData
-         }
-         
-         db.collection("vendorDetails").document(v.id).setData(vendorData) { error in
-             if let error = error {
-                 print("Error adding vendor details document: \(error)")
-             } else {
-                 print("Vendor details document added with ID: \(v.id)")
-             }
-         }
-     }
- }
+    func saveVendorDetails(_ v: VendorDetails, selectedCategory: String?, logoImage: Data?, menuImage: Data?, completion: @escaping (String?, Error?) -> Void) {
+        var vendorData: [String: Any] = [
+            "shopName": v.shopName,
+            "address": v.address,
+            "hours": v.hours,
+            "flexibleRate": v.flexibleRate,
+            // Add other vendor details as needed
+        ]
+        
+        if let selectedCategory = selectedCategory {
+            vendorData["selectedCategory"] = selectedCategory
+        }
+        
+        // Convert images to data before saving
+        if let logoImageData = logoImage {
+            vendorData["logoImage"] = logoImageData
+        }
+        if let menuImageData = menuImage {
+            vendorData["menuImage"] = menuImageData
+        }
+        
+        db.collection("vendorDetails").document(v.id).setData(vendorData) { error in
+            if let error = error {
+                print("Error adding vendor details document: \(error)")
+                completion(nil, error)
+            } else {
+                print("Vendor details document added with ID: \(v.id)")
+                completion("URL_of_uploaded_image", nil) // Replace "URL_of_uploaded_image" with the actual image URL
+            }
+        }
+    }
+
+    func fetchVendorDetails(forVendorID vendorID: String, completion: @escaping (VendorDetails?) -> Void) {
+        // Fetch vendor details document from Firestore using the vendor's ID
+        db.collection("vendorDetails").document(vendorID).getDocument { document, error in
+            if let error = error {
+                print("Error fetching vendor details: \(error.localizedDescription)")
+                completion(nil) // Pass nil to the completion handler indicating an error
+            } else if let document = document, document.exists {
+                // Parse document data to VendorDetails object
+                if let data = document.data(),
+                   let shopName = data["shopName"] as? String,
+                   let address = data["address"] as? String,
+                   let hours = data["hours"] as? String,
+                   let flexibleRate = data["flexibleRate"] as? Bool {
+                    let vendorDetails = VendorDetails(id: document.documentID, shopName: shopName, address: address, hours: hours, flexibleRate: flexibleRate)
+                    completion(vendorDetails) // Pass fetched vendor details to the completion handler
+                } else {
+                    completion(nil) // Pass nil to the completion handler if data parsing fails
+                }
+            } else {
+                completion(nil) // Pass nil to the completion handler if document doesn't exist
+            }
+        }
+    }
+
+  }
+
+  
