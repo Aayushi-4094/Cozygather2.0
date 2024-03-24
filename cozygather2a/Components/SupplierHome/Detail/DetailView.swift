@@ -7,6 +7,7 @@ struct DetailView: View {
     @State private var categories = ["Catering", "Music", "Decor", "Bakery"]
     @State private var selectedCategory: String?
     @State private var shopName = ""
+    @State private var price = ""
     @State private var address = ""
     @State private var fromTime = Date()
     @State private var toTime = Date()
@@ -52,6 +53,11 @@ struct DetailView: View {
                     
                     // Address
                     TextField("Address", text: $address)
+                        .padding()
+                        .background(RoundedRectangle(cornerRadius: 8).stroke(Color.purple, lineWidth: 2))
+                        .padding(.horizontal, 20)
+                    
+                    TextField("Price", text: $price)
                         .padding()
                         .background(RoundedRectangle(cornerRadius: 8).stroke(Color.purple, lineWidth: 2))
                         .padding(.horizontal, 20)
@@ -184,7 +190,7 @@ struct DetailView: View {
         let hours = "\(fromTimeString) - \(toTimeString)"
         
         // Save all the details to Firestore here
-        firestoreManager.saveVendorDetails(VendorDetails(id: vendorID, shopName: shopName, address: address, hours: hours, flexibleRate: flexibleRate), selectedCategory: selectedCategory, logoImage: logoImage?.toData(), menuImage: menuImage?.toData()) { imageUrl, error in
+        firestoreManager.saveVendorDetails(VendorDetails(id: vendorID, shopName: shopName, price: price, address: address, hours: hours, flexibleRate: flexibleRate), selectedCategory: selectedCategory, logoImage: logoImage?.toData(), menuImage: menuImage?.toData()) { imageUrl, error in
             if let error = error {
                 print("Error uploading image: \(error.localizedDescription)")
                 // Handle error

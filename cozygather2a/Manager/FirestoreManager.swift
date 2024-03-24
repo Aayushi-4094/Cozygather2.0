@@ -4,6 +4,7 @@ import SwiftUI
 struct VendorDetails {
     var id: String
     var shopName: String
+    var price: String
     var address: String
     var hours: String
     var flexibleRate: Bool
@@ -127,6 +128,7 @@ class FirestoreManager {
         var vendorData: [String: Any] = [
             "shopName": v.shopName,
             "address": v.address,
+            "price": v.price,
             "hours": v.hours,
             "flexibleRate": v.flexibleRate,
             // Add other vendor details as needed
@@ -166,9 +168,10 @@ class FirestoreManager {
                 if let data = document.data(),
                    let shopName = data["shopName"] as? String,
                    let address = data["address"] as? String,
+                   let price = data["price"] as? String,
                    let hours = data["hours"] as? String,
                    let flexibleRate = data["flexibleRate"] as? Bool {
-                    let vendorDetails = VendorDetails(id: document.documentID, shopName: shopName, address: address, hours: hours, flexibleRate: flexibleRate)
+                    let vendorDetails = VendorDetails(id: document.documentID, shopName: shopName, price: price, address: address, hours: hours, flexibleRate: flexibleRate)
                     completion(vendorDetails) // Pass fetched vendor details to the completion handler
                 } else {
                     completion(nil) // Pass nil to the completion handler if data parsing fails
