@@ -348,7 +348,7 @@ struct CreateEvent: View {
 //    var contact: CNContact
 //    var isSelected: Bool
 //    var onTapAction: () -> Void
-//    
+//
 //    var body: some View {
 //        HStack {
 //            VStack(alignment: .leading, spacing: 4) {
