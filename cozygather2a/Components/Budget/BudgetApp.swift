@@ -15,14 +15,14 @@ struct BudgetApp: View {
                 .navigationTitle("My budget")
                 .background(Color(red: 247/225, green: 239/255, blue: 247/255))
             }
-            .overlay(
-                VStack {
-                    Spacer()
-                    Toolbar()
-                        .background(Color.white)
-                        .frame(height: 0) // Set the height of the toolbar
+            .toolbar {
+                ToolbarItem(placement: .bottomBar) {
+                    HStack {  // Wrap the content in HStack
+                        //Spacer()  // Add Spacer to push content to the right
+                        Toolbar()
+                    }
                 }
-            )
+            }
         }.background(Color(red: 247/225, green: 239/255, blue: 247/255))
     }
 }
@@ -80,13 +80,6 @@ struct CostGraphView: View {
                         .frame(height: calculateBarHeight(expenditure: vendorsExpenditure))
                 }
             }
-
-//            HStack {
-//                Text("June 15, 2020")
-//                    .font(.headline)
-//                    .padding(.leading)
-//                Spacer()
-//            }
         }
         .padding()
     }
@@ -110,9 +103,6 @@ struct TransactionListView: View {
         VStack(alignment: .leading) {
           Text(transaction.title)
             .font(.headline)
-//          Text(transaction.subtitle)
-//            .font(.subheadline)
-//            .foregroundColor(.gray)
         }
         Spacer()
         Text(transaction.amount)
@@ -137,24 +127,6 @@ let sampleTransactions = [
   Transaction(iconColor: .red, title: "Vendors", /*subtitle: "Annual withdrawal of funds", */amount: "-₹150"),
   Transaction(iconColor: .purple, title: "Music",/* subtitle: "Annual withdrawal of funds",*/ amount: "-₹990")
 ]
-
-//// Placeholder for the actual image loading from Unsplash
-//struct UnsplashImageLoader {
-//  static func loadImage(from urlString: String, completion: @escaping (UIImage?) -> Void) {
-//    guard let url = URL(string: urlString) else {
-//      completion(nil)
-//      return
-//    }
-//    URLSession.shared.dataTask(with: url) { data, response, error in
-//      guard let data = data, error == nil else {
-//        completion(nil)
-//        return
-//      }
-//      completion(UIImage(data: data))
-//    }.resume()
-//  }
-//}
-
 struct BudgetApp_Previews: PreviewProvider {
   static var previews: some View {
     BudgetApp()

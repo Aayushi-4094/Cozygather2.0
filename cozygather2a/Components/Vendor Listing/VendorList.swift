@@ -13,6 +13,12 @@ struct VendorList: View {
     var body: some View {
         NavigationView {
             VStack {
+                Text("Total Booked Vendors: \(bookedVendors.count)")
+                    .font(.system(size: 12))
+                    .foregroundColor(.gray)
+                    .padding(.top, 4)
+                    .padding(.bottom, 8)
+                
                 List(vendors) { vendor in
                     NavigationLink(destination: VendorDetailView(vendor: vendor, onBookNow: {
                         // Update bookedVendors set when "Book Now" button is tapped
@@ -41,11 +47,7 @@ struct VendorList: View {
                 }
                 .navigationTitle("Vendor List")
                 // Display total number of vendors booked
-                Text("Total Booked Vendors: \(bookedVendors.count)")
-                    .font(.system(size: 12))
-                    .foregroundColor(.gray)
-                    .padding(.top, 4)
-                    .padding(.bottom, 8) // Add some bottom padding for spacing
+                 // Add some bottom padding for spacing
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -63,6 +65,16 @@ struct VendorList: View {
                              upperPrice: $upperPrice,
                              isFilterScreenPresented: $isFilterSheetPresented)
             }
+            .padding(.bottom, 40)
+             
+             .toolbar {
+               ToolbarItem(placement: .bottomBar) {
+                 HStack {  // Wrap the content in HStack
+                   //Spacer()  // Add Spacer to push content to the right
+                   Toolbar()
+                 }
+               }
+             }
 
         }
         .onAppear {

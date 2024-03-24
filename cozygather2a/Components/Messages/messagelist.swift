@@ -41,10 +41,14 @@ struct messagelist: View {
             .navigationBarHidden(true)
 
             // Add VendorToolbar at the end of the page
-            .overlay(
-                VendorToolbar()
-                    .position(x:190, y: 740) // Position toolbar at the bottom
-            )
+            .toolbar {
+              ToolbarItem(placement: .bottomBar) {
+                HStack {  // Wrap the content in HStack
+                  Spacer()  // Add Spacer to push content to the right
+                  VendorToolbar()
+                }
+              }
+            }
         }
     }
 }

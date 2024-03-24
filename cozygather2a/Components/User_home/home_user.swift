@@ -181,7 +181,7 @@ struct MenuView: View {
                         Label("Profile", systemImage: "person.circle")
                             .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
                     }
-                    NavigationLink(destination: NotificationView()) {
+                    NavigationLink(destination: Notification1()) {
                         Label("Notification", systemImage: "bell")
                             .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
                     }
@@ -252,7 +252,9 @@ struct UserHomeView: View {
     var body: some View {
         NavigationView {
             VStack {
+                Spacer()
                 HStack {
+                    
                     VStack {
                         Button(action: {
                             withAnimation {
@@ -362,14 +364,13 @@ struct UserHomeView: View {
                         .padding(.trailing, -20)
                     }
                 }
-                Toolbar()
             }
             //.background(Color(red: 250/255, green: 244/255, blue: 250/255))
             .frame(width: 400)
             //.background(Color(red: 247/225, green: 239/255, blue: 247/255))
-            .position(CGPoint(x: 180.0, y: 350.0))
-            .navigationBarHidden(true)
-            .padding(.horizontal, 16)
+            //.position(CGPoint(x: 180.0, y: 350.0))
+            //.navigationBarHidden(true)
+            //.padding(.horizontal, 16)
             .overlay(
                 MenuView(isMenuExpanded: $isMenuExpanded)
                     .frame(width: isMenuExpanded ? UIScreen.main.bounds.width : 0)
@@ -382,8 +383,21 @@ struct UserHomeView: View {
                     .background(Color.white)
                     .offset(x: isAddEventPresented ? 0 : UIScreen.main.bounds.width)
             )
+           .padding(.bottom, 40)
+            
+            .toolbar {
+              ToolbarItem(placement: .bottomBar) {
+                HStack {  // Wrap the content in HStack
+                  //Spacer()  // Add Spacer to push content to the right
+                  Toolbar()
+                }
+              }
+            }
+            
         }
+        
     }
+    
 }
 
 struct HomeView_Previews: PreviewProvider {

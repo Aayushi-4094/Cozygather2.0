@@ -63,7 +63,7 @@ struct Toolbar: View {
                     .font(.system(size: 10, weight: .regular, design: .default))
                     .frame(maxWidth: .infinity, alignment: .center)
                 .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))            }
-            .frame(width: 393 / 4, height: 83)
+            .frame(width: 393 / 4, height: 80)
             
                 .onTapGesture {
                     selectedTab = .budget
@@ -83,7 +83,7 @@ struct Toolbar: View {
                     .frame(maxWidth: .infinity, alignment: .center)
                     .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
             }
-            .frame(width: 393 / 4, height: 83)
+            .frame(width: 395 / 4, height: 83)
             .onTapGesture {
                 selectedTab = .budget
                 isBudgetApp.toggle()
@@ -93,7 +93,7 @@ struct Toolbar: View {
             }
         }
         .background(Color(red: 67/225, green: 13/225, blue: 75/225))
-        .cornerRadius(10)
+        //.cornerRadius(10)
         .shadow(radius: 5)
     }
 }

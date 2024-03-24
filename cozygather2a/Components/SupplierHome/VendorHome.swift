@@ -135,11 +135,12 @@ struct VendorHome: View {
                 Notification1()
             }
             .toolbar {
-                // Add the toolbar at the bottom
-                ToolbarItem(placement: .bottomBar) {
-                    VendorToolbar()
+              ToolbarItem(placement: .bottomBar) {
+                HStack {  // Wrap the content in HStack
+                  Spacer()  // Add Spacer to push content to the right
+                  VendorToolbar()
                 }
-                
+              }
             }
         }
     }

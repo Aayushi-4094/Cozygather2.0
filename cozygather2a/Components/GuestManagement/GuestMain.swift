@@ -4,6 +4,7 @@ struct GuestMain: View {
     @State private var selectedTab: EventsTab = .upcoming
     @State private var isAddGuestAvailable = false
     @State private var selectedSegment = 0
+    @State private var isNotificationView = false
 
     enum EventsTab {
         case upcoming, past, cancelled
@@ -32,62 +33,63 @@ struct GuestMain: View {
     }
 
     var body: some View {
-        VStack {
-            HStack {
-                Spacer()
-                Text("Guests")
-                    .font(.largeTitle)
-                    .foregroundColor(Color(red: 82/225, green: 72/255, blue: 159/255))
-                    .padding(.leading,50)
-                Spacer()
-                Button(action: {
-                    isAddGuestAvailable.toggle()
-                }) {
-                    Image(systemName: "plus")
-                        .font(.title)
+        NavigationView {
+            VStack {
+                HStack {
+                    Spacer()
+                    Text("Guest Management")
+                        .font(.largeTitle)
                         .foregroundColor(Color(red: 82/225, green: 72/255, blue: 159/255))
-                        .padding(.trailing,20)
+                        .padding(.leading, 50)
+                    Spacer()
+                    Button(action: {
+                        // Add action for the notification button
+                    }) {
+                        Image(systemName: "plus")
+                            .font(.title)
+                            .foregroundColor(Color(red: 82/225, green: 72/255, blue: 159/255))
+                            .padding(.trailing, 20)
+                    }
                 }
-            }
-            .background(Color(red: 250/225, green: 244/255, blue: 250/255))
-            .navigationBarHidden(true)
-            .sheet(isPresented: $isAddGuestAvailable) {
-                AddGuest() // Assuming AddGuest is defined elsewhere
-            }
-            
-
-            Picker(selection: $selectedSegment, label: Text("")) {
-                Text("All").tag(0)
-                Text("Accepted").tag(1)
-                Text("Rejected").tag(2)
-            }
-           // .background(Color(red: 82/225, green: 72/255, blue: 159/255))
-            .pickerStyle(SegmentedPickerStyle())
-            .frame(width: 380,height: 10)
-            
-            .padding()
-
-            List {
-                ForEach(filteredGuests) { guest in
-                    GuestBox(guest: guest)
+                .background(Color(red: 250/225, green: 244/255, blue: 250/255))
+                .navigationBarHidden(true)
+                .sheet(isPresented: $isAddGuestAvailable) {
+                    AddGuest() // Assuming AddGuest is defined elsewhere
                 }
-            }
+                
 
+                Picker(selection: $selectedSegment, label: Text("")) {
+                    Text("All").tag(0)
+                    Text("Accepted").tag(1)
+                    Text("Rejected").tag(2)
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                .frame(width: 380,height: 10)
+                
+                .padding()
 
-            .listStyle(PlainListStyle()) // Remove separators for a cleaner look
+                List {
+                     ForEach(filteredGuests) { guest in
+                         GuestBox(guest: guest)
+                     }
+                 }
+                 .listStyle(PlainListStyle()) // Remove separators for a cleaner look
 
-            // Optional toolbar content (replace with your needs)
-             Toolbar()
-        }
-        .background(Color(red: 250/225, green: 244/255, blue: 250/255))
-
-        .edgesIgnoringSafeArea(.bottom) // Allow content to extend below safe area
-        
-
-    }
-
-    
-}
+                 // Optional toolbar content (replace with your needs)
+                 .toolbar {
+                     ToolbarItem(placement: .bottomBar) {
+                         HStack {  // Wrap the content in HStack
+                             //Spacer()  // Add Spacer to push content to the right
+                             Toolbar()
+                         }
+                     }
+                 }
+             }
+             .background(Color(red: 250/225, green: 244/255, blue: 250/255))
+             .edgesIgnoringSafeArea(.bottom) // Allow content to extend below safe area
+         }
+     }
+ }
 
 struct GuestBox: View {
     let guest: GuestModel

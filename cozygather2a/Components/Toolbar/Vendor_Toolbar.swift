@@ -9,7 +9,6 @@ struct VendorToolbar: View {
     
     var body: some View {
         HStack{
-            
                 VStack {
                     Image(systemName: selectedTab == .homevendr ? "house.fill" : "house")
                         .resizable()
@@ -20,7 +19,7 @@ struct VendorToolbar: View {
                         .frame(maxWidth: .infinity, alignment: .center)
                         .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
                 }
-                .frame(width: 393 / 4, height: 110)
+                .frame(width: 393 / 4, height: 80)
                 .onTapGesture {
                     selectedTab = .homevendr
                     isHomeUserViewActive.toggle()
@@ -54,7 +53,7 @@ struct VendorToolbar: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 24, height: 24)
                     .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
-                Text("Order")
+                Text("Messages")
                     .frame(maxWidth: .infinity, alignment: .center)
                     .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
             }

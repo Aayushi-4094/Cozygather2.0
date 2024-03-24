@@ -81,8 +81,14 @@ struct MainOrders: View {
                     .background(Color(red: 247/225, green: 239/255, blue: 247/255)) // Set a background color to demonstrate separation
                 }
 
-                VendorToolbar()
-                    .position(CGPoint(x: 200.0, y: 750.0))
+                .toolbar {
+                  ToolbarItem(placement: .bottomBar) {
+                    HStack {  // Wrap the content in HStack
+                      Spacer()  // Add Spacer to push content to the right
+                      VendorToolbar()
+                    }
+                  }
+                }
 
                 // Button to navigate to ViewOrderDetails
                 if isViewOrderDetailsActive {
