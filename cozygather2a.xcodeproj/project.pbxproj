@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		070646122BAC6C9D0030D4FD /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 070646112BAC6C9D0030D4FD /* FirebaseStorage */; };
 		0713A17E2BAAFC1A003BFB92 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0713A17D2BAAFC1A003BFB92 /* DetailView.swift */; };
+		074D21AC2BB035820088A3C9 /* VendorDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074D21AB2BB035820088A3C9 /* VendorDetailView.swift */; };
 		07F26FF22BA800B10016B79F /* cozygather2aApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F26FF12BA800B10016B79F /* cozygather2aApp.swift */; };
 		07F26FF42BA800B10016B79F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F26FF32BA800B10016B79F /* ContentView.swift */; };
 		07F26FF62BA800B20016B79F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07F26FF52BA800B20016B79F /* Assets.xcassets */; };
@@ -39,7 +40,6 @@
 		07F2703F2BA806F60016B79F /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F2703E2BA806F60016B79F /* UserProfile.swift */; };
 		07F270422BA807320016B79F /* AddGuest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F270412BA807320016B79F /* AddGuest.swift */; };
 		07F270442BA807400016B79F /* GuestMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F270432BA807400016B79F /* GuestMain.swift */; };
-		07F270472BA8079C0016B79F /* View1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F270462BA8079C0016B79F /* View1.swift */; };
 		07F270492BA807C00016B79F /* FilterScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F270482BA807C00016B79F /* FilterScreen.swift */; };
 		07F2704B2BA807DC0016B79F /* VendorList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F2704A2BA807DC0016B79F /* VendorList.swift */; };
 		07F2704D2BA808D30016B79F /* messagelist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F2704C2BA808D30016B79F /* messagelist.swift */; };
@@ -60,6 +60,7 @@
 
 /* Begin PBXFileReference section */
 		0713A17D2BAAFC1A003BFB92 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		074D21AB2BB035820088A3C9 /* VendorDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorDetailView.swift; sourceTree = "<group>"; };
 		0796EFD92BA9BB890009D51C /* cozygather2a.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = cozygather2a.entitlements; sourceTree = "<group>"; };
 		0796EFDA2BA9BB940009D51C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		07F26FEE2BA800B10016B79F /* cozygather2a.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cozygather2a.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -85,7 +86,6 @@
 		07F2703E2BA806F60016B79F /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		07F270412BA807320016B79F /* AddGuest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGuest.swift; sourceTree = "<group>"; };
 		07F270432BA807400016B79F /* GuestMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestMain.swift; sourceTree = "<group>"; };
-		07F270462BA8079C0016B79F /* View1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View1.swift; sourceTree = "<group>"; };
 		07F270482BA807C00016B79F /* FilterScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterScreen.swift; sourceTree = "<group>"; };
 		07F2704A2BA807DC0016B79F /* VendorList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorList.swift; sourceTree = "<group>"; };
 		07F2704C2BA808D30016B79F /* messagelist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = messagelist.swift; sourceTree = "<group>"; };
@@ -214,9 +214,9 @@
 		07F270122BA802710016B79F /* Vendor Listing */ = {
 			isa = PBXGroup;
 			children = (
-				07F270462BA8079C0016B79F /* View1.swift */,
 				07F270482BA807C00016B79F /* FilterScreen.swift */,
 				07F2704A2BA807DC0016B79F /* VendorList.swift */,
+				074D21AB2BB035820088A3C9 /* VendorDetailView.swift */,
 			);
 			path = "Vendor Listing";
 			sourceTree = "<group>";
@@ -450,6 +450,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				074D21AC2BB035820088A3C9 /* VendorDetailView.swift in Sources */,
 				07F26FF42BA800B10016B79F /* ContentView.swift in Sources */,
 				07F26FF22BA800B10016B79F /* cozygather2aApp.swift in Sources */,
 				07F270722BA80D120016B79F /* CreateEvent.swift in Sources */,
@@ -475,7 +476,6 @@
 				07F270532BA8095E0016B79F /* ViewOrderDetails.swift in Sources */,
 				07F2701B2BA803F70016B79F /* taskview.swift in Sources */,
 				07F2706D2BA80CBB0016B79F /* CustomManageBox.swift in Sources */,
-				07F270472BA8079C0016B79F /* View1.swift in Sources */,
 				07F270742BA80D2E0016B79F /* ConfirmEvent.swift in Sources */,
 				07F270242BA804B60016B79F /* Vendor_Toolbar.swift in Sources */,
 				07F270492BA807C00016B79F /* FilterScreen.swift in Sources */,

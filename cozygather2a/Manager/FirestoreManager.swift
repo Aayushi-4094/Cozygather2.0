@@ -137,12 +137,11 @@ class FirestoreManager {
             vendorData["selectedCategory"] = selectedCategory
         }
         
-        // Convert images to data before saving
-        if let logoImageData = logoImage {
-            vendorData["logoImage"] = logoImageData
+        if let logoImage = logoImage {
+            vendorData["logoImageData"] = logoImage
         }
-        if let menuImageData = menuImage {
-            vendorData["menuImage"] = menuImageData
+        if let menuImage = menuImage {
+            vendorData["menuImageData"] = menuImage
         }
         
         db.collection("vendorDetails").document(v.id).setData(vendorData) { error in
@@ -155,6 +154,7 @@ class FirestoreManager {
             }
         }
     }
+
 
     func fetchVendorDetails(forVendorID vendorID: String, completion: @escaping (VendorDetails?) -> Void) {
         // Fetch vendor details document from Firestore using the vendor's ID
@@ -181,6 +181,30 @@ class FirestoreManager {
         }
     }
 
+    func fetchAllVendorDetails(completion: @escaping ([VendorDetails]?) -> Void) {
+        db.collection("vendorDetails").getDocuments { snapshot, error in
+            if let error = error {
+                print("Error fetching vendor details: \(error.localizedDescription)")
+                completion(nil) // Pass nil to the completion handler indicating an error
+            } else if let documents = snapshot?.documents {
+                let vendors = documents.compactMap { document in
+                    // Parse each document to a VendorDetails object
+                    let data = document.data()
+                    let shopName = data["shopName"] as? String ?? ""
+                    let price = data["price"] as? String ?? ""
+                    let address = data["address"] as? String ?? ""
+                    let hours = data["hours"] as? String ?? ""
+                    let flexibleRate = data["flexibleRate"] as? Bool ?? false
+                    let logoImageData = data["logoImageData"] as? Data
+                    let menuImageData = data["menuImageData"] as? Data
+
+                    return VendorDetails(id: document.documentID, shopName: shopName, price: price, address: address, hours: hours, flexibleRate: flexibleRate, logoImageData: logoImageData, menuImageData: menuImageData)
+                }
+                completion(vendors) // Pass fetched vendors to the completion handler
+            }
+        }
+    }
+    
   }
 
   
