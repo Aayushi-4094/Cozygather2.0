@@ -1,7 +1,7 @@
 import FirebaseFirestore
 import SwiftUI
 
-struct VendorDetails {
+struct VendorDetails: Identifiable {
     var id: String
     var shopName: String
     var price: String
@@ -13,7 +13,6 @@ struct VendorDetails {
     var menuImageData: Data? // Variable to store the menu image data
     // Add other vendor properties as needed
 }
-
 
 struct Supplier: Identifiable {
     var id: String
@@ -45,7 +44,7 @@ struct Event: Identifiable, Codable {
 
 class FirestoreManager {
     static let shared = FirestoreManager()
-    private let db = Firestore.firestore()
+    let db = Firestore.firestore()
     
     // Function to create a new user
     func createUser(_ user: User) {
