@@ -3,116 +3,96 @@ import SwiftUI
 struct VendorToolbar: View {
     @State private var selectedTab: Tab1 = .homevendr
     @State private var isHomeUserViewActive = false
-    @State private var isCreateEventViewActive = false
-    @State private var isCreateVendorList = false
-    @State private var isBudgetApp = false
+    @State private var isOrderViewActive = false
+    @State private var isMessageViewActive = false
+    @State private var isProfileViewActive = false
     
     var body: some View {
-        HStack(spacing: 0) {
-            Spacer()
-            Spacer()
+        HStack{
             
+                VStack {
+                    Image(systemName: selectedTab == .homevendr ? "house.fill" : "house")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 24, height: 24)
+                        .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
+                    Text("Home")
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
+                }
+                .frame(width: 393 / 4, height: 110)
+                .onTapGesture {
+                    selectedTab = .homevendr
+                    isHomeUserViewActive.toggle()
+                }
+                .fullScreenCover(isPresented: $isHomeUserViewActive) {
+                    // Use the appropriate view for homevendr
+                    VendorHome(username: "YourUsernameHere")
+                }
+                VStack {
+                    Image(systemName: selectedTab == .order ? "list.bullet.fill" : "list.bullet")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 24, height: 24)
+                        .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
+                    Text("Order")
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
+                }
+                .frame(width: 393 / 4, height: 83)
+                .onTapGesture {
+                    selectedTab = .order
+                    isOrderViewActive.toggle()
+                }
+                .fullScreenCover(isPresented: $isOrderViewActive) {
+                    // Use the appropriate view for homevendr
+                    MainOrders()
+                }
             VStack {
-                
-                Image(systemName: selectedTab == .homevendr ? "house.fill" : "house")
+                Image(systemName: selectedTab == .message ? "message.fill" : "message")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 24, height: 24)
-                    .foregroundColor(selectedTab == .homevendr ? Color(red:67/255, green:13/255, blue:75/255): Color.gray)
-                Text("Home")
-                    .font(.system(size: 10, weight: .regular, design: .default))
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .foregroundColor(selectedTab == .homevendr ? Color(red:67/255, green:13/255, blue:75/255): Color.gray)
-            }
-            .frame(width: 393 / 5, height: 83)
-            .onTapGesture {
-                selectedTab = .homevendr
-                isHomeUserViewActive.toggle()
-            }
-            .fullScreenCover(isPresented: $isHomeUserViewActive) {
-                // Use the appropriate view for homevendr
-                VendorHomePage()
-            }
-            
-            Spacer()
-            Spacer()
-            Spacer()
-            
-            VStack {
-                Image(systemName: selectedTab == .order ? "list.bullet.fill" : "list.bullet")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 24, height: 24)
-                    .foregroundColor(selectedTab == .order ? Color(red:67/255, green:13/255, blue:75/255): Color.gray)
+                    .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
                 Text("Order")
-                    .font(.system(size: 10, weight: .regular, design: .default))
                     .frame(maxWidth: .infinity, alignment: .center)
-                    .foregroundColor(selectedTab == .order ? Color(red:67/255, green:13/255, blue:75/255): Color.gray)
+                    .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
             }
-            .frame(width: 393 / 5, height: 83)
-            .onTapGesture {
-                selectedTab = .order
-                isCreateEventViewActive.toggle()
-            }
-            .fullScreenCover(isPresented: $isCreateEventViewActive) {
-                MainOrders()
-            }
-            Spacer()
-            Spacer()
-            Spacer()
-        
-            
-            VStack {
-                Image(systemName: selectedTab == .message ? "message" : "message.fill")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 24, height: 24)
-                    .foregroundColor(selectedTab == .message ? Color(red:67/255, green:13/255, blue:75/255): Color.gray)
-                Text("Message")
-                    .font(.system(size: 10, weight: .regular, design: .default))
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .foregroundColor(selectedTab == .message ? Color(red:67/255, green:13/255, blue:75/255): Color.gray)
-            }
-            .frame(width: 393 / 5, height: 83)
+            .frame(width: 393 / 4, height: 83)
             .onTapGesture {
                 selectedTab = .message
-                isCreateVendorList.toggle()
+                isMessageViewActive.toggle()
             }
-            .fullScreenCover(isPresented: $isCreateVendorList) {
+            .fullScreenCover(isPresented: $isMessageViewActive) {
+                // Use the appropriate view for homevendr
                 messagelist()
             }
-            
-            Spacer()
-            
             VStack {
-                Image(systemName: selectedTab == .profile ? "person.crop.circle" : "person.crop.circle.fill")
+                Image(systemName: selectedTab == .message ? "person.crop.circle" : "person.crop.circle.fill")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 24, height: 24)
-                    .foregroundColor(selectedTab == .profile ? Color(red:67/255, green:13/255, blue:75/255): Color.gray)
+                    .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
                 Text("Profile")
-                    .font(.system(size: 10, weight: .regular, design: .default))
                     .frame(maxWidth: .infinity, alignment: .center)
-                    .foregroundColor(selectedTab == .profile ? Color(red:67/255, green:13/255, blue:75/255): Color.gray)
+                    .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
             }
-            .frame(width: 393 / 5, height: 83)
+            .frame(width: 393 / 4, height: 83)
             .onTapGesture {
-                selectedTab = .profile
-                isBudgetApp.toggle()
+                selectedTab = .message
+                isProfileViewActive.toggle()
             }
-            .fullScreenCover(isPresented: $isBudgetApp) {
+            .fullScreenCover(isPresented: $isProfileViewActive) {
+                // Use the appropriate view for homevendr
                 SupplierProfile()
             }
-            Spacer()
-            Spacer()
-            Spacer()
         }
-        .background(Color.white)
+        .background(Color(red: 67/225, green: 13/225, blue: 75/225))
         .cornerRadius(10)
         .shadow(radius: 5)
-        .frame(width: 200, height: 100)
+        }
+        
     }
-}
 
 enum Tab1 {
     case homevendr, order, message, profile

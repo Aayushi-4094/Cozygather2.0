@@ -1,6 +1,7 @@
 import SwiftUI
 import Contacts
 import MessageUI
+
 class MessageDelegate: NSObject, MFMessageComposeViewControllerDelegate {
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
         // Handle message sending result here
@@ -8,43 +9,30 @@ class MessageDelegate: NSObject, MFMessageComposeViewControllerDelegate {
     }
 }
 
-
 struct CreateEvent: View {
-    @State private var eventName: String = "Event name"
+    @State private var eventName: String = ""
     @State private var venueAddress: String = "Address"
     @State private var price: String = "Price"
     @State private var selectedDateTime = Date()
     @State private var isDateAndTimeVisible = false
-    @State private var isEventDetailViewVisible = false
-    //@State private var isSelectCoHostVisible = false
-    @State private var eventDate = Date()
-    @State private var showInvite = false
-    //@Binding var selectedCoHosts: [ContactInfo]
-    @State private var searchText: String = ""
-    @State private var isConfirmEventVisible = false
-    @State private var isCoHostSheetPresented = false // Add this state variable
-    @Environment(\.presentationMode) var presentationMode
+    @State private var isCoHostSheetPresented = false
     @State private var isDateAndTimeSheetPresented = false
     @State private var isAlertPresented = false
     @State private var isShowingMessageComposer = false
     @Binding var selectedCoHosts: [ContactInfo]
     @State private var filteredContacts: [CNContact] = []
-
+    @Environment(\.presentationMode) var presentationMode
     
     let messageDelegate = MessageDelegate()
+    
     var isFormValid: Bool {
-        return !eventName.isEmpty && !venueAddress.isEmpty && !price.isEmpty //&& !selectedCoHosts.isEmpty
+        return !eventName.isEmpty && !venueAddress.isEmpty && !price.isEmpty
     }
-    let staticContacts: [ContactInfo] = [
-         ContactInfo(name: "John Doe", phoneNumber: "1234567890"),
-         ContactInfo(name: "John Doe", phoneNumber: "1234567890"),
-         ContactInfo(name: "John Doe", phoneNumber: "1234567890"),
-         ContactInfo(name: "Jane Doe", phoneNumber: "9876543210"),
-         // Add more static contacts as needed
-     ]
+    
     var body: some View {
         NavigationView {
             ScrollView {
+                
                 VStack(spacing: 20) {
                     // Title Section
                     Image("nametheevent")
@@ -53,147 +41,124 @@ struct CreateEvent: View {
                         .frame(height: 200)
                         .cornerRadius(10)
                         .shadow(radius: 5)
-
+                    
                     // Event Name Section
-                    SectionBox {
-                        HStack {
-                            Text("Event Name")
-                                .font(.headline)
-                                .foregroundColor(Color(red: 82/225, green: 72/255, blue: 159/255))
-
-                            Spacer()
-
-                            TextField("Event Name", text: $eventName)
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                                .padding(.horizontal)
-                        }
+                    HStack {
+                        Image(systemName: "pencil.circle")
+                            .foregroundColor(.primary)
+                            .foregroundColor(Color(red: 67/255, green: 13/255, blue: 75/255))
+                        
+                        TextField("Event Name", text: $eventName)
+                            .padding(.horizontal)
+                            .padding(.vertical, 8)
+                            .background(Color(red: 250/255, green: 244/255, blue: 250/255))
+                            .cornerRadius(8)
                     }
-
-                    // Co-host Section (Commented out)
-                    SectionBox {
-                        HStack {
-                            Text("Co-host")
-                                .font(.headline)
-                                .foregroundColor(Color(red: 82/225, green: 72/255, blue: 159/255))
-                            Spacer()
-
-                            Button(action: {
-                                isCoHostSheetPresented.toggle()
-                            }) {
+        
+ 
+                    // Location Section
+                   HStack {
+                       Image(systemName: "location.fill")
+                           .foregroundColor(.primary)
+                           .foregroundColor(Color(red: 67/255, green: 13/255, blue: 75/255))
+                       
+                        TextField("Location", text: $venueAddress)
+                           .padding(.horizontal)
+                           .padding(.vertical, 8)
+                           .background(Color(red: 250/255, green: 244/255, blue: 250/255))
+                           .cornerRadius(8)
+                    }
+                    
+                    // Budget Section
+                    HStack {
+                        Image(systemName: "rupeesign.circle")
+                            .foregroundColor(.primary)
+                            .foregroundColor(Color(red: 67/255, green: 13/255, blue: 75/255))
+                        
+                        TextField("Budget", text: $price)
+                            .padding(.horizontal)
+                            .padding(.vertical, 8)
+                            .background(Color(red: 250/255, green: 244/255, blue: 250/255))
+                            .cornerRadius(8)
+                    }
+                    // Co-host Section
+                    HStack {
+                        Image(systemName: "person.crop.circle.badge.plus")
+                            .foregroundColor(.primary)
+                            .foregroundColor(Color(red: 67/255, green: 13/255, blue: 75/255))
+                        
+                        Button(action: {
+                            isCoHostSheetPresented.toggle()
+                        }) {
+                            HStack {
+                                
                                 Text("Select Co-host")
                                     .foregroundColor(.primary)
-                                    .padding()
-                                    .background(Color.white)
-                                    .cornerRadius(10)
-                                    .shadow(radius: 1)
+                                Spacer()
                             }
-                            .sheet(isPresented: $isCoHostSheetPresented) {
-                                ContactListView(selectedContacts: $selectedCoHosts)
-                            }
+                            .padding(.horizontal)
+                            .padding(.vertical, 8)
+                            .background(Color(red: 250/255, green: 244/255, blue: 250/255))
+                            .cornerRadius(8)
                         }
+                        .sheet(isPresented: $isCoHostSheetPresented) {
+                                            ContactListView(selectedContacts: $selectedCoHosts)
+                        }
+                        .padding(.horizontal)
                     }
 
-                    // Date and Time Section (Commented out)
-                    
-                    SectionBox {
-                        HStack {
-                            Text("Date and Time")
-                                .font(.headline)
-                                .foregroundColor(Color(red: 82/225, green: 72/255, blue: 159/255))
-                            Spacer()
-
-                            Button(action: {
-                                isDateAndTimeVisible.toggle()
-                            }) {
-                                Text("Select Date and Time")
+                    // Date and Time Section
+                    HStack {
+                        Image(systemName: "calendar")
+                            .foregroundColor(.primary)
+                            .foregroundColor(Color(red: 67/255, green: 13/255, blue: 75/255))
+                        
+                        Button(action: {
+                            isDateAndTimeVisible.toggle()
+                        }) {
+                            HStack {
+                                
+                                Text(formattedDateTime)
                                     .foregroundColor(.primary)
-                                    .padding()
-                                    .background(Color.white)
-                                    .cornerRadius(10)
-                                    .shadow(radius: 1)
+                                Spacer()
                             }
-                            .sheet(isPresented: $isDateAndTimeVisible) {
-                                DateAndTime(selectedDate: $selectedDateTime, onDateSelected: { date in
-                                    selectedDateTime = date
-                                }, isSheetPresented: $isDateAndTimeVisible)
-                            }
+                            .padding()
+                            .background(Color(red: 250/255, green: 244/255, blue: 250/255))
+                            .cornerRadius(8)
                         }
-                    }
-                    // Location Section
-                    SectionBox {
-                        HStack {
-                            Text("Location")
-                                .font(.headline)
-                                .foregroundColor(Color(red: 82/225, green: 72/255, blue: 159/255))
-                            Spacer()
-
-                            TextField("Location", text: $venueAddress)
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                                .padding(.horizontal)
+                        .sheet(isPresented: $isDateAndTimeVisible) {
+                            DateAndTime(selectedDate: $selectedDateTime, onDateSelected: { date in
+                                selectedDateTime = date
+                            }, isSheetPresented: $isDateAndTimeVisible)
                         }
+                        .padding(.horizontal)
                     }
-
-                    // Budget Section
-                    SectionBox {
-                        HStack {
-                            Text("Budget")
-                                .font(.headline)
-                                .foregroundColor(Color(red: 82/225, green: 72/255, blue: 159/255))
-                            Spacer()
-
-                            TextField("Budget", text: $price)
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                                .padding(.horizontal)
-                        }
-                    }
+                
+                
+                var formattedDateTime: String {
+                    let formatter = DateFormatter()
+                    formatter.dateStyle = .medium
+                    formatter.timeStyle = .short
+                    return formatter.string(from: selectedDateTime)
+                }
+            
                     // Generate e-Invite Section
-                    SectionBox {
-                        HStack {
+                    HStack {
+                        Image(systemName: "person.crop.circle.badge.plus")
+                            .foregroundColor(.primary)
+                            .foregroundColor(Color(red: 67/255, green: 13/255, blue: 75/255))
+                        
+                        Button(action: {
+                            sendInvite()
+                        }) {
                             Text("Generate e-Invite")
-                                .font(.headline)
-                                .foregroundColor(Color(red: 82/225, green: 72/255, blue: 159/255))
-                            Spacer()
-
-                            Button(action: {
-                                sendInvite()
-                            }) {
-                                Text("Generate")
-                                    .foregroundColor(.primary)
-                                    .padding()
-                                    .background(Color.white)
-                                    .cornerRadius(10)
-                                    .shadow(radius: 1)
-                            }
+                                .foregroundColor(.primary)
+                                .padding(.horizontal)
+                                .padding(.vertical, 8)
+                                .background(Color(red: 250/255, green: 244/255, blue: 250/255))
+                                .cornerRadius(8)
                         }
                     }
-                    
-                    SectionBox {
-                                       HStack {
-                                           Text("Invite")
-                                               .font(.headline)
-                                               .foregroundColor(Color(red: 82/225, green: 72/255, blue: 159/255))
-                                           Spacer()
-                                           
-                                           Button(action: {
-                                               sendInvite()
-                                           }) {
-                                               Text("Send Invites")
-                                                   .foregroundColor(.primary)
-                                                   .padding()
-                                                   .background(Color.white)
-                                                   .cornerRadius(10)
-                                                   .shadow(radius: 1)
-                                           }
-                                       }
-                                       VStack {
-                                           ForEach(filteredContacts, id: \.self) { contact in
-                                               ContactRow(contact: contact, isSelected: selectedCoHosts.contains { $0.phoneNumber == contact.phoneNumbers.first?.value.stringValue }) {
-                                                   toggleSelection(for: contact)
-                                               }
-                                           }
-                                       }
-                                   }
-                    
                     // Confirm Button Section
                     Button(action: {
                         if isFormValid {
@@ -222,11 +187,11 @@ struct CreateEvent: View {
                         }
                     }) {
                         Text("Confirm")
-                            .foregroundColor(Color(red: 150/225, green: 100/225, blue: 200/225))
+                            .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
                             .font(.headline)
                             .padding()
                             .frame(maxWidth: .infinity)
-                            .background(Color(red: 82/225, green: 72/255, blue: 159/255))
+                            .background(Color(red: 67/225, green: 13/255, blue: 75/255))
                             .cornerRadius(10)
                             .padding(.horizontal)
                             .shadow(radius: 1)
@@ -313,116 +278,211 @@ struct CreateEvent: View {
 
     }
 
+//struct ContactListView: View {
+//    @Binding var selectedContacts: [ContactInfo]
+//    @State private var contacts: [CNContact] = []
+//    @State private var filteredContacts: [CNContact] = []
+//    @State private var searchText: String = ""
+//
+//    var body: some View {
+//        VStack {
+//            SearchBar(text: $searchText)
+//                .padding(.horizontal)
+//
+//            List(filteredContacts, id: \.self) { contact in
+//                ContactRow(contact: contact, isSelected: self.selectedContacts.contains { $0.phoneNumber == contact.phoneNumbers.first?.value.stringValue }, onTapAction: { self.toggleSelection(for: contact) })
+//            }
+//        }
+//        .onAppear {
+//            fetchContacts()
+//        }
+//        .onChange(of: searchText) { newValue in
+//            filterContacts()
+//        }
+//    }
+//
+//    func fetchContacts() {
+//        let store = CNContactStore()
+//        store.requestAccess(for: .contacts) { granted, error in
+//            if granted && error == nil {
+//                let keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey] as [CNKeyDescriptor]
+//                let request = CNContactFetchRequest(keysToFetch: keys)
+//                do {
+//                    try store.enumerateContacts(with: request) { contact, _ in
+//                        contacts.append(contact)
+//                    }
+//                    filterContacts()
+//                } catch {
+//                    print("Error fetching contacts: \(error.localizedDescription)")
+//                }
+//            } else {
+//                print("Contacts access denied")
+//            }
+//        }
+//    }
+//
+//    func filterContacts() {
+//        if searchText.isEmpty {
+//            filteredContacts = contacts
+//        } else {
+//            filteredContacts = contacts.filter { contact in
+//                contact.givenName.localizedCaseInsensitiveContains(searchText) ||
+//                    contact.familyName.localizedCaseInsensitiveContains(searchText) ||
+//                    contact.phoneNumbers.contains(where: { $0.value.stringValue.localizedCaseInsensitiveContains(searchText) })
+//            }
+//        }
+//    }
+//
+//    func toggleSelection(for contact: CNContact) {
+//        if let index = selectedContacts.firstIndex(where: { $0.phoneNumber == contact.phoneNumbers.first?.value.stringValue }) {
+//            selectedContacts.remove(at: index)
+//        } else {
+//            if let phoneNumber = contact.phoneNumbers.first?.value.stringValue {
+//                selectedContacts.append(ContactInfo(name: "\(contact.givenName) \(contact.familyName)", phoneNumber: phoneNumber))
+//            }
+//        }
+//    }
+//}
+//
+//struct ContactRow: View {
+//    var contact: CNContact
+//    var isSelected: Bool
+//    var onTapAction: () -> Void
+//    
+//    var body: some View {
+//        HStack {
+//            VStack(alignment: .leading, spacing: 4) {
+//                Text("\(contact.givenName) \(contact.familyName)")
+//                    .font(.headline)
+//                if let phoneNumber = contact.phoneNumbers.first?.value.stringValue {
+//                    Text(phoneNumber)
+//                        .font(.subheadline)
+//                }
+//            }
+//            Spacer()
+//            Button(action: {
+//                onTapAction()
+//            }) {
+//                Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+//                    .foregroundColor(isSelected ? .green : .blue)
+//                    .imageScale(.large)
+//            }
+//            .padding(.trailing)
+//        }
+//        .padding(.horizontal)
+//        .padding(.vertical, 8)
+//    }
+//}
+//
+//
+//struct SearchBar: View {
+//    @Binding var text: String
+//
+//    var body: some View {
+//        HStack {
+//            TextField("Search", text: $text)
+//                .padding(.horizontal)
+//                .padding(.vertical, 8)
+//                .background(Color(red: 250/255, green: 244/255, blue: 250/255))
+//                .cornerRadius(8)
+//        }
+//    }
+//}
+//
+//struct ContactInfo {
+//    var name: String
+//    var phoneNumber: String
+//    // Add more properties as needed
+//}
 struct ContactListView: View {
     @Binding var selectedContacts: [ContactInfo]
-    @State private var contacts: [CNContact] = []
-    @State private var filteredContacts: [CNContact] = []
-    @State private var searchText: String = ""
+    @State private var searchText = ""
+    @State private var contacts: [ContactInfo] = []
 
     var body: some View {
         VStack {
             SearchBar(text: $searchText)
                 .padding(.horizontal)
-
+            
             List(filteredContacts, id: \.self) { contact in
-                ContactRow(contact: contact, isSelected: self.selectedContacts.contains { $0.phoneNumber == contact.phoneNumbers.first?.value.stringValue }, onTapAction: { self.toggleSelection(for: contact) })
+                ContactRow(contact: contact, isSelected: selectedContacts.contains(contact)) {
+                    toggleSelection(for: contact)
+                }
+            }
+            .onAppear {
+                fetchContacts()
             }
         }
-        .onAppear {
-            fetchContacts()
-        }
-        .onChange(of: searchText) { newValue in
-            filterContacts()
+    }
+
+    var filteredContacts: [ContactInfo] {
+        if searchText.isEmpty {
+            return contacts
+        } else {
+            return contacts.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
         }
     }
 
     func fetchContacts() {
-        let store = CNContactStore()
-        store.requestAccess(for: .contacts) { granted, error in
-            if granted && error == nil {
-                let keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey] as [CNKeyDescriptor]
-                let request = CNContactFetchRequest(keysToFetch: keys)
-                do {
-                    try store.enumerateContacts(with: request) { contact, _ in
-                        contacts.append(contact)
-                    }
-                    filterContacts()
-                } catch {
-                    print("Error fetching contacts: \(error.localizedDescription)")
-                }
-            } else {
-                print("Contacts access denied")
-            }
-        }
+        // Fetch contacts from your data source
+        // For simplicity, I'll add some mock contacts
+        
+        // Mock contacts
+        let contact1 = ContactInfo(name: "Aayushi Agarwal", phoneNumber: "9068597333")
+        let contact2 = ContactInfo(name: "Nilanjana Bhattacharya", phoneNumber: "9897577386")
+
+        contacts = [contact1, contact2]
     }
 
-    func filterContacts() {
-        if searchText.isEmpty {
-            filteredContacts = contacts
+    func toggleSelection(for contact: ContactInfo) {
+        if selectedContacts.contains(contact) {
+            selectedContacts.removeAll { $0 == contact }
         } else {
-            filteredContacts = contacts.filter { contact in
-                contact.givenName.localizedCaseInsensitiveContains(searchText) ||
-                    contact.familyName.localizedCaseInsensitiveContains(searchText) ||
-                    contact.phoneNumbers.contains(where: { $0.value.stringValue.localizedCaseInsensitiveContains(searchText) })
-            }
-        }
-    }
-
-    func toggleSelection(for contact: CNContact) {
-        if let index = selectedContacts.firstIndex(where: { $0.phoneNumber == contact.phoneNumbers.first?.value.stringValue }) {
-            selectedContacts.remove(at: index)
-        } else {
-            if let phoneNumber = contact.phoneNumbers.first?.value.stringValue {
-                selectedContacts.append(ContactInfo(name: "\(contact.givenName) \(contact.familyName)", phoneNumber: phoneNumber))
-            }
+            selectedContacts.append(contact)
         }
     }
 }
 
 struct ContactRow: View {
-    var contact: CNContact
-    var isSelected: Bool
-    var onTapAction: () -> Void
+    let contact: ContactInfo
+    let isSelected: Bool
+    let action: () -> Void
+
+    var body: some View {
+        HStack {
+            Button(action: action) {
+                HStack {
+                    Text("\(contact.name), \(contact.phoneNumber)")
+                    Spacer()
+                    Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+                        .foregroundColor(isSelected ? .blue : .gray)
+                }
+            }
+            Text(isSelected ? "Contact selected" : "Contact not selected")
+                .font(.caption)
+                .foregroundColor(isSelected ? .green : .red)
+        }
+    }
+}
+struct ContactInfo: Hashable {
+    var name: String
+    var phoneNumber: String
+}
+
+struct SearchBar: View {
+    @Binding var text: String
     
     var body: some View {
         HStack {
-            VStack(alignment: .leading) {
-                Text("\(contact.givenName) \(contact.familyName)")
-                    .font(.headline)
-                if let phoneNumber = contact.phoneNumbers.first?.value.stringValue {
-                    Text(phoneNumber)
-                        .font(.subheadline)
-                }
-            }
-            .padding(.vertical, 8)
-            Spacer()
-            Button(action: {
-                onTapAction()
-            }) {
-                Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
-                    .foregroundColor(isSelected ? .green : .blue)
-                    .imageScale(.large)
-            }
-            .padding(.trailing)
+            TextField("Search", text: $text)
+                .padding(.horizontal)
+                .padding(.vertical, 8)
+                .background(Color(.systemGray6))
+                .cornerRadius(8)
         }
-        .padding(.horizontal)
     }
 }
 
-
-    struct SearchBar: View {
-        @Binding var text: String
-
-        var body: some View {
-            HStack {
-                TextField("Search", text: $text)
-                    .padding(.horizontal)
-                    .padding(.vertical, 8)
-                    .background(Color(.systemGray6))
-                    .cornerRadius(8)
-            }
-        }
-    }
 
     struct CreateEvent_Previews: PreviewProvider {
         static var previews: some View {
@@ -430,11 +490,7 @@ struct ContactRow: View {
         }
     }
 
-    struct ContactInfo {
-        var name: String
-        var phoneNumber: String
-        // Add more properties as needed
-    }
+    
 
 extension UIViewController: MFMessageComposeViewControllerDelegate {
     public func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {

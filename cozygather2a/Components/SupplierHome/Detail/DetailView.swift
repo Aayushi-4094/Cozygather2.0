@@ -166,7 +166,7 @@ struct DetailView: View {
                         )
                     }
                     .fullScreenCover(isPresented: $VendorHomePageActive, content: {
-                        VendorHomePage()
+                        VendorHome(username: "YourUsernameHere")
                     })
                     
                     Spacer()

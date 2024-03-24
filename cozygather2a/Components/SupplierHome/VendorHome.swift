@@ -1,226 +1,174 @@
 import SwiftUI
-struct ToDoItemView: View {
-    @Binding var task: String
-    @Binding var isEditing: Bool
-    
-    var body: some View {
-        HStack {
-            if isEditing {
-                Image(systemName: "minus.circle.fill")
-                    .foregroundColor(.red)
-                    .onTapGesture {
-                        // Remove the task
-                        task = ""
-                    }
-            }
-            
-            TextField("Enter task", text: $task)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding(.horizontal)
-        }
-    }
+
+extension UIColor {
+    static let customNavigationBarColor = UIColor(red: 67/255, green: 13/255, blue: 75/255, alpha: 1.0)
 }
 
 
-struct VendorMenuView: View {
-    @Binding var isMenuExpanded: Bool
-    
+struct OrderData: Identifiable, Hashable {
+    let id = UUID()
+    let name: String // Replace with appropriate order details (e.g., product name, customer name, total amount)
+    let status: String // "Completed" or "Uncompleted"
+    let imageName: String // Optional: Image name for the order
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+
+    static func == (lhs: OrderData, rhs: OrderData) -> Bool {
+        return lhs.id == rhs.id
+    }
+}
+
+struct OrderCard: View {
+    @State private var isDetailViewPresented = false
+    var order: OrderData
+
+    var randomBackgroundColor: Color {
+        let colors: [Color] = [Color(red: 247/225, green: 239/255, blue: 247/255)]
+        return colors.randomElement() ?? .gray
+    }
+
     var body: some View {
-        NavigationView {
-            Form {
-                Section(header: Text("Menu").font(.title)) {
-                    NavigationLink(destination: Text("Payments")) {
-                        Label("Payments", systemImage: "creditcard")
-                    }
-                    NavigationLink(destination: Text("Linked Accounts")) {
-                        Label("Linked Accounts", systemImage: "link")
-                    }
-                }
-                Section(header: Text("Settings").font(.title)) {
-                    NavigationLink(destination: Text("Privacy Policy")) {
-                        Label("Privacy Policy", systemImage: "shield")
-                    }
-                    NavigationLink(destination: Text("Report")) {
-                        Label("Report", systemImage: "flag")
-                    }
-                    NavigationLink(destination: Text("Settings")) {
-                        Label("Settings", systemImage: "gearshape")
-                    }
-                }
-            }
-            .listStyle(GroupedListStyle())
-            .navigationBarTitle("Menu", displayMode: .inline)
-            .navigationBarItems(
-                trailing:
+        ZStack {
+            randomBackgroundColor
+                .cornerRadius(12)
+            HStack {
+                VStack {
+                    Image(order.imageName) // Replace with appropriate image
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: UIScreen.main.bounds.width - 250, height: 130)
+                        .cornerRadius(12)
+                        .shadow(radius: 5)
+                    Text(order.name)
+                        .foregroundColor(.black)
+                        .font(.system(size: 10))
+                        .padding(.bottom, 2)
+                        .padding(.top, 1)
+
+                    Text(order.status)
+                        .foregroundColor(order.status == "Completed" ? .green : .red)
+                        .font(.system(size: 12))
+                        .fontWeight(.bold)
+                        .padding(.bottom, 2)
+
                     Button(action: {
-                        withAnimation {
-                            isMenuExpanded.toggle()
-                        }
+                        isDetailViewPresented.toggle()
                     }) {
-                        Image(systemName: "xmark")
+                        Text("View Details")
                             .foregroundColor(.black)
-                            .padding()
+                            .padding(.top, 0)
+                            .padding(.bottom, 2)
+                            .cornerRadius(8)
+                            .font(.system(size: 12))
                     }
-            )
+                    .sheet(isPresented: $isDetailViewPresented) {
+                        // Replace with OrderDetailView implementation
+                        Text("Order Detail View")
+                    }
+                }
+                .padding(.horizontal, 30)
+                .frame(width: 150, height: 100)
+            }
+            .padding(10)
         }
-        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
-struct VendorHomePage: View {
+
+struct VendorHome: View {
+    @State private var isSeeAllPresented = false
     @State private var isMenuExpanded = false
     @State private var isNotificationViewPresented = false
-    @State private var tasks: [String] = ["Task 1", "Task 2", "Task 3", "Task 4", "Task 5"]
-    @State private var newTask: String = ""
-    @State private var isEditing = false
+
+    let completedOrdersData = [ // Replace with actual order data
+        OrderData(name: "Order 1", status: "Completed", imageName: "order1"),
+        OrderData(name: "Order 2", status: "Completed", imageName: "order2"),
+        OrderData(name: "Order 3", status: "Completed", imageName: "order3")
+    ]
+
+    let uncompletedOrdersData = [ // Replace with actual order data
+        OrderData(name: "Order 4", status: "Uncompleted", imageName: "order4"),
+        OrderData(name: "Order 5", status: "Uncompleted", imageName: "order5"),
+    ]
+
+    var username: String // Username passed from sign-up process
+
     var body: some View {
         NavigationView {
-            ZStack {
-                ScrollView {
-                    VStack {
-                        HStack {
-                            Button(action: {
-                                withAnimation {
-                                    isMenuExpanded.toggle()
-                                }
-                            }) {
-                                Image(systemName: "line.3.horizontal")
-                                    .imageScale(.large)
-                                    .padding(.leading, 16)
-                                    .foregroundColor(.blue)
-                            }
-                            Spacer()
-                            Text("Vendor Home Page")
-                                .font(.largeTitle)
-                                .fontWeight(.bold)
-                                .padding()
-                            Spacer()
-                            NavigationLink(destination: Notification1()
-                                                                    .navigationBarTitle("")
-                                                                    .navigationBarHidden(true)
-                                                    ) {
-                                                        Image(systemName: "bell")
-                                                            .imageScale(.large)
-                                                            .padding(.trailing, 16)
-                                                            .foregroundColor(.blue)
-                                                    }
-                        }
-                        .navigationBarHidden(true)
-                        .padding(.top, 10)
-                        .background(Color(red: 247/255, green: 239/255, blue: 247/255))
-                        Divider()
-                        VStack {
-                            HStack {
-                                Text("No. of Orders Left")
-                                    .font(.headline)
-                                    .padding()
-                                Divider()
-                                Text("No. of Orders Completed")
-                                    .font(.headline)
-                                    .padding()
-                            }
-                            HStack {
-                                Text("Value")
-                                    .padding()
-                                Divider()
-                                Text("Value")
-                                    .padding()
-                            }
-                            Divider()
-                        }
-                        
-                        Divider()
-                        
-                        VStack {
-                            HStack {
-                                Text("To Do List")
-                                    .font(.headline)
-                                    .padding()
-                                Spacer()
-                                if !isEditing {
-                                    Button(action: {
-                                        isEditing.toggle()
-                                    }) {
-                                        Text("Edit")
-                                            .foregroundColor(.blue)
-                                    }
-                                    .padding()
-                                } else {
-                                    Button(action: {
-                                        isEditing.toggle()
-                                    }) {
-                                        Text("Done")
-                                            .foregroundColor(.blue)
-                                    }
-                                    .padding()
-                                }
-                            }
-                            ForEach(tasks.indices, id: \.self) { index in
-                                ToDoItemView(task: $tasks[index], isEditing: $isEditing)
-                            }
-                            .onDelete(perform: deleteTask)
-                            .onMove(perform: moveTask)
-                            .padding(.bottom, 10)
-                            
-                            if isEditing {
-                                Button(action: {
-                                    if tasks.count < 10 {
-                                        tasks.append("New Task")
-                                    }
-                                }) {
-                                    Text("Add Task")
-                                        .foregroundColor(.blue)
-                                }
-                                .padding()
-                            }
+            VStack {
+                Text("Uncompleted Orders")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .padding(.top, 20)
+
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 16) {
+                        ForEach(uncompletedOrdersData) { order in
+                            OrderCard(order: order)
                         }
                     }
-                    .navigationBarHidden(true)
-                    .padding(.horizontal, 16)
-                    .background(Color(red: 247/255, green: 239/255, blue: 247/255))
                 }
-                
-                if isMenuExpanded {
-                    Color.black.opacity(0.5)
-                        .edgesIgnoringSafeArea(.all)
-                        .onTapGesture {
-                            withAnimation {
-                                isMenuExpanded.toggle()
-                            }
+//.padding(.bottom, 20)
+                Text("Completed Orders")
+                    .font(.title2)
+                    
+                    .fontWeight(.bold)
+                    .padding()
+
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 16) {
+                        ForEach(completedOrdersData) { order in
+                            OrderCard(order: order)
                         }
-                    
-                    VendorMenuView(isMenuExpanded: $isMenuExpanded)
-                        .frame(maxWidth: .infinity)
-                        .transition(.move(edge: .leading))
-                        .animation(.easeInOut)
-                        .background(Color(red: 247/255, green: 239/255, blue: 247/255))
+                    }
+                }
+                Spacer()
+
+            }
+            
+            .padding()
+            .navigationTitle("Vendor Homepage")
+            .navigationBarItems(leading: menuButton, trailing: notificationButton)
+            .sheet(isPresented: $isNotificationViewPresented) {
+                // Replace with NotificationView implementation
+                Notification1()
+            }
+            .toolbar {
+                // Add the toolbar at the bottom
+                ToolbarItem(placement: .bottomBar) {
+                    VendorToolbar()
                 }
                 
-                VendorToolbar()
-                    .frame(maxWidth: .infinity, alignment: .top)
-                    .position(CGPoint(x: 200.0, y: 750.0))
-                    
             }
-            .navigationBarHidden(true)
-            .navigationBarBackButtonHidden(true)
         }
-        .navigationViewStyle(StackNavigationViewStyle()) // Use stack style for iPhone
-        
     }
-    
-    private func deleteTask(at offsets: IndexSet) {
-        tasks.remove(atOffsets: offsets)
+
+    private var menuButton: some View {
+        Button(action: {
+            withAnimation {
+                isMenuExpanded.toggle()
+            }
+        }) {
+            Image(systemName: "ellipsis.circle")
+                .foregroundColor(.primary)
+                .imageScale(.large)
+        }
     }
-    
-    private func moveTask(from source: IndexSet, to destination: Int) {
-        tasks.move(fromOffsets: source, toOffset: destination)
+
+    private var notificationButton: some View {
+        Button(action: {
+            isNotificationViewPresented.toggle()
+        }) {
+            Image(systemName: "bell")
+                .foregroundColor(.primary)
+                .imageScale(.large)
+        }
     }
 }
 
-
-
-
-struct VendorHomePage_Previews: PreviewProvider {
+struct VendorHome_Previews: PreviewProvider {
     static var previews: some View {
-        VendorHomePage()
+        VendorHome(username: "YourUsernameHere")
     }
 }

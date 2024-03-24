@@ -12,7 +12,7 @@
 //            VStack {
 //                List {
 //                    Section(header: Text("Select Co-Host")) {
-//                        SearchBar(text: $searchText, placeholder: "Search Co-Host")
+//                        SearchBar(text: $searchText)
 //
 //                        ScrollView(.horizontal, showsIndicators: false) {
 //                            HStack(spacing: 16) {
@@ -147,20 +147,4 @@
 //                    }
 //                }
 //
-//                struct SearchBar: View {
-//                    @Binding var text: String
-//                    var placeholder: String
-//
-//                    var body: some View {
-//                        HStack {
-//                            Image(systemName: "magnifyingglass")
-//                                .foregroundColor(.gray)
-//                                .padding(.leading, 10)
-//
-//                            TextField(placeholder, text: $text)
-//                                .padding(.vertical, 8)
-//                        }
-//                        .background(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1))
-//                        .padding(.horizontal)
-//                    }
-//                }
+//                

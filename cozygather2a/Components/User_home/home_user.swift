@@ -20,7 +20,8 @@ struct EventCard: View {
     var event: EventData
 
     var randomBackgroundColor: Color {
-        let colors: [Color] = [Color(red: 240/225, green: 240/255, blue: 234/255)]
+        let colors: [Color] = [Color(red: 247/225, green: 239/255, blue: 247/255)]
+           // .background(Color(red: 247/225, green: 239/255, blue: 247/255))
         return colors.randomElement() ?? .gray
     }
 
@@ -133,6 +134,7 @@ struct EventDetailView: View {
             Spacer()
         }
         .navigationBarTitle("Event Detail", displayMode: .inline)
+        .background(Color(red: 247/225, green: 239/255, blue: 247/255))
     }
 }
 
@@ -145,7 +147,7 @@ struct SeeAllView: View {
                 .navigationBarTitle("See All", displayMode: .inline)
         }
         .padding(.all, -20)
-        .background(Color(red: 247/225, green: 239/255, blue: 247/255))
+        //.background(Color(red: 198/225, green: 174/255, blue: 128/255))
     }
 }
 
@@ -164,7 +166,7 @@ struct GridView: View {
             }
             .padding(20)
         }
-        .background(Color(red: 247/225, green: 239/255, blue: 247/255))
+        //.background(Color(red: 198/225, green: 174/255, blue: 128/255))
     }
 }
 
@@ -207,7 +209,7 @@ struct MenuView: View {
                     }
                 }
             }
-            .background(Color(red: 247/225, green: 239/255, blue: 247/255))
+            //.background(Color(red: 247/225, green: 239/255, blue: 247/255))
             .listStyle(GroupedListStyle())
             .navigationBarTitle("Menu", displayMode: .inline)
             .foregroundColor(.black)
@@ -224,8 +226,8 @@ struct MenuView: View {
             )
         }
         .navigationViewStyle(StackNavigationViewStyle())
-        //.background(Color(red: 240/225, green: 240/255, blue: 234/255))
-        .background(Color(red: 247/225, green: 239/255, blue: 247/255))
+        ////.background(Color(red: 240/225, green: 240/255, blue: 234/255))
+       // .background(Color(red: 247/225, green: 239/255, blue: 247/255))
     }
 }
 
@@ -271,9 +273,7 @@ struct UserHomeView: View {
                         .fontWeight(.bold)
                         .padding(.leading, -40)
                         .padding(.top, 40)
-                        .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
-
-                    Spacer()
+                        .foregroundColor(Color(red: 67/225, green: 13/255, blue: 75/255))
 
                     Spacer()
 
@@ -307,8 +307,9 @@ struct UserHomeView: View {
                     }) {
                         Text("See All")
                             .padding(.trailing, 16)
-                            .font(.title2)
-                            .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
+                            .font(.headline)
+                            .fontWeight(.bold)
+                            .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
                     }
                     .sheet(isPresented: $isSeeAllPresented) {
                         SeeAllView(eventData: myEventsData)
@@ -361,17 +362,11 @@ struct UserHomeView: View {
                         .padding(.trailing, -20)
                     }
                 }
-
-                Spacer()
-                Spacer()
-
                 Toolbar()
-//                    .background(Color(red: 250/225, green: 244/255, blue: 250/255))
-                    .background(Color(red: 247/225, green: 239/255, blue: 247/255))
-                    .position(x: 200, y: 30)
             }
+            //.background(Color(red: 250/255, green: 244/255, blue: 250/255))
             .frame(width: 400)
-            .background(Color(red: 247/225, green: 239/255, blue: 247/255))
+            //.background(Color(red: 247/225, green: 239/255, blue: 247/255))
             .position(CGPoint(x: 180.0, y: 350.0))
             .navigationBarHidden(true)
             .padding(.horizontal, 16)

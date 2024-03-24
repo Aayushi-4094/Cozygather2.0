@@ -18,10 +18,10 @@ struct Toolbar: View {
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 24, height: 24)
-                                .foregroundColor(Color(red:67/255, green:13/255, blue:75/255))
+                                .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
                             Text("Home")
                                 .frame(maxWidth: .infinity, alignment: .center)
-                                .foregroundColor(Color(red:67/255, green:13/255, blue:75/255))
+                                .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
                         }
                         .frame(width: 393 / 4, height: 83)
                         .onTapGesture {
@@ -31,17 +31,18 @@ struct Toolbar: View {
                         .fullScreenCover(isPresented: $isHomeUserViewActive) {
                             UserHomeView(username: "YourUsernameHere")
                         }
+            
     VStack {
                 Image(systemName: selectedTab == .vendorListing ? "list.bullet.fill" : "list.bullet")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 24, height: 24)
-                    .foregroundColor(Color(red:67/255, green:13/255, blue:75/255))
+                    .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
                 Text("Vendor Listing")
                     .font(.system(size: 10, weight: .regular, design: .default))
                     .frame(maxWidth: .infinity, alignment: .center)
                     //.foregroundColor(Color(red: 82/225, green: 72/255, blue: 159/255))
-                    .foregroundColor(Color(red:67/255, green:13/255, blue:75/255))
+                    .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
     }
             .frame(width: 393 / 4, height: 83)
             .onTapGesture {
@@ -57,11 +58,11 @@ struct Toolbar: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 24, height: 24)
-                    .foregroundColor(Color(red:67/255, green:13/255, blue:75/255))
+                    .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
                 Text("Guests")
                     .font(.system(size: 10, weight: .regular, design: .default))
                     .frame(maxWidth: .infinity, alignment: .center)
-                .foregroundColor(Color(red:67/255, green:13/255, blue:75/255))            }
+                .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))            }
             .frame(width: 393 / 4, height: 83)
             
                 .onTapGesture {
@@ -70,19 +71,17 @@ struct Toolbar: View {
                 }
                 .fullScreenCover(isPresented: $isGuestManagement) {
                     GuestMain()
-                }
-
-            
+                }            
             VStack {
                 Image(systemName: selectedTab == .budget ? "dollarsign.circle.fill" : "dollarsign.circle")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 24, height: 24)
-                    .foregroundColor(Color(red:67/255, green:13/255, blue:75/255))
+                    .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
                 Text("Budget")
                     .font(.system(size: 10, weight: .regular, design: .default))
                     .frame(maxWidth: .infinity, alignment: .center)
-                    .foregroundColor(Color(red:67/255, green:13/255, blue:75/255))
+                    .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
             }
             .frame(width: 393 / 4, height: 83)
             .onTapGesture {
@@ -93,7 +92,7 @@ struct Toolbar: View {
                 BudgetApp()
             }
         }
-        .background(Color(red: 250/225, green: 244/255, blue: 250/255))
+        .background(Color(red: 67/225, green: 13/225, blue: 75/225))
         .cornerRadius(10)
         .shadow(radius: 5)
     }

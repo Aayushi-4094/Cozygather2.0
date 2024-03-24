@@ -199,6 +199,7 @@ struct VendorList: View {
                     EmptyView()
                 }
                 .hidden() // Hide the link view
+                Toolbar()
                 
             }
             .navigationTitle("Vendor Listing")
@@ -263,8 +264,10 @@ struct VendorListCustomBox1: View {
                 }
             }
             .padding(.vertical, 8)
+                
         }
     }
+    
 }
 
 struct VendorDetailView: View {
@@ -328,12 +331,15 @@ struct VendorDetailView: View {
                 }
             }
         }
+        
         .navigationBarTitle("Vendor Shop", displayMode: .inline)
         .onDisappear {
             // Reset local state when view disappears
             isVendorBooked = false
         }
+        
     }
+    
 }
 
 
