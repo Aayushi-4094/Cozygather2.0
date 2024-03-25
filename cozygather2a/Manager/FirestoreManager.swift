@@ -1,7 +1,7 @@
 import FirebaseFirestore
 import SwiftUI
 
-struct VendorDetails: Identifiable {
+struct VendorDetails: Identifiable, Hashable { // Conform to Hashable
     var id: String
     var shopName: String
     var price: String
@@ -12,6 +12,15 @@ struct VendorDetails: Identifiable {
     var logoImageData: Data? // Variable to store the logo image data
     var menuImageData: Data? // Variable to store the menu image data
     // Add other vendor properties as needed
+
+    // Implement Hashable protocol
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+
+    static func == (lhs: VendorDetails, rhs: VendorDetails) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
 struct Supplier: Identifiable {
@@ -105,6 +114,19 @@ class FirestoreManager {
             }
         }
     }
+    
+    func fetchEventNames(completion: @escaping ([String]) -> Void) {
+        db.collection("events").getDocuments { snapshot, error in
+            if let error = error {
+                print("Error fetching event names: \(error.localizedDescription)")
+                completion([])
+            } else if let documents = snapshot?.documents {
+                let eventNames = documents.compactMap { $0.data()["eventName"] as? String }
+                completion(eventNames)
+            }
+        }
+    }
+
     
     // Function to create a new vendor
     func createSupplier(_ newSupplier: Supplier) {
@@ -204,6 +226,21 @@ class FirestoreManager {
             }
         }
     }
+    
+    func saveBookedVendors(event: String, vendorsData: [String: Any]) {
+           // Update the document for the selected event with the booked vendors' details
+           // Here, assuming "bookedVendors" is a subcollection under the selected event
+           for (vendorID, vendorDetails) in vendorsData {
+               db.collection("events").document(event).collection("bookedVendors").document(vendorID).setData(vendorDetails as! [String: Any]) { error in
+                   if let error = error {
+                       print("Error saving booked vendor details: \(error)")
+                   } else {
+                       print("Booked vendor details saved successfully")
+                   }
+               }
+           }
+       }
+   
     
   }
 
