@@ -20,15 +20,20 @@ struct EventCard: View {
     var event: EventData
 
     var randomBackgroundColor: Color {
-        let colors: [Color] = [Color(red: 247/225, green: 239/255, blue: 247/255)]
+        let colors: [Color] = [Color.white]
            // .background(Color(red: 247/225, green: 239/255, blue: 247/255))
         return colors.randomElement() ?? .gray
     }
+    
 
     var body: some View {
         ZStack {
             randomBackgroundColor
-                .cornerRadius(12)
+                //.cornerRadius(12)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(Color(red: 198/225, green: 174/255, blue: 128/255), lineWidth: 1)
+                )
             HStack {
                 VStack {
                     Image(event.imageName)
@@ -75,11 +80,11 @@ struct EventDetailView: View {
                 .font(.title)
                 .fontWeight(.bold)
                 .padding()
-
+                .foregroundColor(Color(red: 67/255, green: 13/255, blue: 75/255))
             Text(event.name)
                 .font(.headline)
                 .padding(.bottom, 8)
-
+                .foregroundColor(Color(red: 67/255, green: 13/255, blue: 75/255))
             Image(event.imageName)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
@@ -89,11 +94,15 @@ struct EventDetailView: View {
 
             ZStack(alignment: .bottom) {
                 Capsule()
-                    .fill(Color.gray.opacity(1))
+                    .fill(Color(red: 247/255, green: 239/255, blue: 247/255))
                     .frame(height: 50)
                     .overlay(
+                        RoundedRectangle(cornerRadius: 50)
+                            .stroke(Color(red: 67/225, green: 13/255, blue: 75/255), lineWidth: 1)
+                    )
+                    .overlay(
                         Text("Days : Hours : Minutes")
-                            .foregroundColor(.black)
+                            .foregroundColor(Color(red: 198/255, green: 174/255, blue: 128/255))
                             .padding(.horizontal)
                     )
                     .padding(.horizontal, 40)
@@ -121,20 +130,21 @@ struct EventDetailView: View {
                     }) {
                         Text("Task")
                             .font(.headline)
-                            .foregroundColor(.black)
+                            .foregroundColor(Color(red: 67/255, green: 13/255, blue: 75/255))
                             .padding(.bottom, 8)
                     }
                     .sheet(isPresented: $isTaskLinkActive) {
                         // Replace "TaskView" with the view you want to navigate to for the task
-                        TaskView()
+                        taskview()
                     }
                 }
+                .foregroundColor(Color(red: 67/255, green: 13/255, blue: 75/255))
             }
 
             Spacer()
         }
         .navigationBarTitle("Event Detail", displayMode: .inline)
-        .background(Color(red: 247/225, green: 239/255, blue: 247/255))
+       .background(Color(red: 247/225, green: 239/255, blue: 247/255))
     }
 }
 
@@ -147,7 +157,7 @@ struct SeeAllView: View {
                 .navigationBarTitle("See All", displayMode: .inline)
         }
         .padding(.all, -20)
-        //.background(Color(red: 198/225, green: 174/255, blue: 128/255))
+        
     }
 }
 
@@ -166,13 +176,12 @@ struct GridView: View {
             }
             .padding(20)
         }
-        //.background(Color(red: 198/225, green: 174/255, blue: 128/255))
+        .background(Color(red: 247/225, green: 239/255, blue: 247/255))
     }
 }
 
 struct MenuView: View {
     @Binding var isMenuExpanded: Bool
-
     var body: some View {
         NavigationView {
             Form {
@@ -208,29 +217,25 @@ struct MenuView: View {
                             .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
                     }
                 }
-            }
-            //.background(Color(red: 247/225, green: 239/255, blue: 247/255))
-            .listStyle(GroupedListStyle())
-            .navigationBarTitle("Menu", displayMode: .inline)
-            .foregroundColor(.black)
-            .navigationBarItems(
+              }
+              .listStyle(GroupedListStyle())
+              .navigationBarTitle("Menu", displayMode: .inline)
+              .navigationBarItems(
                 trailing: Button(action: {
-                    withAnimation {
-                        isMenuExpanded.toggle()
-                    }
+                  withAnimation {
+                    isMenuExpanded.toggle()
+                  }
                 }) {
-                    Image(systemName: "xmark")
-                        .foregroundColor(.black)
-                        .padding()
+                  Image(systemName: "xmark")
+                        .foregroundColor(Color(red:67/255, green: 13/255,blue: 75/255))
+                    .padding()
                 }
-            )
+              )
+            }
+            .navigationViewStyle(StackNavigationViewStyle())
+            .background(Color(red: 247/225, green: 239/255, blue: 247/255)) // Here!
+          }
         }
-        .navigationViewStyle(StackNavigationViewStyle())
-        ////.background(Color(red: 240/225, green: 240/255, blue: 234/255))
-       // .background(Color(red: 247/225, green: 239/255, blue: 247/255))
-    }
-}
-
 struct UserHomeView: View {
     @State private var isSeeAllPresented = false
     @State private var isMenuExpanded = false
@@ -251,150 +256,151 @@ struct UserHomeView: View {
     var username: String // Username passed from sign-up process
     var body: some View {
         NavigationView {
-            VStack {
-                Spacer()
-                HStack {
-                    
-                    VStack {
-                        Button(action: {
-                            withAnimation {
-                                isMenuExpanded.toggle()
+            ZStack{
+                VStack {
+                    //Spacer()
+                    HStack {
+                        
+                        VStack {
+                            Button(action: {
+                                withAnimation {
+                                    isMenuExpanded.toggle()
+                                }
+                            }) {
+                                Image(systemName: "line.3.horizontal")
+                                    .imageScale(.large)
+                                    .padding(.leading, 40)
+                                    .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
                             }
-                        }) {
-                            Image(systemName: "line.3.horizontal")
-                                .imageScale(.large)
-                                .padding(.leading, 40)
-                                .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
+                            .foregroundColor(.primary)
                         }
-                        .foregroundColor(.primary)
-                    }
-                    .padding(.bottom, 40)
-
-                    Text("Hi \(username)!!")
-                        .font(.title3)
-                        .fontWeight(.bold)
-                        .padding(.leading, -40)
-                        .padding(.top, 40)
-                        .foregroundColor(Color(red: 67/225, green: 13/255, blue: 75/255))
-
-                    Spacer()
-
-                    VStack {
-                        NavigationLink(destination: CreateEvent(selectedCoHosts: .constant([]))) {
-                            Image(systemName: "plus")
-                                .imageScale(.large)
-                                .padding(.trailing, 16)
-                                .padding(.bottom, 40)
-                                .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
-                        }
-                        .navigationTitle("home")
-                        .navigationBarTitle("", displayMode: .inline)
-                        .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
-                    }
-                }
-                .navigationBarTitle("", displayMode: .inline)
-                .padding(.top, 20)
-                Divider()
-
-                HStack {
-                    Text("My Events")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .padding(.leading, 30)
-                        .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
-                    Spacer()
-
-                    Button(action: {
-                        isSeeAllPresented.toggle()
-                    }) {
-                        Text("See All")
-                            .padding(.trailing, 16)
-                            .font(.headline)
+                        .padding(.bottom, 40)
+                        
+                        Text("Hi \(username)!!")
+                            .font(.title3)
                             .fontWeight(.bold)
-                            .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
-                    }
-                    .sheet(isPresented: $isSeeAllPresented) {
-                        SeeAllView(eventData: myEventsData)
-                    }
-                }
-
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack {
-                        ForEach(myEventsData, id: \.self) { event in
-                            EventCard(event: event)
-                        }
-                        .padding(.trailing, 20)
-                    }
-                    .padding(.horizontal, 20)
-                }
-                .padding(.trailing, 10)
-
-                Divider()
-                HStack {
-                    Text("Upcoming Events")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .padding(.leading, 16)
-                        .padding(.horizontal, 20)
-                        .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
-
-                    Spacer()
-
-                    Button(action: {
-                        isSeeAllPresented.toggle()
-                    }) {
-                        Text("See All")
-                            .font(.title2)
-                            .padding(.trailing, 16)
+                            .padding(.leading, -40)
+                            .padding(.top, 40)
+                            .foregroundColor(Color(red: 67/225, green: 13/255, blue: 75/255))
+                        
+                        Spacer()
+                        
+                        VStack {
+                            NavigationLink(destination: CreateEvent(selectedCoHosts: .constant([]))) {
+                                Image(systemName: "plus")
+                                    .imageScale(.large)
+                                    .padding(.trailing, 16)
+                                    .padding(.bottom, 40)
+                                    .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
+                            }
+                            .navigationTitle("home")
+                            .navigationBarTitle("", displayMode: .inline)
                             .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
+                        }
                     }
-                    .sheet(isPresented: $isSeeAllPresented) {
-                        SeeAllView(eventData: upcomingEventsData)
-                            //.background(Color(red: 250/225, green: 244/255, blue: 250/255))
-                            .background(Color(red: 247/225, green: 239/255, blue: 247/255))
-                    }
-                }
-
-                ScrollView(.horizontal, showsIndicators: false) {
+                    .navigationBarTitle("", displayMode: .inline)
+                    .padding(.top, 20)
+                    Divider()
+                    
                     HStack {
-                        ForEach(upcomingEventsData, id: \.self) { event in
-                            EventCard(event: event)
+                        Text("My Events")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .padding(.leading, 30)
+                            .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
+                        Spacer()
+                        
+                        Button(action: {
+                            isSeeAllPresented.toggle()
+                        }) {
+                            Text("See All")
+                                .padding(.trailing, 16)
+                                .font(.headline)
+                                .fontWeight(.light)
+                                .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
+                        }
+                        .sheet(isPresented: $isSeeAllPresented) {
+                            SeeAllView(eventData: myEventsData)
+                        }
+                    }
+                    
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(myEventsData, id: \.self) { event in
+                                EventCard(event: event)
+                            }
+                            .padding(.trailing, 20)
                         }
                         .padding(.horizontal, 20)
-                        .padding(.trailing, -20)
+                        
+                    }
+                    .padding(.trailing, 10)
+                    
+                    Divider()
+                    HStack {
+                        Text("Upcoming Events")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .padding(.leading, 16)
+                            .padding(.horizontal, 20)
+                            .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            isSeeAllPresented.toggle()
+                        }) {
+                            Text("See All")
+                                .font(.headline)
+                                .padding(.trailing, 16)
+                                .fontWeight(.light)
+                                .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
+                        }
+                        .sheet(isPresented: $isSeeAllPresented) {
+                            SeeAllView(eventData: upcomingEventsData)
+                            //.background(Color(red: 250/225, green: 244/255, blue: 250/255))
+                                .background(Color(red: 247/225, green: 239/255, blue: 247/255))
+                        }
+                    }
+                    
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(upcomingEventsData, id: \.self) { event in
+                                EventCard(event: event)
+                            }
+                            .padding(.horizontal, 20)
+                            .padding(.trailing, -20)
+                        }
+                    }
+                }
+                .frame(width: 400)
+                .overlay(
+                    MenuView(isMenuExpanded: $isMenuExpanded)
+                        .frame(width: isMenuExpanded ? UIScreen.main.bounds.width : 0)
+                    // .background(Color(red: 247/225, green: 239/255, blue: 247/255))
+                        .offset(x: isMenuExpanded ? 0 : -UIScreen.main.bounds.width)
+                )
+                .overlay(
+                    CreateEvent(selectedCoHosts: .constant([]))
+                        .frame(width: isAddEventPresented ? UIScreen.main.bounds.width : 0)
+                        .background(Color.white)
+                        .offset(x: isAddEventPresented ? 0 : UIScreen.main.bounds.width)
+                )
+                .padding(.bottom, 40)
+                
+                .toolbar {
+                    ToolbarItem(placement: .bottomBar) {
+                        HStack {  // Wrap the content in HStack
+                            //Spacer()  // Add Spacer to push content to the right
+                            Toolbar()
+                        }
                     }
                 }
             }
-            //.background(Color(red: 250/255, green: 244/255, blue: 250/255))
-            .frame(width: 400)
-            //.background(Color(red: 247/225, green: 239/255, blue: 247/255))
-            //.position(CGPoint(x: 180.0, y: 350.0))
-            //.navigationBarHidden(true)
-            //.padding(.horizontal, 16)
-            .overlay(
-                MenuView(isMenuExpanded: $isMenuExpanded)
-                    .frame(width: isMenuExpanded ? UIScreen.main.bounds.width : 0)
-                    .background(Color.white)
-                    .offset(x: isMenuExpanded ? 0 : -UIScreen.main.bounds.width)
-            )
-            .overlay(
-                CreateEvent(selectedCoHosts: .constant([]))
-                    .frame(width: isAddEventPresented ? UIScreen.main.bounds.width : 0)
-                    .background(Color.white)
-                    .offset(x: isAddEventPresented ? 0 : UIScreen.main.bounds.width)
-            )
-           .padding(.bottom, 40)
-            
-            .toolbar {
-              ToolbarItem(placement: .bottomBar) {
-                HStack {  // Wrap the content in HStack
-                  //Spacer()  // Add Spacer to push content to the right
-                  Toolbar()
-                }
-              }
-            }
-            
+            .background(Color(red: 247/225, green: 239/255, blue: 247/255))
         }
+        
+        
         
     }
     

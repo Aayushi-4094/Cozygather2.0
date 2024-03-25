@@ -10,8 +10,8 @@ class MessageDelegate: NSObject, MFMessageComposeViewControllerDelegate {
 }
 struct CreateEvent: View {
     @State private var eventName: String = ""
-    @State private var venueAddress: String = "Address"
-    @State private var price: String = "Price"
+    @State private var venueAddress: String = ""
+    @State private var price: String = ""
     @State private var selectedDateTime = Date()
     @State private var isDateAndTimeVisible = false
     @State private var isCoHostSheetPresented = false
@@ -28,195 +28,224 @@ struct CreateEvent: View {
     }
     var body: some View {
         NavigationView {
-            ScrollView {
-                
-                VStack(spacing: 20) {
-                    // Title Section
-                    Image("nametheevent")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(height: 200)
-                        .cornerRadius(10)
-                        .shadow(radius: 5)
+            ZStack{
+                ScrollView {
                     
-                    // Event Name Section
-                    HStack {
-                        Image(systemName: "pencil.circle")
-                            .foregroundColor(.primary)
-                            .foregroundColor(Color(red: 67/255, green: 13/255, blue: 75/255))
+                    VStack(spacing: 20) {
+                        // Title Section
+                        Image("nametheevent")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(height: 200)
+                            .cornerRadius(10)
+                            .shadow(radius: 5)
                         
-                        TextField("Event Name", text: $eventName)
-                            .padding(.horizontal)
-                            .padding(.vertical, 8)
-                            .background(Color(red: 250/255, green: 244/255, blue: 250/255))
-                            .cornerRadius(8)
-                    }
-        
- 
-                    // Location Section
-                   HStack {
-                       Image(systemName: "location.fill")
-                           .foregroundColor(.primary)
-                           .foregroundColor(Color(red: 67/255, green: 13/255, blue: 75/255))
-                       
-                        TextField("Location", text: $venueAddress)
-                           .padding(.horizontal)
-                           .padding(.vertical, 8)
-                           .background(Color(red: 250/255, green: 244/255, blue: 250/255))
-                           .cornerRadius(8)
-                    }
-                    
-                    // Budget Section
-                    HStack {
-                        Image(systemName: "rupeesign.circle")
-                            .foregroundColor(.primary)
-                            .foregroundColor(Color(red: 67/255, green: 13/255, blue: 75/255))
-                        
-                        TextField("Budget", text: $price)
-                            .padding(.horizontal)
-                            .padding(.vertical, 8)
-                            .background(Color(red: 250/255, green: 244/255, blue: 250/255))
-                            .cornerRadius(8)
-                    }
-                    // Co-host Section
-                    HStack {
-                        Image(systemName: "person.crop.circle.badge.plus")
-                            .foregroundColor(.primary)
-                            .foregroundColor(Color(red: 67/255, green: 13/255, blue: 75/255))
-                        
-                        Button(action: {
-                            isCoHostSheetPresented.toggle()
-                        }) {
-                            HStack {
-                                
-                                Text("Select Co-host")
-                                    .foregroundColor(.primary)
-                                Spacer()
-                            }
-                            .padding(.horizontal)
-                            .padding(.vertical, 8)
-                            .background(Color(red: 250/255, green: 244/255, blue: 250/255))
-                            .cornerRadius(8)
-                        }
-                        .sheet(isPresented: $isCoHostSheetPresented) {
-                                            ContactListView(selectedContacts: $selectedCoHosts)
-                        }
-                        .padding(.horizontal)
-                    }
-
-                    // Date and Time Section
-                    HStack {
-                        Image(systemName: "calendar")
-                            .foregroundColor(.primary)
-                            .foregroundColor(Color(red: 67/255, green: 13/255, blue: 75/255))
-                        
-                        Button(action: {
-                            isDateAndTimeVisible.toggle()
-                        }) {
-                            HStack {
-                                
-                                Text(formattedDateTime)
-                                    .foregroundColor(.primary)
-                                Spacer()
-                            }
-                            .padding()
-                            .background(Color(red: 250/255, green: 244/255, blue: 250/255))
-                            .cornerRadius(8)
-                        }
-                        .sheet(isPresented: $isDateAndTimeVisible) {
-                            DateAndTime(selectedDate: $selectedDateTime, onDateSelected: { date in
-                                selectedDateTime = date
-                            }, isSheetPresented: $isDateAndTimeVisible)
-                        }
-                        .padding(.horizontal)
-                    }
-                
-                
-                var formattedDateTime: String {
-                    let formatter = DateFormatter()
-                    formatter.dateStyle = .medium
-                    formatter.timeStyle = .short
-                    return formatter.string(from: selectedDateTime)
-                }
-            
-                    // Generate e-Invite Section
-                    HStack {
-                        Image(systemName: "person.crop.circle.badge.plus")
-                            .foregroundColor(.primary)
-                            .foregroundColor(Color(red: 67/255, green: 13/255, blue: 75/255))
-                        
-                        Button(action: {
-                            sendInvite()
-                        }) {
-                            Text("Generate e-Invite")
+                        // Event Name Section
+                        HStack {
+                            Image(systemName: "pencil.circle")
                                 .foregroundColor(.primary)
+                                .foregroundColor(Color(red: 67/255, green: 13/255, blue: 75/255))
+                            
+                            TextField("Event Name", text: $eventName)
                                 .padding(.horizontal)
                                 .padding(.vertical, 8)
                                 .background(Color(red: 250/255, green: 244/255, blue: 250/255))
                                 .cornerRadius(8)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color(red: 198/225, green: 174/255, blue: 128/255), lineWidth: 1)
+                                )
                         }
-                    }
-                    // Confirm Button Section
-                    Button(action: {
-                        if isFormValid {
-                            // Extract phone numbers from selectedContacts
-                            let phoneNumbers = selectedCoHosts.map { $0.phoneNumber }
-
+                        
+                        
+                        // Location Section
+                        HStack {
+                            Image(systemName: "location.fill")
+                                .foregroundColor(.primary)
+                                .foregroundColor(Color(red: 67/255, green: 13/255, blue: 75/255))
                             
-                            // Create the event with extracted phone numbers
-                            let event = Event(eventName: eventName,
-                                              venueAddress: venueAddress,
-                                              price: price,
-                                              selectedDate: selectedDateTime,
-                                              selectedCoHosts: phoneNumbers)
-
-                            FirestoreManager.shared.createEvent(event) { success in
-                                // Handle the success or failure here
-                                if success {
-                                    // Event created successfully
-                                } else {
-                                    // Error creating event
-                                }
-                            }
-                        } else {
-                            // Show an alert if the form is not valid
-                            isAlertPresented.toggle()
+                            TextField("Location", text: $venueAddress)
+                                .padding(.horizontal)
+                                .padding(.vertical, 8)
+                                .background(Color(red: 250/255, green: 244/255, blue: 250/255))
+                                .cornerRadius(8)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color(red: 198/225, green: 174/255, blue: 128/255), lineWidth: 1)
+                                )
                         }
-                    }) {
-                        Text("Confirm")
-                            .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
-                            .font(.headline)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color(red: 67/225, green: 13/255, blue: 75/255))
-                            .cornerRadius(10)
+                        
+                        // Budget Section
+                        HStack {
+                            Image(systemName: "rupeesign.circle")
+                                .foregroundColor(.primary)
+                                .foregroundColor(Color(red: 67/255, green: 13/255, blue: 75/255))
+                            
+                            TextField("Budget", text: $price)
+                                .padding(.horizontal)
+                                .padding(.vertical, 8)
+                                .background(Color(red: 250/255, green: 244/255, blue: 250/255))
+                                .cornerRadius(8)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color(red: 198/225, green: 174/255, blue: 128/255), lineWidth: 1)
+                                )
+                        }
+                        
+                        // Co-host Section
+                        HStack {
+                            Image(systemName: "person.crop.circle.badge.plus")
+                                .foregroundColor(.primary)
+                                .foregroundColor(Color(red: 67/255, green: 13/255, blue: 75/255))
+                            
+                            Button(action: {
+                                isCoHostSheetPresented.toggle()
+                            }) {
+                                HStack {
+                                    
+                                    Text("Select Co-host")
+                                        .foregroundColor(.gray)
+                                    Spacer()
+                                }
+                                .padding(.horizontal)
+                                .padding(.vertical, 8)
+                                .background(Color(red: 250/255, green: 244/255, blue: 250/255))
+                                .cornerRadius(8)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color(red: 198/225, green: 174/255, blue: 128/255), lineWidth: 1)
+                                )
+                            }
+                            .sheet(isPresented: $isCoHostSheetPresented) {
+                                ContactListView(selectedContacts: $selectedCoHosts)
+                            }
                             .padding(.horizontal)
-                            .shadow(radius: 1)
+                        }
+                        
+                        // Date and Time Section
+                        HStack {
+                            Image(systemName: "calendar")
+                                .foregroundColor(.primary)
+                                .foregroundColor(Color(red: 67/255, green: 13/255, blue: 75/255))
+                            
+                            Button(action: {
+                                isDateAndTimeVisible.toggle()
+                            }) {
+                                HStack {
+                                    
+                                    Text(formattedDateTime)
+                                        .foregroundColor(.gray)
+                                    Spacer()
+                                }
+                                .padding()
+                                .background(Color(red: 250/255, green: 244/255, blue: 250/255))
+                                .cornerRadius(8)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color(red: 198/225, green: 174/255, blue: 128/255), lineWidth: 1)
+                                )
+                            }
+                            .sheet(isPresented: $isDateAndTimeVisible) {
+                                DateAndTime(selectedDate: $selectedDateTime, onDateSelected: { date in
+                                    selectedDateTime = date
+                                }, isSheetPresented: $isDateAndTimeVisible)
+                            }
+                            .padding(.horizontal)
+                        }
+                        
+                        
+                        var formattedDateTime: String {
+                            let formatter = DateFormatter()
+                            formatter.dateStyle = .medium
+                            formatter.timeStyle = .short
+                            return formatter.string(from: selectedDateTime)
+                        }
+                        
+                        // Generate e-Invite Section
+                        HStack {
+                            Image(systemName: "person.crop.circle.badge.plus")
+                                .foregroundColor(.gray)
+                                .foregroundColor(Color(red: 67/255, green: 13/255, blue: 75/255))
+                            
+                            Button(action: {
+                                sendInvite()
+                            }) {
+                                Text("Generate e-Invite")
+                                    .foregroundColor(.gray)
+                                    .padding(.horizontal)
+                                    .padding(.vertical, 8)
+                                    .background(Color(red: 250/255, green: 244/255, blue: 250/255))
+                                    .cornerRadius(8)
+                            }
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(Color(red: 198/225, green: 174/255, blue: 128/255), lineWidth: 1)
+                            )
+                        }
+                        // Confirm Button Section
+                        Button(action: {
+                            if isFormValid {
+                                // Extract phone numbers from selectedContacts
+                                let phoneNumbers = selectedCoHosts.map { $0.phoneNumber }
+                                
+                                
+                                // Create the event with extracted phone numbers
+                                let event = Event(eventName: eventName,
+                                                  venueAddress: venueAddress,
+                                                  price: price,
+                                                  selectedDate: selectedDateTime,
+                                                  selectedCoHosts: phoneNumbers)
+                                
+                                FirestoreManager.shared.createEvent(event) { success in
+                                    // Handle the success or failure here
+                                    if success {
+                                        // Event created successfully
+                                    } else {
+                                        // Error creating event
+                                    }
+                                }
+                            } else {
+                                // Show an alert if the form is not valid
+                                isAlertPresented.toggle()
+                            }
+                        }) {
+                            Text("Confirm")
+                                .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
+                                .font(.headline)
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color(red: 67/225, green: 13/255, blue: 75/255))
+                                .cornerRadius(10)
+                                .padding(.horizontal)
+                                .shadow(radius: 1)
+                        }
+                        .padding(.bottom, 20)
+                        .alert(isPresented: $isAlertPresented) {
+                            Alert(
+                                title: Text("Incomplete Details"),
+                                message: Text("Please fill in all the details to create an event."),
+                                dismissButton: .default(Text("OK"))
+                            )
+                        }
                     }
-                    .padding(.bottom, 20)
-                    .alert(isPresented: $isAlertPresented) {
-                        Alert(
-                            title: Text("Incomplete Details"),
-                            message: Text("Please fill in all the details to create an event."),
-                            dismissButton: .default(Text("OK"))
-                        )
-                    }
+                    .padding()
                 }
                 .padding()
+                .navigationBarTitle("Create Event", displayMode: .inline)
+                .navigationBarItems(
+                    leading: Button(action: {
+                        presentationMode.wrappedValue.dismiss()
+                    }) {
+                        Image(systemName: "chevron.left")
+                            .foregroundColor(.primary)
+                            .imageScale(.large)
+                    }
+                )
             }
-            .padding()
-            .navigationBarTitle("Create Event", displayMode: .inline)
-            .navigationBarItems(
-                leading: Button(action: {
-                    presentationMode.wrappedValue.dismiss()
-                }) {
-                    Image(systemName: "chevron.left")
-                        .foregroundColor(.primary)
-                        .imageScale(.large)
-                }
-            )
+            .background(Color(red: 247/225, green: 239/255, blue: 247/255))
         }
-        .background(Color(red: 250/225, green: 244/255, blue: 250/255))
+        
+        
         .navigationBarHidden(true)
         
     }

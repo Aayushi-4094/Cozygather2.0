@@ -22,7 +22,6 @@
 		07F2700B2BA8017C0016B79F /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 07F2700A2BA8017C0016B79F /* FirebaseAppCheck */; };
 		07F2700D2BA802120016B79F /* SecondScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F2700C2BA802120016B79F /* SecondScreen.swift */; };
 		07F270142BA8029F0016B79F /* home_user.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F270132BA8029F0016B79F /* home_user.swift */; };
-		07F270182BA802C40016B79F /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F270172BA802C40016B79F /* NotificationView.swift */; };
 		07F2701B2BA803F70016B79F /* taskview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F2701A2BA803F70016B79F /* taskview.swift */; };
 		07F2701E2BA8043E0016B79F /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 07F2701D2BA8043E0016B79F /* FirebaseAuth */; };
 		07F270202BA8047D0016B79F /* BudgetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F2701F2BA8047D0016B79F /* BudgetApp.swift */; };
@@ -71,7 +70,6 @@
 		07F26FFF2BA801300016B79F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		07F2700C2BA802120016B79F /* SecondScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondScreen.swift; sourceTree = "<group>"; };
 		07F270132BA8029F0016B79F /* home_user.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = home_user.swift; sourceTree = "<group>"; };
-		07F270172BA802C40016B79F /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		07F2701A2BA803F70016B79F /* taskview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = taskview.swift; sourceTree = "<group>"; };
 		07F2701F2BA8047D0016B79F /* BudgetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetApp.swift; sourceTree = "<group>"; };
 		07F270212BA804A20016B79F /* Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar.swift; sourceTree = "<group>"; };
@@ -171,7 +169,6 @@
 			children = (
 				07F270192BA803150016B79F /* myEvents_taks */,
 				07F270132BA8029F0016B79F /* home_user.swift */,
-				07F270172BA802C40016B79F /* NotificationView.swift */,
 			);
 			path = User_home;
 			sourceTree = "<group>";
@@ -469,7 +466,6 @@
 				07F270422BA807320016B79F /* AddGuest.swift in Sources */,
 				07F2702D2BA805520016B79F /* SignIn.swift in Sources */,
 				07F270362BA806560016B79F /* FirestoreManager.swift in Sources */,
-				07F270182BA802C40016B79F /* NotificationView.swift in Sources */,
 				07F270572BA8098C0016B79F /* FilterScreen1.swift in Sources */,
 				07F2704F2BA808F00016B79F /* MessagingView.swift in Sources */,
 				07F270702BA80CF80016B79F /* DateAndTime.swift in Sources */,

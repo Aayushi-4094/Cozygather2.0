@@ -6,55 +6,110 @@ struct VendorDetailView: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                if let logoImageData = vendor.logoImageData,
-                   let logoImage = UIImage(data: logoImageData) {
-                    Image(uiImage: logoImage)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(height: 200)
+            ZStack{
+                VStack {
+                    Image(systemName: "photo")
+                        .frame(width: 350, height: 200)
+                              .background(Color(red: 230/255, green: 230/255, blue: 230/255))
+                              .overlay(
+                                  RoundedRectangle(cornerRadius: 12)
+                                      .stroke(Color(red: 198/225, green: 174/255, blue: 128/255), lineWidth: 1)
+                              )
+                    if let logoImageData = vendor.logoImageData,
+                       let logoImage = UIImage(data: logoImageData) {
+                        Image(uiImage: logoImage)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(height: 200)
+                    }
+                    HStack{
+                        Text(vendor.shopName)
+                            .font(.title)
+                            .fontWeight(.bold)
+                        Spacer()
+                        // Book Now Button
+                        VStack{
+                            Button(action: {
+                                // Call the closure when "Book Now" button is tapped
+                                self.onBookNow()
+                            }) {
+                                Text("Book Now")
+                                    .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
+                                    .padding()
+                                    .background(Color(red:67/255, green:13/255, blue:75/255))
+                                    .cornerRadius(15)
+                            }
+                            Spacer()
+                            Text("Price: \(vendor.price)")
+                        }
+                        
+                    }
+                    Spacer()
+                    VStack(alignment: .leading, spacing: 20){
+                        Text("Address: \(vendor.address)")
+                            .foregroundColor(Color(red:67/255, green:13/255, blue:75/255))
+                        if let selectedCategory = vendor.selectedCategory {
+                            Text("Selected Category: \(selectedCategory)")
+                                .foregroundColor(Color(red:67/255, green:13/255, blue:75/255))
+                        }
+                        
+                        
+                        Text("Flexible Price: \(vendor.flexibleRate ? "Yes" : "No")")
+                            .foregroundColor(Color(red:67/255, green:13/255, blue:75/255))
+                        // Display menu image
+                    }
+                    Text("Menu Images")
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 10) {
+                            // Existing image placeholders
+                            EmptyView()
+                                .frame(width: 150, height: 200)
+                                .background(Color(red: 230/255, green: 230/255, blue: 230/255))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .stroke(Color(red: 198/225, green: 174/255, blue: 128/255), lineWidth: 1)
+                                )
+                            
+                            // Additional system image
+                            Image(systemName: "photo")
+                                .frame(width: 150, height: 200)
+                                .background(Color(red: 230/255, green: 230/255, blue: 230/255))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .stroke(Color(red: 198/225, green: 174/255, blue: 128/255), lineWidth: 1)
+                                )
+                            Image(systemName: "photo")
+                                .frame(width: 150, height: 200)
+                                .background(Color(red: 230/255, green: 230/255, blue: 230/255))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .stroke(Color(red: 198/225, green: 174/255, blue: 128/255), lineWidth: 1)
+                                )
+                            Image(systemName: "photo")
+                                .frame(width: 100, height: 200)
+                                .background(Color(red: 230/255, green: 230/255, blue: 230/255))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .stroke(Color(red: 198/225, green: 174/255, blue: 128/255), lineWidth: 1)
+                                )
+                        }
+                    }
+                    if let menuImageData = vendor.menuImageData,
+                       let menuImage = UIImage(data: menuImageData) {
+                        Image(uiImage: menuImage)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 100, height: 100)
+                    }
+                    
+                    Spacer()
                 }
-                
-                Text(vendor.shopName)
-                    .font(.title)
-                    .fontWeight(.bold)
-                
-                Text("Address: \(vendor.address)")
-                
-                Text("Price: \(vendor.price)")
-                
-                if let selectedCategory = vendor.selectedCategory {
-                    Text("Selected Category: \(selectedCategory)")
-                }
-                
-                Text("Flexible Price: \(vendor.flexibleRate ? "Yes" : "No")")
-                
-                // Book Now Button
-                Button(action: {
-                    // Call the closure when "Book Now" button is tapped
-                    self.onBookNow()
-                }) {
-                    Text("Book Now")
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.blue)
-                        .cornerRadius(8)
-                }
-                
-                // Display menu image
-                if let menuImageData = vendor.menuImageData,
-                   let menuImage = UIImage(data: menuImageData) {
-                    Image(uiImage: menuImage)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 100, height: 100)
-                }
-
-                Spacer()
+                .padding()
             }
-            .padding()
+            
         }
         .navigationTitle("Vendor Detail")
+        .background(Color(red:247/255, green: 239/255, blue:247/255))
     }
 }
 

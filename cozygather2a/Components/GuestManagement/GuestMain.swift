@@ -38,8 +38,8 @@ struct GuestMain: View {
                 HStack {
                     Spacer()
                     Text("Guest Management")
-                        .font(.largeTitle)
-                        .foregroundColor(Color(red: 82/225, green: 72/255, blue: 159/255))
+                        .font(.title)
+                        .foregroundColor(Color(red: 67/225, green: 13/255, blue: 75/255))
                         .padding(.leading, 50)
                     Spacer()
                     Button(action: {

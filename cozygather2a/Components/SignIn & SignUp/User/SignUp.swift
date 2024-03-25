@@ -33,7 +33,7 @@ struct SignUpPage: View {
 
             TextField("Full name", text: self.$fullName)
                 .padding()
-                .background(RoundedRectangle(cornerRadius: 8).stroke(self.fullName != "" ? Color.blue : self.color, lineWidth: 2))
+                .background(RoundedRectangle(cornerRadius: 8).stroke(self.email != "" ? Color(red: 198/255, green: 174/255, blue: 128/255) : Color(red:67/255, green:13/255, blue:75/255) , lineWidth: 2))
                 .padding(.horizontal, 20)
                 .frame(height: 50)
                 .autocapitalization(.words)
@@ -41,7 +41,7 @@ struct SignUpPage: View {
 
             TextField("User Name", text: self.$userName)
                 .padding()
-                .background(RoundedRectangle(cornerRadius: 8).stroke(self.userName != "" ? Color.blue : self.color, lineWidth: 2))
+                .background(RoundedRectangle(cornerRadius: 8).stroke(self.email != "" ? Color(red: 198/255, green: 174/255, blue: 128/255) : Color(red:67/255, green:13/255, blue:75/255) , lineWidth: 2))
                 .padding(.horizontal, 20)
                 .frame(height: 50)
                 .autocapitalization(.none)
@@ -49,14 +49,14 @@ struct SignUpPage: View {
 
             TextField("Phone Number", text: self.$phoneNumber)
                 .padding()
-                .background(RoundedRectangle(cornerRadius: 8).stroke(self.phoneNumber != "" ? Color.blue : self.color, lineWidth: 2))
+                .background(RoundedRectangle(cornerRadius: 8).stroke(self.email != "" ? Color(red: 198/255, green: 174/255, blue: 128/255) : Color(red:67/255, green:13/255, blue:75/255) , lineWidth: 2))
                 .padding(.horizontal, 20)
                 .frame(height: 50)
                 .keyboardType(.phonePad)
 
             TextField("Email", text: self.$email)
                 .padding()
-                .background(RoundedRectangle(cornerRadius: 8).stroke(self.email != "" ? Color.blue : self.color, lineWidth: 2))
+                .background(RoundedRectangle(cornerRadius: 8).stroke(self.email != "" ? Color(red: 198/255, green: 174/255, blue: 128/255) : Color(red:67/255, green:13/255, blue:75/255) , lineWidth: 2))
                 .padding(.horizontal, 20)
                 .frame(height: 50)
                 .autocapitalization(.none)
@@ -78,7 +78,7 @@ struct SignUpPage: View {
                 }
             }
             .padding()
-            .background(RoundedRectangle(cornerRadius: 8).stroke(self.pass != "" ? Color.blue : self.color, lineWidth: 2))
+            .background(RoundedRectangle(cornerRadius: 8).stroke(self.email != "" ? Color(red: 198/255, green: 174/255, blue: 128/255) : Color(red:67/255, green:13/255, blue:75/255) , lineWidth: 2))
             .padding(.horizontal, 20)
             .frame(height: 50)
 
@@ -98,7 +98,7 @@ struct SignUpPage: View {
                 }
             }
             .padding()
-            .background(RoundedRectangle(cornerRadius: 8).stroke(self.repass != "" ? Color.blue : self.color, lineWidth: 2))
+            .background(RoundedRectangle(cornerRadius: 8).stroke(self.email != "" ? Color(red: 198/255, green: 174/255, blue: 128/255) : Color(red:67/255, green:13/255, blue:75/255) , lineWidth: 2))
             .padding(.horizontal, 20)
             .frame(height: 50)
 

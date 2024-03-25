@@ -18,6 +18,7 @@ struct FilterScreen: View {
                     .font(.title)
                     .fontWeight(.bold)
                     .padding()
+                    //.background(Color(red: 67/225, green: 13/225, blue: 75/225))
                 
                 Divider()
                 
@@ -50,8 +51,9 @@ struct FilterScreen: View {
                             Text("Price Range")
                                 .font(.headline)
                             Slider(value: $lowerPrice, in: 0...100, step: 1)
+                                .foregroundColor(Color(red:67/255, green:13/255, blue:75/255))
                             Text("\(Int(lowerPrice)) - \(Int(upperPrice))")
-                                .foregroundColor(.gray)
+                                .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
                         }
                         .padding()
                         
@@ -78,6 +80,7 @@ struct FilterScreen: View {
                         }
                         .padding()
                     }
+                    .background(Color(red: 247/225, green: 239/255, blue: 247/255))
                 }
                 
                 Spacer()
@@ -88,8 +91,10 @@ struct FilterScreen: View {
                         isFilterScreenPresented.toggle()
                     }
                     .padding()
-                    .foregroundColor(.white)
-                    .background(Color.blue)
+                    .font(.subheadline)
+                    .fontWeight(.bold)
+                    .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
+                    .background(Color(red: 67/225, green: 13/225, blue: 75/225))
                     .cornerRadius(8)
                     
                     Button("Reset") {
@@ -101,19 +106,26 @@ struct FilterScreen: View {
                         location = ""
                     }
                     .padding()
-                    .foregroundColor(.white)
-                    .background(Color.red)
+                    .font(.subheadline)
+                    .fontWeight(.bold)
+                    .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
+                    .background(Color(red: 67/225, green: 13/225, blue: 75/225))
                     .cornerRadius(8)
                 }
+                .background(Color(red: 247/225, green: 239/255, blue: 247/255))
                 .padding()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color(.systemBackground))
+            .background(Color(red: 247/225, green: 239/255, blue: 247/255))
             .navigationBarTitle("", displayMode: .inline)
             .navigationBarItems(trailing: Button("Close") {
                 isFilterScreenPresented.toggle()
             })
         }
+        //.background(Color(red: 67/225, green: 13/225, blue: 75/225))
+        //.navigationTitle("Filter")
+        .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
+        .font(.subheadline)
     }
 }
 
@@ -126,14 +138,14 @@ struct CategoryButton: View {
         Button(action: action) {
             Text(category)
                 .font(.headline)
-                .foregroundColor(isSelected ? .white : .blue)
+                .foregroundColor(isSelected ? Color(red: 198/225, green: 174/255, blue: 128/255) : Color(red: 67/225, green: 13/225, blue: 75/225))
                 .padding(.vertical, 8)
                 .padding(.horizontal, 16)
-                .background(isSelected ? Color.blue : Color.white)
+                .background(isSelected ? Color(red: 67/225, green: 13/225, blue: 75/225) : Color(red: 247/225, green: 239/255, blue: 247/255))
                 .cornerRadius(10)
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.blue, lineWidth: isSelected ? 0 : 1)
+                        .stroke(Color(red: 67/225, green: 13/225, blue: 75/225), lineWidth: isSelected ? 0 : 1)
                 )
         }
     }
