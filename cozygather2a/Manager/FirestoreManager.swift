@@ -227,21 +227,36 @@ class FirestoreManager {
         }
     }
     
-    func saveBookedVendors(event: String, vendorsData: [String: Any]) {
-           // Update the document for the selected event with the booked vendors' details
-           // Here, assuming "bookedVendors" is a subcollection under the selected event
-           for (vendorID, vendorDetails) in vendorsData {
-               db.collection("events").document(event).collection("bookedVendors").document(vendorID).setData(vendorDetails as! [String: Any]) { error in
-                   if let error = error {
-                       print("Error saving booked vendor details: \(error)")
-                   } else {
-                       print("Booked vendor details saved successfully")
-                   }
-               }
-           }
-       }
-   
-    
+    func saveBookedVendors(event: String, totalBookedVendors: Int, bookedVendorsData: [[String: Any]]) {
+        // Initialize a dictionary to store booked vendor statistics
+        var bookedVendorStats: [String: Any] = [
+            "totalBookedVendors": totalBookedVendors
+        ]
+
+        // Initialize an array to store details of booked vendors
+        var bookedVendors: [[String: Any]] = []
+
+        // Iterate through booked vendors data to extract category and price
+        for vendorData in bookedVendorsData {
+            if let category = vendorData["category"] as? String,
+               let price = vendorData["price"] as? String {
+                // Append category and price to the booked vendors array
+                bookedVendors.append(["category": category, "price": price])
+            }
+        }
+
+        // Add booked vendors data to the bookedVendorStats dictionary
+        bookedVendorStats["bookedVendors"] = bookedVendors
+
+        // Save the total number of booked vendors for the event along with category and price statistics
+        db.collection("eventStatistics").document(event).setData(bookedVendorStats, merge: true) { error in
+            if let error = error {
+                print("Error updating event statistics: \(error)")
+            } else {
+                print("Event statistics updated successfully")
+            }
+        }
+    }
   }
 
   

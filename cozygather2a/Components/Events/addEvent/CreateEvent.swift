@@ -8,7 +8,6 @@ class MessageDelegate: NSObject, MFMessageComposeViewControllerDelegate {
         controller.dismiss(animated: true, completion: nil)
     }
 }
-
 struct CreateEvent: View {
     @State private var eventName: String = ""
     @State private var venueAddress: String = "Address"
@@ -24,11 +23,9 @@ struct CreateEvent: View {
     @Environment(\.presentationMode) var presentationMode
     
     let messageDelegate = MessageDelegate()
-    
     var isFormValid: Bool {
         return !eventName.isEmpty && !venueAddress.isEmpty && !price.isEmpty
     }
-    
     var body: some View {
         NavigationView {
             ScrollView {
@@ -274,126 +271,7 @@ struct CreateEvent: View {
                }
            }
        }
-       
-
     }
-
-//struct ContactListView: View {
-//    @Binding var selectedContacts: [ContactInfo]
-//    @State private var contacts: [CNContact] = []
-//    @State private var filteredContacts: [CNContact] = []
-//    @State private var searchText: String = ""
-//
-//    var body: some View {
-//        VStack {
-//            SearchBar(text: $searchText)
-//                .padding(.horizontal)
-//
-//            List(filteredContacts, id: \.self) { contact in
-//                ContactRow(contact: contact, isSelected: self.selectedContacts.contains { $0.phoneNumber == contact.phoneNumbers.first?.value.stringValue }, onTapAction: { self.toggleSelection(for: contact) })
-//            }
-//        }
-//        .onAppear {
-//            fetchContacts()
-//        }
-//        .onChange(of: searchText) { newValue in
-//            filterContacts()
-//        }
-//    }
-//
-//    func fetchContacts() {
-//        let store = CNContactStore()
-//        store.requestAccess(for: .contacts) { granted, error in
-//            if granted && error == nil {
-//                let keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey] as [CNKeyDescriptor]
-//                let request = CNContactFetchRequest(keysToFetch: keys)
-//                do {
-//                    try store.enumerateContacts(with: request) { contact, _ in
-//                        contacts.append(contact)
-//                    }
-//                    filterContacts()
-//                } catch {
-//                    print("Error fetching contacts: \(error.localizedDescription)")
-//                }
-//            } else {
-//                print("Contacts access denied")
-//            }
-//        }
-//    }
-//
-//    func filterContacts() {
-//        if searchText.isEmpty {
-//            filteredContacts = contacts
-//        } else {
-//            filteredContacts = contacts.filter { contact in
-//                contact.givenName.localizedCaseInsensitiveContains(searchText) ||
-//                    contact.familyName.localizedCaseInsensitiveContains(searchText) ||
-//                    contact.phoneNumbers.contains(where: { $0.value.stringValue.localizedCaseInsensitiveContains(searchText) })
-//            }
-//        }
-//    }
-//
-//    func toggleSelection(for contact: CNContact) {
-//        if let index = selectedContacts.firstIndex(where: { $0.phoneNumber == contact.phoneNumbers.first?.value.stringValue }) {
-//            selectedContacts.remove(at: index)
-//        } else {
-//            if let phoneNumber = contact.phoneNumbers.first?.value.stringValue {
-//                selectedContacts.append(ContactInfo(name: "\(contact.givenName) \(contact.familyName)", phoneNumber: phoneNumber))
-//            }
-//        }
-//    }
-//}
-//
-//struct ContactRow: View {
-//    var contact: CNContact
-//    var isSelected: Bool
-//    var onTapAction: () -> Void
-//
-//    var body: some View {
-//        HStack {
-//            VStack(alignment: .leading, spacing: 4) {
-//                Text("\(contact.givenName) \(contact.familyName)")
-//                    .font(.headline)
-//                if let phoneNumber = contact.phoneNumbers.first?.value.stringValue {
-//                    Text(phoneNumber)
-//                        .font(.subheadline)
-//                }
-//            }
-//            Spacer()
-//            Button(action: {
-//                onTapAction()
-//            }) {
-//                Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
-//                    .foregroundColor(isSelected ? .green : .blue)
-//                    .imageScale(.large)
-//            }
-//            .padding(.trailing)
-//        }
-//        .padding(.horizontal)
-//        .padding(.vertical, 8)
-//    }
-//}
-//
-//
-//struct SearchBar: View {
-//    @Binding var text: String
-//
-//    var body: some View {
-//        HStack {
-//            TextField("Search", text: $text)
-//                .padding(.horizontal)
-//                .padding(.vertical, 8)
-//                .background(Color(red: 250/255, green: 244/255, blue: 250/255))
-//                .cornerRadius(8)
-//        }
-//    }
-//}
-//
-//struct ContactInfo {
-//    var name: String
-//    var phoneNumber: String
-//    // Add more properties as needed
-//}
 struct ContactListView: View {
     @Binding var selectedContacts: [ContactInfo]
     @State private var searchText = ""

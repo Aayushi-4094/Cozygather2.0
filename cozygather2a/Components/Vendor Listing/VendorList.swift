@@ -11,12 +11,14 @@ struct VendorList: View {
     @State private var selectedEvent: String? // Selected event name
     @State private var eventNames: [String]? // Event names fetched from Firestore
     @State private var isExpanded = false
+    @State private var showAlert = false
+    @State private var alertMessage = ""
     let firestoreManager = FirestoreManager.shared
 
     var body: some View {
         NavigationView {
             VStack {
-                HStack{
+                HStack {
                     DisclosureGroup(isExpanded: $isExpanded) {
                         VStack(alignment: .leading) {
                             if let eventNames = eventNames {
@@ -37,12 +39,12 @@ struct VendorList: View {
                         HStack {
                             Text(selectedEvent ?? "Select Event") // Display selected event name or default text
                                 .foregroundColor(selectedEvent != nil ? .black : .gray) // Change text color based on selection
-                           Image(systemName: "chevron.down") // Dropdown arrow icon
+                            Image(systemName: "chevron.down") // Dropdown arrow icon
                                 .rotationEffect(isExpanded ? .degrees(180) : .zero) // Rotate arrow based on dropdown state
                         }
                     }
                     .padding()
-                    
+
                     Text("Total Booked Vendors: \(bookedVendors.count)")
                         .font(.system(size: 12))
                         .foregroundColor(.gray)
@@ -76,18 +78,20 @@ struct VendorList: View {
                     }
                 }
                 .navigationTitle("Vendor List")
-                
-                 // Add some bottom padding for spacing
+
+                // Add some bottom padding for spacing
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: {
-                        // Show filter sheet
-                        // Save action here
+                        saveDetailsToFirestore() // Call saveDetailsToFirestore() when Save button is clicked
                     }) {
                         Text("Save")
                     }
                 }
+            }
+            .alert(isPresented: $showAlert) {
+                Alert(title: Text("Details Saved"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -106,6 +110,16 @@ struct VendorList: View {
                              isFilterScreenPresented: $isFilterSheetPresented)
             }
             .padding(.bottom, 40)
+
+            .toolbar {
+                ToolbarItem(placement: .bottomBar) {
+                    HStack {  // Wrap the content in HStack
+                        //Spacer()  // Add Spacer to push content to the right
+                        Toolbar()
+                    }
+                }
+            }
+
             .onAppear {
                 fetchVendors()
                 fetchEvents()
@@ -120,18 +134,51 @@ struct VendorList: View {
             }
         }
     }
-    
+
     private func fetchEvents() {
         firestoreManager.fetchEventNames { eventNames in
             // Assuming you have fetched event names successfully
             // Update the UI with the event names
             self.eventNames = eventNames
-            
+
             // If there are events and no event is selected yet, set the selected event to the first event
             if !eventNames.isEmpty && selectedEvent == nil {
                 selectedEvent = eventNames[0]
             }
         }
+    }
+    // Function to save details to Firestore
+    private func saveDetailsToFirestore() {
+        // Check if selectedEvent is nil
+        guard let selectedEvent = selectedEvent else {
+            showAlert = true
+            alertMessage = "Please select an event before saving."
+            return
+        }
+
+        // Prepare the data to be saved
+        var bookedVendorsData: [[String: Any]] = []
+        for vendor in vendors {
+            // Convert each vendor object to dictionary format for Firestore
+            let vendorData: [String: Any] = [
+                "id": vendor.id,
+                "shopName": vendor.shopName,
+                "category": vendor.selectedCategory ?? "", // Add category, use empty string if not available
+                "price": vendor.price, // Add price
+                // Add other vendor details as needed
+            ]
+            bookedVendorsData.append(vendorData)
+        }
+
+        // Call FirestoreManager's method to save booked vendors
+        firestoreManager.saveBookedVendors(event: selectedEvent, totalBookedVendors: bookedVendors.count, bookedVendorsData: bookedVendorsData)
+
+        // Reset state variables
+        self.selectedEvent = nil
+        eventNames = nil
+        bookedVendors.removeAll()
+        showAlert = true
+        alertMessage = "Details saved successfully"
     }
 }
 
