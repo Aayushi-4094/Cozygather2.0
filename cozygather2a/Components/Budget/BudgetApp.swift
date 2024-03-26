@@ -127,7 +127,7 @@ let sampleTransactions = [
     Transaction(iconColor: .blue, title: "Catering", amount: "₹450"),
     Transaction(iconColor: .green, title: "Decoration", amount: "₹790"),
     Transaction(iconColor: .orange, title: "Vendors", amount: "-₹150"),
-    Transaction(iconColor: .purple, title: "Music", amount: "-₹990")
+    Transaction(iconColor: .purple, title: "Music", amount: "₹990")
 ]
 
 struct BudgetApp_Previews: PreviewProvider {

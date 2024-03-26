@@ -25,14 +25,18 @@ struct OrderCard: View {
     var order: OrderData
 
     var randomBackgroundColor: Color {
-        let colors: [Color] = [Color(red: 247/225, green: 239/255, blue: 247/255)]
+        let colors: [Color] = [Color.white]
         return colors.randomElement() ?? .gray
     }
 
     var body: some View {
         ZStack {
             randomBackgroundColor
-                .cornerRadius(12)
+                //.cornerRadius(12)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(Color(red: 198/225, green: 174/255, blue: 128/255), lineWidth: 1)
+                )
             HStack {
                 VStack {
                     Image(order.imageName) // Replace with appropriate image
@@ -65,7 +69,8 @@ struct OrderCard: View {
                     }
                     .sheet(isPresented: $isDetailViewPresented) {
                         // Replace with OrderDetailView implementation
-                        Text("Order Detail View")
+                        ViewOrderDetails()
+                        //Text("Order Detail View")
                     }
                 }
                 .padding(.horizontal, 30)
@@ -96,55 +101,57 @@ struct VendorHome: View {
 
     var body: some View {
         NavigationView {
-            VStack {
-                Text("Uncompleted Orders")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .padding(.top, 20)
-
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 16) {
-                        ForEach(uncompletedOrdersData) { order in
-                            OrderCard(order: order)
-                        }
-                    }
-                }
-//.padding(.bottom, 20)
-                Text("Completed Orders")
-                    .font(.title2)
+            ZStack{
+                VStack {
+                    Text("Uncompleted Orders")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .padding(.top, 20)
                     
-                    .fontWeight(.bold)
-                    .padding()
-
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 16) {
-                        ForEach(completedOrdersData) { order in
-                            OrderCard(order: order)
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 16) {
+                            ForEach(uncompletedOrdersData) { order in
+                                OrderCard(order: order)
+                            }
+                        }
+                    }
+                    //.padding(.bottom, 20)
+                    Text("Completed Orders")
+                        .font(.title2)
+                    
+                        .fontWeight(.bold)
+                        .padding()
+                    
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 16) {
+                            ForEach(completedOrdersData) { order in
+                                OrderCard(order: order)
+                            }
+                        }
+                    }
+                    Spacer()
+                    
+                }
+                
+                .padding()
+                .navigationTitle("Vendor Homepage")
+                .navigationBarItems(leading: menuButton, trailing: notificationButton)
+                .sheet(isPresented: $isNotificationViewPresented) {
+                    // Replace with NotificationView implementation
+                    Notification1()
+                }
+                .toolbar {
+                    ToolbarItem(placement: .bottomBar) {
+                        HStack {  // Wrap the content in HStack
+                            Spacer()  // Add Spacer to push content to the right
+                            VendorToolbar()
                         }
                     }
                 }
-                Spacer()
-
             }
-            
-            .padding()
-            .navigationTitle("Vendor Homepage")
-            .navigationBarItems(leading: menuButton, trailing: notificationButton)
-            .sheet(isPresented: $isNotificationViewPresented) {
-                // Replace with NotificationView implementation
-                Notification1()
-            }
-            .toolbar {
-              ToolbarItem(placement: .bottomBar) {
-                HStack {  // Wrap the content in HStack
-                  Spacer()  // Add Spacer to push content to the right
-                  VendorToolbar()
-                }
-              }
-            }
+            .background(Color(red: 247/225, green: 239/255, blue: 247/255))
         }
     }
-
     private var menuButton: some View {
         Button(action: {
             withAnimation {

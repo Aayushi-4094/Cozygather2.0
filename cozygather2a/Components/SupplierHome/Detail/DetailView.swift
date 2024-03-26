@@ -23,157 +23,164 @@ struct DetailView: View {
 
     var body: some View {
         NavigationView {
-            ScrollView {
-                VStack(spacing: 20) {
-                    // Choose Category Section
-                    VStack(alignment: .leading, spacing: 10) {
-                        Text("Choose a Category")
-                            .font(.headline)
-                        ForEach(categories, id: \.self) { category in
-                            HStack {
-                                Text(category)
-                                Spacer()
-                                Button(action: {
-                                    selectedCategory = (selectedCategory == category) ? nil : category
-                                }) {
-                                    Image(systemName: selectedCategory == category ? "checkmark.circle.fill" : "circle")
-                                        .foregroundColor(.purple)
+            ZStack{
+                ScrollView {
+                    VStack(spacing: 20) {
+                        // Choose Category Section
+                        VStack(alignment: .leading, spacing: 10) {
+                            Text("Choose a Category")
+                                .font(.headline)
+                            ForEach(categories, id: \.self) { category in
+                                HStack {
+                                    Text(category)
+                                    Spacer()
+                                    Button(action: {
+                                        selectedCategory = (selectedCategory == category) ? nil : category
+                                    }) {
+                                        Image(systemName: selectedCategory == category ? "checkmark.circle.fill" : "circle")
+                                            .foregroundColor(Color(red:198/255, green: 174/255, blue:128/255))
+                                    }
+                                    .padding()
                                 }
+                            }
+                        }
+                        .padding(.horizontal, 20)
+                        
+                        // Vendor Shop Name
+                        TextField("Vendor Shop Name", text: $shopName)
+                            .padding()
+                            .background(RoundedRectangle(cornerRadius: 8).stroke(Color(red:198/255, green: 174/255, blue: 128/255), lineWidth: 2))
+                            .padding(.horizontal, 20)
+                        
+                        // Address
+                        TextField("Address", text: $address)
+                            .padding()
+                            .background(RoundedRectangle(cornerRadius: 8).stroke(Color(red:198/255, green: 174/255, blue: 128/255), lineWidth: 2))
+                            .padding(.horizontal, 20)
+                        
+                        TextField("Price", text: $price)
+                            .padding()
+                            .background(RoundedRectangle(cornerRadius: 8).stroke(Color(red:198/255, green: 174/255, blue: 128/255), lineWidth: 2))
+                            .padding(.horizontal, 20)
+                        
+                        // Working Hours Section
+                        VStack(alignment: .leading, spacing: 10) {
+                            Text("Working Hours")
+                                .font(.headline)
+                            HStack {
+                                VStack(alignment: .leading, spacing: 0) {
+                                    Text("From")
+                                        .font(.headline)
+                                    DatePicker("", selection: $fromTime, displayedComponents: .hourAndMinute)
+                                        .datePickerStyle(CompactDatePickerStyle())
+                                }
+                                .frame(maxWidth: .infinity)
+                                .padding(.horizontal, 5)
+                                
+                                VStack(alignment: .leading, spacing: 0) {
+                                    Text("To")
+                                        .font(.headline)
+                                    DatePicker("", selection: $toTime, displayedComponents: .hourAndMinute)
+                                        .datePickerStyle(CompactDatePickerStyle())
+                                }
+                                .frame(maxWidth: .infinity)
+                                .padding(.horizontal, 5)
+                            }
+                            .padding(.vertical, 10)
+                            .padding(.horizontal, 20)
+                            .background(RoundedRectangle(cornerRadius: 8).stroke(Color(red:198/255, green: 174/255, blue: 128/255), lineWidth: 2))
+                            //.padding(.horizontal, 20)
+                        }
+                        .padding(.horizontal, 20)
+                        
+                        // Flexible Rate Toggle
+                        Toggle("Flexible Rate", isOn: $flexibleRate)
+                            .padding(.horizontal, 20)
+                        
+                        // Choose Logo Image Button
+                        Button(action: {
+                            isShowingImagePicker = true
+                        }) {
+                            Text("Choose Logo Image")
+                                .foregroundColor(.white)
                                 .padding()
-                            }
+                                .frame(maxWidth: .infinity)
+                                .background(Color(red: 67/255, green: 13/255, blue: 75/255))
+                                .cornerRadius(8)
                         }
-                    }
-                    .padding(.horizontal, 20)
-                    
-                    // Vendor Shop Name
-                    TextField("Vendor Shop Name", text: $shopName)
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 8).stroke(Color.purple, lineWidth: 2))
                         .padding(.horizontal, 20)
-                    
-                    // Address
-                    TextField("Address", text: $address)
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 8).stroke(Color.purple, lineWidth: 2))
-                        .padding(.horizontal, 20)
-                    
-                    TextField("Price", text: $price)
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 8).stroke(Color.purple, lineWidth: 2))
-                        .padding(.horizontal, 20)
-                    
-                    // Working Hours Section
-                    VStack(alignment: .leading, spacing: 10) {
-                        Text("Working Hours")
-                            .font(.headline)
-                        HStack {
-                            VStack(alignment: .leading, spacing: 0) {
-                                Text("From")
-                                    .font(.headline)
-                                DatePicker("", selection: $fromTime, displayedComponents: .hourAndMinute)
-                                    .datePickerStyle(CompactDatePickerStyle())
-                            }
-                            .frame(maxWidth: .infinity)
-                            .padding(.horizontal, 5)
-                            
-                            VStack(alignment: .leading, spacing: 0) {
-                                Text("To")
-                                    .font(.headline)
-                                DatePicker("", selection: $toTime, displayedComponents: .hourAndMinute)
-                                    .datePickerStyle(CompactDatePickerStyle())
-                            }
-                            .frame(maxWidth: .infinity)
-                            .padding(.horizontal, 5)
+                        .sheet(isPresented: $isShowingImagePicker, onDismiss: loadImage) {
+                            ImagePicker(selectedImage: $selectedImage, isShowingImagePicker: $isShowingImagePicker)
                         }
-                        .padding(.vertical, 10)
+                        
+                        // Display selected logo image
+                        if let logoImage = logoImage {
+                            logoImage
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 100, height: 100)
+                        }
+                        
+                        // Choose Menu Image Button
+                        Button(action: {
+                            isShowingImagePicker = true
+                        }) {
+                            Text("Choose Menu Image")
+                                .foregroundColor(.white)
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color(red: 67/255, green: 13/255, blue: 75/255))
+                                .cornerRadius(8)
+                        }
                         .padding(.horizontal, 20)
-                        .background(RoundedRectangle(cornerRadius: 8).stroke(Color.purple, lineWidth: 2))
-                    }
-                    .padding(.horizontal, 20)
-                    
-                    // Flexible Rate Toggle
-                    Toggle("Flexible Rate", isOn: $flexibleRate)
+                        .sheet(isPresented: $isShowingImagePicker, onDismiss: loadImage) {
+                            ImagePicker(selectedImage: $selectedImage, isShowingImagePicker: $isShowingImagePicker)
+                        }
+                        
+                        // Display selected menu image
+                        if let menuImage = menuImage {
+                            menuImage
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 100, height: 100)
+                        }
+                        
+                        // Save Button
+                        Button(action: {
+                            saveDetailsToFirestore()
+                        }) {
+                            Text("Save")
+                                .foregroundColor(Color(red:198/255, green: 174/255, blue: 128/255))
+                                .font(.subheadline)
+                                .fontWeight(.bold)
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color(red:67/255, green: 13/255, blue: 75/255))
+                                .cornerRadius(8)
+                        }
                         .padding(.horizontal, 20)
-                    
-                    // Choose Logo Image Button
-                    Button(action: {
-                        isShowingImagePicker = true
-                    }) {
-                        Text("Choose Logo Image")
-                            .foregroundColor(.white)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color(red: 67/255, green: 13/255, blue: 75/255))
-                            .cornerRadius(8)
+                        .alert(isPresented: $isDetailsSaved) {
+                            Alert(
+                                title: Text("Details Saved"),
+                                message: Text("You can now go to homepage by pressing OK"),
+                                dismissButton: .default(Text("OK"), action: {
+                                    // Set the flag to true to present the vendor home view
+                                    VendorHomePageActive = true
+                                })
+                            )
+                        }
+                        .fullScreenCover(isPresented: $VendorHomePageActive, content: {
+                            VendorHome(username: "YourUsernameHere")
+                        })
+                        
+                        Spacer()
                     }
-                    .padding(.horizontal, 20)
-                    .sheet(isPresented: $isShowingImagePicker, onDismiss: loadImage) {
-                        ImagePicker(selectedImage: $selectedImage, isShowingImagePicker: $isShowingImagePicker)
-                    }
-                    
-                    // Display selected logo image
-                    if let logoImage = logoImage {
-                        logoImage
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 100, height: 100)
-                    }
-                    
-                    // Choose Menu Image Button
-                    Button(action: {
-                        isShowingImagePicker = true
-                    }) {
-                        Text("Choose Menu Image")
-                            .foregroundColor(.white)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color(red: 67/255, green: 13/255, blue: 75/255))
-                            .cornerRadius(8)
-                    }
-                    .padding(.horizontal, 20)
-                    .sheet(isPresented: $isShowingImagePicker, onDismiss: loadImage) {
-                        ImagePicker(selectedImage: $selectedImage, isShowingImagePicker: $isShowingImagePicker)
-                    }
-                    
-                    // Display selected menu image
-                    if let menuImage = menuImage {
-                        menuImage
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 100, height: 100)
-                    }
-                    
-                    // Save Button
-                    Button(action: {
-                        saveDetailsToFirestore()
-                    }) {
-                        Text("Save")
-                            .foregroundColor(.white)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.green)
-                            .cornerRadius(8)
-                    }
-                    .padding(.horizontal, 20)
-                    .alert(isPresented: $isDetailsSaved) {
-                        Alert(
-                            title: Text("Details Saved"),
-                            message: Text("You can now go to homepage by pressing OK"),
-                            dismissButton: .default(Text("OK"), action: {
-                                // Set the flag to true to present the vendor home view
-                                VendorHomePageActive = true
-                            })
-                        )
-                    }
-                    .fullScreenCover(isPresented: $VendorHomePageActive, content: {
-                        VendorHome(username: "YourUsernameHere")
-                    })
-                    
-                    Spacer()
+                    .padding()
                 }
-                .padding()
             }
+            .background(Color(red: 247/225, green: 239/255, blue: 247/255))
             .navigationBarTitle("Vendor Details", displayMode: .large)
+            .foregroundColor(Color(red:67/255, green:13/255, blue: 75/255))
             //.background(Color(red: 1.0, green: 1.0, blue: 0.8))
         }
     }

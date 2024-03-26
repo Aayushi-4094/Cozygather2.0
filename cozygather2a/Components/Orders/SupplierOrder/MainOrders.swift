@@ -20,7 +20,7 @@ struct MainOrders: View {
                         // Search TextField
                         HStack {
                             Image(systemName: "magnifyingglass")
-                                .foregroundColor(.blue)
+                                .foregroundColor(Color(red:67/255, green: 13/255, blue:75/255))
                                 .padding(.leading, 10)
 
                             TextField("Search", text: $searchText)
@@ -28,7 +28,7 @@ struct MainOrders: View {
 
                         }
                         .padding(.leading, 16)
-                        .background(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1))
+                        .background(RoundedRectangle(cornerRadius: 10).stroke(Color(red:67/255, green: 13/255, blue:75/255), lineWidth: 1))
                         .frame(width: 250)
 
                         // Spacer to push Filter button to the right
@@ -40,13 +40,13 @@ struct MainOrders: View {
                         }) {
                             HStack {
                                 Image(systemName: "slider.horizontal.3")
-                                    .foregroundColor(.white)
+                                    .foregroundColor(Color(red:198/255, green: 174/255, blue:128/255))
                                 Text("Filter")
-                                    .foregroundColor(.white)
+                                    .foregroundColor(Color(red:198/255, green: 174/255, blue:128/255))
                                     .font(.headline)
                             }
                             .frame(width: 100, height: 40)
-                            .background(Color.blue)
+                            .background(Color(red:67/255, green: 13/255, blue:75/255))
                             .cornerRadius(20)
                             .padding(.trailing, 16)
                         }
@@ -101,8 +101,10 @@ struct MainOrders: View {
                     .hidden()
                 }
             }
-            .navigationBarHidden(true)
+            .background(Color(red:248/255,green: 239/255, blue:247/255))
+            //.navigationBarHidden(true)
         }
+        .navigationTitle("Orders")
     }
 }
 
@@ -123,7 +125,7 @@ struct CustomCard1: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(date)
                         .font(.headline)
-                        .foregroundColor(.black)
+                        .foregroundColor(Color(red:67/255, green: 13/255, blue:75/255))
 
                     Text(description)
                         .foregroundColor(.gray)
@@ -137,7 +139,7 @@ struct CustomCard1: View {
             HStack {
                 Spacer()
                 Text(hyperlinkText)
-                    .foregroundColor(.blue)
+                    .foregroundColor(Color(red:67/255, green: 13/255, blue:75/255))
                     .underline()
                     .font(.system(size: 12))
                     .position(CGPoint(x: 310.0, y: -30.0))

@@ -10,29 +10,32 @@ struct Notification1: View {
     
     var body: some View {
         VStack {
-            VStack(spacing: 0) {
-                Text("Notifications")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .padding(.vertical)
-                    .frame(maxWidth: .infinity)
-                    .background(Color(.systemBackground))
-                    .foregroundColor(Color(.label))
-                
-                Divider()
-                
-                List {
-                    ForEach(notifications) { notification in
-                        NotificationRow(notification: notification, isDetailPresented: $isDetailPresented)
+            ZStack{
+                VStack(spacing: 0) {
+                    Text("Notifications")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .padding(.vertical)
+                        .frame(maxWidth: .infinity)
+                        .background(Color(.systemBackground))
+                        .foregroundColor(Color(.label))
+                    
+                    Divider()
+                    
+                    List {
+                        ForEach(notifications) { notification in
+                            NotificationRow(notification: notification, isDetailPresented: $isDetailPresented)
+                        }
+                        .listRowInsets(EdgeInsets())
                     }
-                    .listRowInsets(EdgeInsets())
+                    .listStyle(PlainListStyle())
                 }
-                .listStyle(PlainListStyle())
+               // .background(Color(.systemBackground))
             }
-            .background(Color(.systemBackground))
+           // .background(Color(red:248/255, green/239/255, blue:247/255))
         }
         .navigationBarHidden(true)
-        .background(Color(.systemBackground).edgesIgnoringSafeArea(.all))
+       // .background(Color(.systemBackground).edgesIgnoringSafeArea(.all))
     }
 }
 

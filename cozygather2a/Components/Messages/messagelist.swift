@@ -5,50 +5,44 @@ struct messagelist: View {
 
     var body: some View {
         NavigationView {
-            VStack(spacing: 20) {
-                HStack {
-                    Spacer()
-                    Text("Messages")
-                        .font(.title)
-                        .foregroundColor(Color(red: 0.07, green: 0.05, blue: 0.15))
-                        .padding(.bottom, 20)
-                    Spacer()
-//                    Button(action: {}) {
-//                        Image(systemName: "bell")
-//                            .font(.title)
-//                            .foregroundColor(.blue)
-//                    }
-                }
-                .padding(.top, 20) // Align top bar to the top
-                Divider()
-
-                ForEach(0..<numberOfMessages, id: \.self) { index in
-                    NavigationLink(destination: MessagingView()) {
-                        MessageBoxSampleView(imageName: "noti\(index + 1)", name: "Notification \(index + 1)", date: "Jan \(Int.random(in: 1...31))", description: "Sample description", timeButtonText: "\(Int.random(in: 1...60))")
+            ZStack {
+                VStack(spacing: 20) {
+                    HStack {
+                        Text("Messages")
+                            .font(.title)
+                            .foregroundColor(Color(red: 67/255, green: 13/255, blue: 75/255))
+                    }
+                    .padding(.top, 20) // Align top bar to the top
+                    Divider()
+                    
+                    ForEach(0..<numberOfMessages, id: \.self) { index in
+                        NavigationLink(destination: MessagingView()) {
+                            MessageBoxSampleView(imageName: "noti\(index + 1)", name: "Notification \(index + 1)", date: "Jan \(Int.random(in: 1...31))", description: "Sample description", timeButtonText: "\(Int.random(in: 1...60))")
+                        }
+                    }
+                    .padding(.top, 20) // Align notifications to the top
+                    
+                    Button(action: {
+                        numberOfMessages += 1 // Increase the number of messages by 1
+                    }) {
+                        Text("Load More Messages") // Updated button label
+                            .foregroundColor(.blue)
                     }
                 }
-                .padding(.top, 20) // Align notifications to the top
-
-                Button(action: {
-                    numberOfMessages += 1 // Increase the number of messages by 1
-                }) {
-                    Text("Load More Messages") // Updated button label
-                        .foregroundColor(.blue)
+                .padding(.horizontal)
+                .navigationBarHidden(true)
+                
+                // Add VendorToolbar at the end of the page
+                .toolbar {
+                    ToolbarItem(placement: .bottomBar) {
+                        HStack {  // Wrap the content in HStack
+                            Spacer()  // Add Spacer to push content to the right
+                            VendorToolbar()
+                        }
+                    }
                 }
             }
-            .padding(.horizontal)
-            .background(Color.white)
-            .navigationBarHidden(true)
-
-            // Add VendorToolbar at the end of the page
-            .toolbar {
-              ToolbarItem(placement: .bottomBar) {
-                HStack {  // Wrap the content in HStack
-                  Spacer()  // Add Spacer to push content to the right
-                  VendorToolbar()
-                }
-              }
-            }
+            .background(Color(red:248/255, green: 239/255, blue:247/255))
         }
     }
 }
@@ -71,20 +65,23 @@ struct MessageBoxSampleView: View {
             VStack(alignment:.leading) {
                 Text(name)
                     .font(.headline)
-                    .foregroundColor(.black)
+                    .foregroundColor(Color(red:67/255, green: 13/255, blue: 75/255))
 
-                Text(description)
-                    .foregroundColor(.gray)
+                Text("Message")
+                    .foregroundColor(Color(red:198/255, green: 174/255, blue: 128/255))
             }
 
             Spacer()
 
             VStack(alignment:.trailing) {
                 Text(date)
+                    .foregroundColor(Color(red:198/255, green: 174/255, blue: 128/255))
+                    .font(.subheadline)
                 Text("\(timeButtonText) min ago")
-                    .foregroundColor(.white)
+                    .foregroundColor(Color(red:198/255, green: 174/255, blue: 128/255))
+                    .font(.subheadline)
                     .padding(5)
-                    .background(Color.blue)
+                    .background(Color(red:67/255, green:13/255, blue:75/255))
                     .cornerRadius(5)
                     .frame(width :50,height :50)
             }
@@ -92,10 +89,6 @@ struct MessageBoxSampleView: View {
         .padding()
     }
 }
-
-
-
-
 
 struct messagelist_Previews : PreviewProvider {
     static var previews : some View {
