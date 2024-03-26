@@ -1,54 +1,60 @@
 import SwiftUI
 
 struct BudgetApp: View {
+    let expenditures = [
+        Expenditure(category: "Catering", amount: 450, iconColor: .blue),
+        Expenditure(category: "Decoration", amount: 790, iconColor: .green),
+        Expenditure(category: "Vendors", amount: -150, iconColor: .orange),
+        Expenditure(category: "Music", amount: 990, iconColor: .purple)
+    ]
+
     var body: some View {
         NavigationView {
             VStack(alignment: .leading) {
                 ScrollView {
                     VStack(alignment: .leading) {
                         BudgetHeaderView(budget: "₹1,345", forecast: "₹2,010")
-                        CostGraphView()
+                        CostGraphView(expenditures: expenditures)
                         TransactionListView(transactions: sampleTransactions)
                     }
                     .padding() // Added padding for better visibility
                 }
                 .navigationTitle("My budget")
-                .background(Color(red: 247/225, green: 239/255, blue: 247/255))
+                .background(Color(red: 247/255, green: 239/255, blue: 247/255))
             }
             .toolbar {
                 ToolbarItem(placement: .bottomBar) {
-                    HStack {  // Wrap the content in HStack
-                        //Spacer()  // Add Spacer to push content to the right
+                    HStack {
                         Toolbar()
                     }
                 }
             }
-        }.background(Color(red: 247/225, green: 239/255, blue: 247/255))
+        }
+        .background(Color(red: 247/255, green: 239/255, blue: 247/255))
     }
 }
+
 struct BudgetHeaderView: View {
-  let budget: String
-  let forecast: String
+    let budget: String
+    let forecast: String
 
-  var body: some View {
-    VStack(alignment: .leading) {
-      Text(budget)
-        .font(.largeTitle)
-        .fontWeight(.bold)
-        .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225)) // Text color
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text(budget)
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .foregroundColor(Color(red: 67/255, green: 13/255, blue: 75/255)) // Text color
 
-      Text("Birthady Bash \(forecast)")
-        .font(.subheadline)
-        .foregroundColor(.gray)
+            Text("Birthady Bash \(forecast)")
+                .font(.subheadline)
+                .foregroundColor(.gray)
+        }
+        .padding()
     }
-    .padding()
-  }
 }
 
 struct CostGraphView: View {
-    let cateringExpenditure: Double = 450 // Replace with actual expenditure for catering
-    let decorationExpenditure: Double = 790 // Replace with actual expenditure for decoration
-    let vendorsExpenditure: Double = 150 // Replace with actual expenditure for vendors
+    let expenditures: [Expenditure]
 
     var body: some View {
         VStack {
@@ -57,78 +63,75 @@ struct CostGraphView: View {
                 .foregroundColor(.black)
                 .padding(.top)
 
-            // Custom birthday bash spending graph
-            HStack(spacing: 10) {
-                VStack {
-                    Spacer()
-                    Rectangle()
-                        .fill(Color.blue)
-                        .frame(height: calculateBarHeight(expenditure:  cateringExpenditure))
+            ScrollView(.horizontal) {
+                HStack(spacing: 10) {
+                    ForEach(expenditures, id: \.category) { expenditure in
+                        VStack {
+                            Spacer()
+                            Rectangle()
+                                .fill(expenditure.iconColor)
+                                .frame(width: 50, height: calculateBarHeight(expenditure: expenditure.amount))
+                            Text(expenditure.category)
+                                .rotationEffect(.degrees(-90))
+                        }
+                    }
                 }
-
-                VStack {
-                    Spacer()
-                    Rectangle()
-                        .fill(Color.green)
-                        .frame(height: calculateBarHeight(expenditure: decorationExpenditure))
-                }
-
-                VStack {
-                    Spacer()
-                    Rectangle()
-                        .fill(Color.orange)
-                        .frame(height: calculateBarHeight(expenditure: vendorsExpenditure))
-                }
+                .padding()
             }
         }
         .padding()
     }
-
-    func calculateBarHeight(expenditure: Double) -> CGFloat {
+    
+    func calculateBarHeight(expenditure: Int) -> CGFloat {
         let maxHeight: CGFloat = 150 // Adjust the maximum height as needed
-        let percentageSpent = min(expenditure / 1000, 1.0) // Assuming a maximum expenditure of 1000, adjust accordingly
+        let percentageSpent = min(Double(expenditure) / 1000, 1.0) // Assuming a maximum expenditure of 1000, adjust accordingly
         return maxHeight * CGFloat(percentageSpent)
     }
 }
 
-
 struct TransactionListView: View {
-  let transactions: [Transaction]
+    let transactions: [Transaction]
 
-  var body: some View {
-    ForEach(transactions) { transaction in
-      HStack {
-        Image(systemName: "circle.fill")
-          .foregroundColor(transaction.iconColor)
-        VStack(alignment: .leading) {
-          Text(transaction.title)
-            .font(.headline)
+    var body: some View {
+        ForEach(transactions) { transaction in
+            HStack {
+                Image(systemName: "circle.fill")
+                    .foregroundColor(transaction.iconColor)
+                VStack(alignment: .leading) {
+                    Text(transaction.title)
+                        .font(.headline)
+                }
+                Spacer()
+                Text(transaction.amount)
+                    .foregroundColor(transaction.amount.contains("-") ? .red : .green)
+            }
+            .padding()
         }
-        Spacer()
-        Text(transaction.amount)
-          .foregroundColor(transaction.amount.contains("-") ? .red : .green)
-      }
-      .padding()
     }
-  }
+}
+
+struct Expenditure {
+    let category: String
+    let amount: Int
+    let iconColor: Color
 }
 
 struct Transaction: Identifiable {
-  let id = UUID()
-  let iconColor: Color
-  let title: String
-  //let subtitle: String
-  let amount: String
+    let id = UUID()
+    let iconColor: Color
+    let title: String
+    let amount: String
 }
 
 let sampleTransactions = [
-  Transaction(iconColor: .blue, title: "Catering",/*subtitle: "Outcoming transfer",*/ amount: "₹450"),
-  Transaction(iconColor: .orange, title: "Decoration", /*subtitle: "Annual withdrawal of funds", */amount: "₹790"),
-  Transaction(iconColor: .red, title: "Vendors", /*subtitle: "Annual withdrawal of funds", */amount: "-₹150"),
-  Transaction(iconColor: .purple, title: "Music",/* subtitle: "Annual withdrawal of funds",*/ amount: "-₹990")
+    Transaction(iconColor: .blue, title: "Catering", amount: "₹450"),
+    Transaction(iconColor: .green, title: "Decoration", amount: "₹790"),
+    Transaction(iconColor: .orange, title: "Vendors", amount: "-₹150"),
+    Transaction(iconColor: .purple, title: "Music", amount: "-₹990")
 ]
+
 struct BudgetApp_Previews: PreviewProvider {
-  static var previews: some View {
-    BudgetApp()
-  }
+    static var previews: some View {
+        BudgetApp()
+    }
 }

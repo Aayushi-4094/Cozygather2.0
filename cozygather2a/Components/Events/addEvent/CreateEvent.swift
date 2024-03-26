@@ -11,7 +11,7 @@ class MessageDelegate: NSObject, MFMessageComposeViewControllerDelegate {
 struct CreateEvent: View {
     @State private var eventName: String = ""
     @State private var venueAddress: String = ""
-    @State private var price: String = ""
+    @State private var initialPrice: String = ""
     @State private var selectedDateTime = Date()
     @State private var isDateAndTimeVisible = false
     @State private var isCoHostSheetPresented = false
@@ -24,7 +24,7 @@ struct CreateEvent: View {
     
     let messageDelegate = MessageDelegate()
     var isFormValid: Bool {
-        return !eventName.isEmpty && !venueAddress.isEmpty && !price.isEmpty
+        return !eventName.isEmpty && !venueAddress.isEmpty && !initialPrice.isEmpty
     }
     var body: some View {
         NavigationView {
@@ -81,7 +81,7 @@ struct CreateEvent: View {
                                 .foregroundColor(.primary)
                                 .foregroundColor(Color(red: 67/255, green: 13/255, blue: 75/255))
                             
-                            TextField("Budget", text: $price)
+                            TextField("Budget", text: $initialPrice)
                                 .padding(.horizontal)
                                 .padding(.vertical, 8)
                                 .background(Color(red: 250/255, green: 244/255, blue: 250/255))
@@ -192,7 +192,7 @@ struct CreateEvent: View {
                                 // Create the event with extracted phone numbers
                                 let event = Event(eventName: eventName,
                                                   venueAddress: venueAddress,
-                                                  price: price,
+                                                  initialPrice: initialPrice,
                                                   selectedDate: selectedDateTime,
                                                   selectedCoHosts: phoneNumbers)
                                 

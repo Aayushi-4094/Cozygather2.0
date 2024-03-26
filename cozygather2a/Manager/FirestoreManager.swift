@@ -35,23 +35,23 @@ struct Event: Identifiable, Codable {
     var id: String?
     var eventName: String
     var venueAddress: String
-    var price: String
+    var initialPrice: String // Initial price added here
     var selectedDate: Date
     var selectedCoHosts: [String]
 
     // Add other properties as needed, e.g., eventDescription, maxParticipants, etc.
 
-    init(eventName: String, venueAddress: String, price: String, selectedDate: Date, selectedCoHosts: [String]) {
+    init(eventName: String, venueAddress: String, initialPrice: String, selectedDate: Date, selectedCoHosts: [String]) {
         self.eventName = eventName
         self.venueAddress = venueAddress
-        self.price = price
+        self.initialPrice = initialPrice
         self.selectedDate = selectedDate
         self.selectedCoHosts = selectedCoHosts
         // Initialize other properties as needed
     }
 }
 
-class FirestoreManager {
+class FirestoreManager: ObservableObject {
     static let shared = FirestoreManager()
     let db = Firestore.firestore()
     
@@ -77,7 +77,7 @@ class FirestoreManager {
         var eventData = [
             "eventName": event.eventName,
             "venueAddress": event.venueAddress,
-            "price": event.price,
+            "initialPrice": event.initialPrice,
             "selectedDate": Timestamp(date: event.selectedDate), // Convert Date to Timestamp
             "selectedCoHosts": event.selectedCoHosts
             // Add other event properties as needed, e.g., "eventDescription": event.eventDescription,
@@ -257,6 +257,78 @@ class FirestoreManager {
             }
         }
     }
-  }
+    
+    // Function to fetch all events along with their initial prices
+    func fetchEventNamesWithPrices(completion: @escaping ([(String, String)]) -> Void) {
+        db.collection("events").getDocuments { snapshot, error in
+            if let error = error {
+                print("Error fetching event names: \(error.localizedDescription)")
+                completion([])
+            } else if let documents = snapshot?.documents {
+                let eventNamesWithPrices = documents.compactMap { document -> (String, String)? in
+                    if let eventName = document.data()["eventName"] as? String,
+                       let price = document.data()["price"] as? String {
+                        return (eventName, price)
+                    }
+                    return nil
+                }
+                completion(eventNamesWithPrices)
+            }
+        }
+    }
+//    func fetchEventStatistics(completion: @escaping ([EventStatistics]?) -> Void) {
+//        var fetchedEventStatistics: [EventStatistics] = []
+//
+//        // Fetch events from the Firestore "events" collection
+//        fetchEvents { events in
+//            guard let events = events else {
+//                completion(nil)
+//                return
+//            }
+//
+//            // Iterate through each event to fetch additional statistics
+//            for event in events {
+//                // Fetch event statistics from the Firestore "eventStatistics" collection
+//                self.db.collection("eventStatistics").document(event.eventName).getDocument { document, error in
+//                    if let error = error {
+//                        print("Error fetching event statistics: \(error.localizedDescription)")
+//                        completion(nil)
+//                        return
+//                    }
+//
+//                    guard let document = document, document.exists else {
+//                        print("No statistics found for event: \(event.eventName)")
+//                        completion(nil)
+//                        return
+//                    }
+//
+//                    // Extract statistics data from the document
+//                    if let data = document.data(),
+//                       let totalBookedVendors = data["totalBookedVendors"] as? Int,
+//                       let bookedVendorsData = data["bookedVendors"] as? [[String: Any]] {
+//                        let bookedVendors = bookedVendorsData.compactMap { vendorData -> BookedVendor? in
+//                            guard let category = vendorData["category"] as? String,
+//                                  let price = vendorData["price"] as? String else {
+//                                return nil
+//                            }
+//                            return BookedVendor(category: category, price: price)
+//                        }
+//
+//                        // Create EventStatistics instance with fetched data
+//                        let eventStatistics = EventStatistics(eventName: event.eventName, initialPrice: event.initialPrice, totalBookedVendors: totalBookedVendors, bookedVendors: bookedVendors)
+//                        fetchedEventStatistics.append(eventStatistics)
+//                    } else {
+//                        print("Invalid data format for event statistics: \(document.documentID)")
+//                    }
+//
+//                    // Check if all events have been processed
+//                    if fetchedEventStatistics.count == events.count {
+//                        completion(fetchedEventStatistics)
+//                    }
+//                }
+//            }
+//        }
+//    }
 
-  
+
+}
