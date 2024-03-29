@@ -60,6 +60,7 @@
 /* Begin PBXFileReference section */
 		0713A17D2BAAFC1A003BFB92 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		074D21AB2BB035820088A3C9 /* VendorDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorDetailView.swift; sourceTree = "<group>"; };
+		07561AC72BB579B200AD0BE4 /* cozygather2aDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = cozygather2aDebug.entitlements; sourceTree = "<group>"; };
 		0796EFD92BA9BB890009D51C /* cozygather2a.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = cozygather2a.entitlements; sourceTree = "<group>"; };
 		0796EFDA2BA9BB940009D51C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		07F26FEE2BA800B10016B79F /* cozygather2a.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cozygather2a.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -142,6 +143,7 @@
 		07F26FF02BA800B10016B79F /* cozygather2a */ = {
 			isa = PBXGroup;
 			children = (
+				07561AC72BB579B200AD0BE4 /* cozygather2aDebug.entitlements */,
 				0796EFDA2BA9BB940009D51C /* Info.plist */,
 				0796EFD92BA9BB890009D51C /* cozygather2a.entitlements */,
 				07F270342BA806290016B79F /* Manager */,
@@ -613,12 +615,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = cozygather2a/cozygather2a.entitlements;
+				CODE_SIGN_ENTITLEMENTS = cozygather2a/cozygather2aDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"cozygather2a/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 9J8536AF2N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = cozygather2a/Info.plist;
@@ -629,6 +631,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -650,10 +653,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = cozygather2a/cozygather2a.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"cozygather2a/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 9J8536AF2N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = cozygather2a/Info.plist;
@@ -664,6 +667,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

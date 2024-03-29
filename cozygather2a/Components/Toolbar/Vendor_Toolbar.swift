@@ -64,7 +64,7 @@ struct VendorToolbar: View {
             }
             .fullScreenCover(isPresented: $isMessageViewActive) {
                 // Use the appropriate view for homevendr
-                messagelist()
+                //messagelist()
             }
             VStack {
                 Image(systemName: selectedTab == .message ? "person.crop.circle" : "person.crop.circle.fill")

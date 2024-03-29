@@ -68,9 +68,10 @@ struct UserProfile: View {
 
             Spacer() // Leave space at the bottom for the navigation control bar
             Toolbar()
+            
         }
         .padding(.horizontal)
-        .background(Color(.systemBackground))
+     .background(Color(.systemBackground))
         .navigationBarHidden(true) // Hide the navigation bar
     }
 }

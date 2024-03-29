@@ -257,7 +257,10 @@ struct UserHomeView: View {
     var body: some View {
         NavigationView {
             ZStack{
+//                LinearGradient(gradient: Gradient(colors: [Color.blue.opacity(0.2), Color(red:67/255, green:13/255, blue:75/255).opacity(0.8)]), startPoint: .topLeading, endPoint: .bottomTrailing)
+//                    .edgesIgnoringSafeArea(.all)
                 VStack {
+                    
                     //Spacer()
                     HStack {
                         
@@ -394,8 +397,10 @@ struct UserHomeView: View {
                             //Spacer()  // Add Spacer to push content to the right
                             Toolbar()
                         }
+                        .offset(y:20)
                     }
                 }
+                
             }
             .background(Color(red: 247/225, green: 239/255, blue: 247/255))
         }

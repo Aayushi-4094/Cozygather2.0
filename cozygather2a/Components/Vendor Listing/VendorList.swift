@@ -98,7 +98,7 @@ struct VendorList: View {
                                 .font(.subheadline)
                                 .fontWeight(.bold)
                                 .padding()
-                                .background(Color(red:67/255, green:13/255, blue:75/255))
+                               // .background(Color(red:67/255, green:13/255, blue:75/255))
                                 .cornerRadius(10)
                         }
                     }
@@ -132,6 +132,7 @@ struct VendorList: View {
                             //Spacer()  // Add Spacer to push content to the right
                             Toolbar()
                         }
+                        .offset(y:20)
                     }
                 }
                 .onAppear {

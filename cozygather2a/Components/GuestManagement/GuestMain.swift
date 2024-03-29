@@ -82,6 +82,7 @@ struct GuestMain: View {
                              //Spacer()  // Add Spacer to push content to the right
                              Toolbar()
                          }
+                         .offset(y:20)
                      }
                  }
              }

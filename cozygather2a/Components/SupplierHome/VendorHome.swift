@@ -146,6 +146,7 @@ struct VendorHome: View {
                             Spacer()  // Add Spacer to push content to the right
                             VendorToolbar()
                         }
+                        .offset(y:20)
                     }
                 }
             }

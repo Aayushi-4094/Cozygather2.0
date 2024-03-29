@@ -27,8 +27,10 @@ struct BudgetApp: View {
                     HStack {
                         Toolbar()
                     }
+                    .offset(y:20)
                 }
             }
+            
         }
         .background(Color(red: 247/255, green: 239/255, blue: 247/255))
     }
