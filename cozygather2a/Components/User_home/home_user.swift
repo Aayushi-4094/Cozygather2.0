@@ -194,6 +194,7 @@ struct MenuView: View {
                         Label("Notification", systemImage: "bell")
                             .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
                     }
+                   
                     NavigationLink(destination: Text("Payments")) {
                         Label("Payments", systemImage: "creditcard")
                             .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))

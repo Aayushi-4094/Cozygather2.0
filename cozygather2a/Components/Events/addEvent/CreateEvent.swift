@@ -93,34 +93,34 @@ struct CreateEvent: View {
                         }
                         
                         // Co-host Section
-                        HStack {
-                            Image(systemName: "person.crop.circle.badge.plus")
-                                .foregroundColor(.primary)
-                                .foregroundColor(Color(red: 67/255, green: 13/255, blue: 75/255))
-                            
-                            Button(action: {
-                                isCoHostSheetPresented.toggle()
-                            }) {
-                                HStack {
-                                    
-                                    Text("Select Co-host")
-                                        .foregroundColor(.gray)
-                                    Spacer()
-                                }
-                                .padding(.horizontal)
-                                .padding(.vertical, 8)
-                                .background(Color(red: 250/255, green: 244/255, blue: 250/255))
-                                .cornerRadius(8)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .stroke(Color(red: 198/225, green: 174/255, blue: 128/255), lineWidth: 1)
-                                )
-                            }
-                            .sheet(isPresented: $isCoHostSheetPresented) {
-                                ContactListView(selectedContacts: $selectedCoHosts)
-                            }
-                            .padding(.horizontal)
-                        }
+//                        HStack {
+//                            Image(systemName: "person.crop.circle.badge.plus")
+//                                .foregroundColor(.primary)
+//                                .foregroundColor(Color(red: 67/255, green: 13/255, blue: 75/255))
+//
+//                            Button(action: {
+//                                isCoHostSheetPresented.toggle()
+//                            }) {
+//                                HStack {
+//
+//                                    Text("Select Co-host")
+//                                        .foregroundColor(.gray)
+//                                    Spacer()
+//                                }
+//                                .padding(.horizontal)
+//                                .padding(.vertical, 8)
+//                                .background(Color(red: 250/255, green: 244/255, blue: 250/255))
+//                                .cornerRadius(8)
+//                                .overlay(
+//                                    RoundedRectangle(cornerRadius: 8)
+//                                        .stroke(Color(red: 198/225, green: 174/255, blue: 128/255), lineWidth: 1)
+//                                )
+//                            }
+//                            .sheet(isPresented: $isCoHostSheetPresented) {
+//                                ContactListView(selectedContacts: $selectedCoHosts)
+//                            }
+//                            .padding(.horizontal)
+//                        }
                         
                         // Date and Time Section
                         HStack {

@@ -1,8 +1,9 @@
 import SwiftUI
+import ContactsUI
 
 struct GuestMain: View {
     @State private var selectedTab: EventsTab = .upcoming
-    @State private var isAddGuestAvailable = false
+    @State private var isAddInviteesAvailable = false
     @State private var selectedSegment = 0
     @State private var isNotificationView = false
 
@@ -34,64 +35,64 @@ struct GuestMain: View {
 
     var body: some View {
         NavigationView {
-            VStack {
-                HStack {
-                    Spacer()
-                    Text("Guest Management")
-                        .font(.title)
-                        .foregroundColor(Color(red: 67/225, green: 13/255, blue: 75/255))
-                        .padding(.leading, 50)
-                    Spacer()
-                    Button(action: {
-                        // Add action for the notification button
-                    }) {
-                        Image(systemName: "plus")
+            ZStack {
+                Color(red: 250/225, green: 244/255, blue: 250/255) // Set background color
+                    .ignoresSafeArea()
+                
+                VStack {
+                    HStack {
+                        Spacer()
+                        Text("Guest Management")
                             .font(.title)
-                            .foregroundColor(Color(red: 82/225, green: 72/255, blue: 159/255))
-                            .padding(.trailing, 20)
+                            .foregroundColor(Color(red: 67/225, green: 13/255, blue: 75/255))
+                            .padding(.leading, 50)
+                        Spacer()
+                        Button(action: {
+                            isAddInviteesAvailable.toggle() // Toggle state to open AddInvitees sheet
+                        }) {
+                            Image(systemName: "plus")
+                                .font(.title)
+                                .foregroundColor(Color(red: 82/225, green: 72/255, blue: 159/255))
+                                .padding(.trailing, 20)
+                        }
                     }
+                    .background(Color(red: 250/225, green: 244/255, blue: 250/255))
+                    .navigationBarHidden(true)
+                    
+                    Picker(selection: $selectedSegment, label: Text("")) {
+                        Text("All").tag(0)
+                        Text("Accepted").tag(1)
+                        Text("Rejected").tag(2)
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .frame(width: 380,height: 10)
+                    .padding()
+                    
+                    List {
+                        ForEach(filteredGuests) { guest in
+                            GuestBox(guest: guest)
+                        }
+                    }
+                    .listStyle(PlainListStyle())
+                    .toolbar {
+                        ToolbarItem(placement: .bottomBar) {
+                            HStack {  // Wrap the content in HStack
+                                //Spacer()  // Add Spacer to push content to the right
+                                Toolbar()
+                            }
+                            .offset(y:20)
+                        }
+                    }// Remove separators for a cleaner look
                 }
-                .background(Color(red: 250/225, green: 244/255, blue: 250/255))
-                .navigationBarHidden(true)
-                .sheet(isPresented: $isAddGuestAvailable) {
-                    AddGuest() // Assuming AddGuest is defined elsewhere
-                }
-                
-
-                Picker(selection: $selectedSegment, label: Text("")) {
-                    Text("All").tag(0)
-                    Text("Accepted").tag(1)
-                    Text("Rejected").tag(2)
-                }
-                .pickerStyle(SegmentedPickerStyle())
-                .frame(width: 380,height: 10)
-                
-                .padding()
-
-                List {
-                     ForEach(filteredGuests) { guest in
-                         GuestBox(guest: guest)
-                     }
-                 }
-                 .listStyle(PlainListStyle()) // Remove separators for a cleaner look
-
-                 // Optional toolbar content (replace with your needs)
-                 .toolbar {
-                     ToolbarItem(placement: .bottomBar) {
-                         HStack {  // Wrap the content in HStack
-                             //Spacer()  // Add Spacer to push content to the right
-                             Toolbar()
-                         }
-                         .offset(y:20)
-                     }
-                 }
+            }
+             .edgesIgnoringSafeArea(.bottom) // Allow content to extend below safe area
+             .sheet(isPresented: $isAddInviteesAvailable) {
+                 AddInvitees() // Open AddInvitees sheet when isAddInviteesAvailable is true
              }
              .background(Color(red: 250/225, green: 244/255, blue: 250/255))
-             .edgesIgnoringSafeArea(.bottom) // Allow content to extend below safe area
          }
      }
  }
-
 struct GuestBox: View {
     let guest: GuestModel
 
@@ -136,8 +137,6 @@ struct GuestBox: View {
         .padding(.horizontal,10)
 
     }
-    
-
 }
 
 struct GuestModel: Identifiable {

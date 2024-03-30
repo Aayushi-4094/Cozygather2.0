@@ -19,7 +19,7 @@ struct VendorToolbar: View {
                         .frame(maxWidth: .infinity, alignment: .center)
                         .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
                 }
-                .frame(width: 393 / 4, height: 80)
+                .frame(width: 393 / 3, height: 80)
                 .onTapGesture {
                     selectedTab = .homevendr
                     isHomeUserViewActive.toggle()
@@ -38,7 +38,7 @@ struct VendorToolbar: View {
                         .frame(maxWidth: .infinity, alignment: .center)
                         .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
                 }
-                .frame(width: 393 / 4, height: 83)
+                .frame(width: 393 / 3, height: 83)
                 .onTapGesture {
                     selectedTab = .order
                     isOrderViewActive.toggle()
@@ -47,25 +47,25 @@ struct VendorToolbar: View {
                     // Use the appropriate view for homevendr
                     MainOrders()
                 }
-            VStack {
-                Image(systemName: selectedTab == .message ? "message.fill" : "message")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 24, height: 24)
-                    .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
-                Text("Messages")
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
-            }
-            .frame(width: 393 / 4, height: 83)
-            .onTapGesture {
-                selectedTab = .message
-                isMessageViewActive.toggle()
-            }
-            .fullScreenCover(isPresented: $isMessageViewActive) {
-                // Use the appropriate view for homevendr
-                //messagelist()
-            }
+//            VStack {
+//                Image(systemName: selectedTab == .message ? "message.fill" : "message")
+//                    .resizable()
+//                    .aspectRatio(contentMode: .fit)
+//                    .frame(width: 24, height: 24)
+//                    .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
+//                Text("Messages")
+//                    .frame(maxWidth: .infinity, alignment: .center)
+//                    .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
+//            }
+//            .frame(width: 393 / 4, height: 83)
+//            .onTapGesture {
+//                selectedTab = .message
+//                isMessageViewActive.toggle()
+//            }
+//            .fullScreenCover(isPresented: $isMessageViewActive) {
+//                // Use the appropriate view for homevendr
+//                //messagelist()
+//            }
             VStack {
                 Image(systemName: selectedTab == .message ? "person.crop.circle" : "person.crop.circle.fill")
                     .resizable()
@@ -76,7 +76,7 @@ struct VendorToolbar: View {
                     .frame(maxWidth: .infinity, alignment: .center)
                     .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
             }
-            .frame(width: 393 / 4, height: 83)
+            .frame(width: 393 / 3, height: 83)
             .onTapGesture {
                 selectedTab = .message
                 isProfileViewActive.toggle()

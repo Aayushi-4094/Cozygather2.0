@@ -10,7 +10,7 @@
 //                VStack(spacing: 20) {
 //                    HStack {
 //                        Text("Messages")
-//                            .font(.title)
+//                            .font(.largeTitle)
 //                            .foregroundColor(Color(red: 67/255, green: 13/255, blue: 75/255))
 //                    }
 //                    .padding(.top, 20) // Align top bar to the top
@@ -29,6 +29,8 @@
 //                        Text("Load More Messages") // Updated button label
 //                            .foregroundColor(.blue)
 //                    }
+//                    .padding(.bottom, 20)
+//                    .padding(.top, 10)
 //                }
 //                .padding(.horizontal)
 //                .navigationBarHidden(true)
@@ -40,6 +42,7 @@
 //                            Spacer()  // Add Spacer to push content to the right
 //                            VendorToolbar()
 //                        }
+//                        .offset(y:20)
 //                    }
 //                }
 //            }
@@ -61,20 +64,20 @@
 //                .resizable()
 //                .aspectRatio(contentMode:.fit)
 //                .frame(width :70, height :70)
-//                .cornerRadius(100.0)
+//                .cornerRadius(35)
 //
-//            VStack(alignment:.leading) {
+//            VStack(alignment:.leading, spacing: 5) {
 //                Text(name)
 //                    .font(.headline)
 //                    .foregroundColor(Color(red:67/255, green: 13/255, blue: 75/255))
 //
-//                Text("Message")
+//                Text(description)
 //                    .foregroundColor(Color(red:198/255, green: 174/255, blue: 128/255))
 //            }
 //
 //            Spacer()
 //
-//            VStack(alignment:.trailing) {
+//            VStack(alignment:.trailing, spacing: 5) {
 //                Text(date)
 //                    .foregroundColor(Color(red:198/255, green: 174/255, blue: 128/255))
 //                    .font(.subheadline)
@@ -84,7 +87,6 @@
 //                    .padding(5)
 //                    .background(Color(red:67/255, green:13/255, blue:75/255))
 //                    .cornerRadius(5)
-//                    .frame(width :50,height :50)
 //            }
 //        }
 //        .padding()
