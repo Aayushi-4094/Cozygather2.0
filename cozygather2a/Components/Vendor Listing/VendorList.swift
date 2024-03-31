@@ -14,6 +14,7 @@ struct VendorList: View {
     @State private var showAlert = false
     @State private var alertMessage = ""
     let firestoreManager = FirestoreManager.shared
+    
     var body: some View {
         NavigationView {
             ZStack{
@@ -52,9 +53,7 @@ struct VendorList: View {
                             .foregroundColor(Color(red: 198/225, green: 174/255, blue: 128/255))
                             .font(.largeTitle)
                             .fontWeight(.heavy)
-                        
-//                            .padding(.top, 4)
-//                            .padding(.bottom, 8)
+                        Spacer()
                     }
                     
                     List(vendors) { vendor in
@@ -67,6 +66,11 @@ struct VendorList: View {
                                     .font(.headline)
                                 Text("Price: \(vendor.price)")
                                     .font(.subheadline)
+                                if let selectedCategory = vendor.selectedCategory {
+                                    Text("Category: \(selectedCategory)") // Display selected category if available
+                                        .font(.subheadline)
+                                        .foregroundColor(.gray)
+                                }
                                 if let logoImageData = vendor.logoImageData,
                                    let logoImage = UIImage(data: logoImageData) {
                                     Image(uiImage: logoImage)
@@ -84,9 +88,6 @@ struct VendorList: View {
                         }
                     }
                     .navigationTitle("Vendor List")
-                    
-                    
-                    // Add some bottom padding for spacing
                 }
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
@@ -98,38 +99,33 @@ struct VendorList: View {
                                 .font(.subheadline)
                                 .fontWeight(.bold)
                                 .padding()
-                               // .background(Color(red:67/255, green:13/255, blue:75/255))
                                 .cornerRadius(10)
                         }
                     }
+//                    ToolbarItem(placement: .navigationBarTrailing) {
+//                        Button(action: {
+//                            // Show filter sheet
+//                            isFilterSheetPresented.toggle()
+//                        }) {
+//                            Image(systemName: "line.3.horizontal.decrease.circle.fill")
+//                                .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
+//                                .font(.system(size: 28))
+//                        }
+//                    }
                 }
                 .alert(isPresented: $showAlert) {
                     Alert(title: Text("Details Saved"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
                 }
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(action: {
-                            // Show filter sheet
-                            isFilterSheetPresented.toggle()
-                        }) {
-                            Image(systemName: "line.3.horizontal.decrease.circle.fill")
-                              .foregroundColor(Color(red: 67/225, green: 13/225, blue: 75/225))
-                              .font(.system(size: 28))
-                              //.frame(width: 50, height: 50)
-                        }
-                    }
-                }
-                .sheet(isPresented: $isFilterSheetPresented) {
-                    FilterScreen(selectedCategories: $selectedCategories,
-                                 lowerPrice: $lowerPrice,
-                                 upperPrice: $upperPrice,
-                                 isFilterScreenPresented: $isFilterSheetPresented)
-                }
-                .padding(.bottom, 40)
+//                .sheet(isPresented: $isFilterSheetPresented) {
+//                    FilterScreen(selectedCategories: $selectedCategories,
+//                                 lowerPrice: $lowerPrice,
+//                                 upperPrice: $upperPrice,
+//                                 isFilterScreenPresented: $isFilterSheetPresented)
+//                }
+              //  .padding(.bottom, 40)
                 .toolbar {
                     ToolbarItem(placement: .bottomBar) {
-                        HStack {  // Wrap the content in HStack
-                            //Spacer()  // Add Spacer to push content to the right
+                        HStack {
                             Toolbar()
                         }
                         .offset(y:20)
@@ -143,14 +139,22 @@ struct VendorList: View {
             .background(Color(red:247/255, green: 239/255, blue:247/255))
         }
     }
+    
     private func fetchVendors() {
         firestoreManager.fetchAllVendorDetails { fetchedVendors in
             if let fetchedVendors = fetchedVendors {
-                self.vendors = fetchedVendors
+                // Apply filtering based on selected categories and price range
+                let filteredVendors = fetchedVendors.filter { vendor in
+                    // Check if vendor's category is selected and price is within the range
+                    return selectedCategories.isEmpty || selectedCategories.contains(vendor.selectedCategory ?? "") &&
+                        (lowerPrice...upperPrice).contains(Double(vendor.price) ?? 0)
+                }
+                self.vendors = filteredVendors
             }
         }
     }
 
+    
     private func fetchEvents() {
         firestoreManager.fetchEventNames { eventNames in
             // Assuming you have fetched event names successfully
@@ -171,7 +175,6 @@ struct VendorList: View {
             alertMessage = "Please select an event before saving."
             return
         }
-
         // Prepare the data to be saved
         var bookedVendorsData: [[String: Any]] = []
         for vendor in vendors {
@@ -185,7 +188,6 @@ struct VendorList: View {
             ]
             bookedVendorsData.append(vendorData)
         }
-
         // Call FirestoreManager's method to save booked vendors
         firestoreManager.saveBookedVendors(event: selectedEvent, totalBookedVendors: bookedVendors.count, bookedVendorsData: bookedVendorsData)
 
@@ -196,10 +198,14 @@ struct VendorList: View {
         showAlert = true
         alertMessage = "Details saved successfully"
     }
+
 }
+
+
 
 struct VendorList_Previews: PreviewProvider {
     static var previews: some View {
         VendorList()
     }
 }
+

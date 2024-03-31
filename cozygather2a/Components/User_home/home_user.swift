@@ -76,15 +76,26 @@ struct EventDetailView: View {
 
     var body: some View {
         VStack {
-            Text("Event Details")
-                .font(.title)
-                .fontWeight(.bold)
-                .padding()
-                .foregroundColor(Color(red: 67/255, green: 13/255, blue: 75/255))
-            Text(event.name)
-                .font(.headline)
-                .padding(.bottom, 8)
-                .foregroundColor(Color(red: 67/255, green: 13/255, blue: 75/255))
+            HStack{
+                Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                    Text("Edit")
+                })
+                Spacer()
+                Text("Event Details")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .foregroundColor(Color(red: 67/255, green: 13/255, blue: 75/255))
+                Spacer()
+                Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                    Text("Save")
+                })
+            }
+            .padding()
+                Text(event.name)
+                    .font(.headline)
+                    .padding(.bottom, 8)
+                    .foregroundColor(Color(red: 67/255, green: 13/255, blue: 75/255))
+            
             Image(event.imageName)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
@@ -109,9 +120,6 @@ struct EventDetailView: View {
                     .offset(y: -240)
 
                 VStack {
-                    Text("Co-Host")
-                        .font(.headline)
-                        .padding(.bottom, 8)
                     Text("Date and time")
                         .font(.headline)
                         .padding(.bottom, 8)
