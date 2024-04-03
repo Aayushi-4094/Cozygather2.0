@@ -239,36 +239,17 @@ class FirestoreManager: ObservableObject {
     }
 
     
-    func saveBookedVendors(event: String, totalBookedVendors: Int, bookedVendorsData: [[String: Any]]) {
-        // Initialize a dictionary to store booked vendor statistics
-        var bookedVendorStats: [String: Any] = [
-            "totalBookedVendors": totalBookedVendors
-        ]
-
-        // Initialize an array to store details of booked vendors
-        var bookedVendors: [[String: Any]] = []
-
-        // Iterate through booked vendors data to extract category and price
-        for vendorData in bookedVendorsData {
-            if let category = vendorData["category"] as? String,
-               let price = vendorData["price"] as? String {
-                // Append category and price to the booked vendors array
-                bookedVendors.append(["category": category, "price": price])
-            }
-        }
-
-        // Add booked vendors data to the bookedVendorStats dictionary
-        bookedVendorStats["bookedVendors"] = bookedVendors
-
-        // Save the total number of booked vendors for the event along with category and price statistics
-        db.collection("eventStatistics").document(event).setData(bookedVendorStats, merge: true) { error in
+    func saveBookedVendors(event: String, bookedVendorsData: [[String: Any]]) {
+        // Save the booked vendors data for the event, merging with existing data
+        db.collection("events").document(event).setData(["bookedVendors": bookedVendorsData], merge: true) { error in
             if let error = error {
-                print("Error updating event statistics: \(error)")
+                print("Error updating booked vendors for event: \(error)")
             } else {
-                print("Event statistics updated successfully")
+                print("Booked vendors updated successfully for event: \(event)")
             }
         }
     }
+
     
     // Function to fetch all events along with their initial prices
     func fetchEventNamesWithPrices(completion: @escaping ([(String, String)]) -> Void) {
@@ -288,30 +269,7 @@ class FirestoreManager: ObservableObject {
             }
         }
     }
-    // Function to fetch event statistics for a given event name
-    // Function to fetch event statistics for a given event name
-    func fetchEventStatistics(forEvent eventName: String, completion: @escaping (EventStatistics?) -> Void) {
-        // Fetch event statistics document from Firestore using the event name
-        db.collection("eventStatistics").document(eventName).getDocument { document, error in
-            if let error = error {
-                print("Error fetching event statistics: \(error.localizedDescription)")
-                completion(nil) // Pass nil to the completion handler indicating an error
-            } else if let document = document, document.exists {
-                // Parse document data to extract event statistics
-                if let data = document.data(),
-                   let totalBookedVendors = data["totalBookedVendors"] as? Int {
-                    // Create EventStatistics instance with fetched data
-                    let bookedVendors = data["bookedVendors"] as? [String: Double] ?? [:]
-                    let eventStatistics = EventStatistics(eventName: eventName, totalBookedVendors: totalBookedVendors, bookedVendors: bookedVendors)
-                   
-                    completion(eventStatistics) // Pass fetched event statistics to the completion handler
-                } else {
-                    completion(nil) // Pass nil to the completion handler if data parsing fails
-                }
-            } else {
-                completion(nil) // Pass nil to the completion handler if document doesn't exist
-            }
-        }
-    }
+    
+   
 
 }

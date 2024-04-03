@@ -175,21 +175,18 @@ struct VendorList: View {
             alertMessage = "Please select an event before saving."
             return
         }
-        // Prepare the data to be saved
-        var bookedVendorsData: [[String: Any]] = []
-        for vendor in vendors {
-            // Convert each vendor object to dictionary format for Firestore
-            let vendorData: [String: Any] = [
-                "id": vendor.id,
-                "shopName": vendor.shopName,
+
+        // Filter vendors to include only booked vendors
+        let bookedVendorsData = vendors.filter { bookedVendors.contains($0.id) }.map { vendor in
+            return [
                 "category": vendor.selectedCategory ?? "", // Add category, use empty string if not available
                 "price": vendor.price, // Add price
                 // Add other vendor details as needed
             ]
-            bookedVendorsData.append(vendorData)
         }
+
         // Call FirestoreManager's method to save booked vendors
-        firestoreManager.saveBookedVendors(event: selectedEvent, totalBookedVendors: bookedVendors.count, bookedVendorsData: bookedVendorsData)
+        firestoreManager.saveBookedVendors(event: selectedEvent, bookedVendorsData: bookedVendorsData)
 
         // Reset state variables
         self.selectedEvent = nil
@@ -199,7 +196,10 @@ struct VendorList: View {
         alertMessage = "Details saved successfully"
     }
 
-}
+
+    }
+
+
 
 
 
