@@ -6,7 +6,7 @@ struct ContentView: View {
        
         NavigationView {
             ZStack{
-//                LinearGradient(gradient: Gradient(colors: [Color.blue.opacity(0.2), Color(red:67/255, green:13/255, blue:75/255).opacity(0.8)]), startPoint: .topLeading, endPoint: .bottomTrailing)
+//                LinearGradient(gradient: Gradient(colors: [Color.pink.opacity(0.4), Color(red:67/255, green:13/255, blue:75/255).opacity(0.1)]), startPoint: .topLeading, endPoint: .bottomTrailing)
 //                    .edgesIgnoringSafeArea(.all)
                 VStack(alignment: .center, spacing: 0) {
                     NavigationLink(destination: SecondScreen()) {

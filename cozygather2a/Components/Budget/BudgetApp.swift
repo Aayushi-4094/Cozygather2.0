@@ -4,7 +4,7 @@ struct BudgetApp: View {
     let expenditures = [
         Expenditure(category: "Catering", amount: 450, iconColor: .blue),
         Expenditure(category: "Decoration", amount: 790, iconColor: .green),
-        Expenditure(category: "Vendors", amount: -150, iconColor: .orange),
+        Expenditure(category: "Vendors", amount: 150, iconColor: .orange),
         Expenditure(category: "Music", amount: 990, iconColor: .purple)
     ]
 
@@ -16,7 +16,11 @@ struct BudgetApp: View {
                         BudgetHeaderView(budget: "₹1,345", forecast: "₹2,010")
                         CostGraphView(expenditures: expenditures)
                         TransactionListView(transactions: sampleTransactions)
-                    }
+//                        NavigationLink(destination: BudgetEventDetailView() {
+//                            Text("Go to Budgeting Screen")
+//                                .foregroundColor(.blue)
+//                        })
+                  }
                     .padding() // Added padding for better visibility
                 }
                 .navigationTitle("My budget")
@@ -128,7 +132,7 @@ struct Transaction: Identifiable {
 let sampleTransactions = [
     Transaction(iconColor: .blue, title: "Catering", amount: "₹450"),
     Transaction(iconColor: .green, title: "Decoration", amount: "₹790"),
-    Transaction(iconColor: .orange, title: "Vendors", amount: "-₹150"),
+    Transaction(iconColor: .orange, title: "Vendors", amount: "₹150"),
     Transaction(iconColor: .purple, title: "Music", amount: "₹990")
 ]
 
